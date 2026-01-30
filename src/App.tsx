@@ -15,15 +15,15 @@ const Header = () => {
     <div className="header">
       <BasketballLogo />
       <ul className="navigation-bar">
-        <li className="navigation-link">Schedule</li>
-        <li className="navigation-link">Rules</li>
-        <li className="navigation-link">Pricing</li>
-        <li className="navigation-link">Register</li>
+        <li className="navigation-link hide-on-mobile">Schedule</li>
+        <li className="navigation-link hide-on-mobile">Rules</li>
+        <li className="navigation-link hide-on-mobile">Pricing</li>
+        <li className="navigation-link hide-on-mobile">Register</li>
         <li>
-          <button className="navigation-button">Join Now</button>
+          <button className="navigation-button hide-on-mobile">Join Now</button>
         </li>
       </ul>
-      {/* <span className="material-symbols-outlined"> menu </span> */}
+      <span className="material-symbols-outlined hide-on-desktop"> menu </span>
     </div>
   )
 }
@@ -31,10 +31,10 @@ const Header = () => {
 const HeroIntro = () => {
   return (
     <div className="hero-intro-container">
-      <div className="hero-tag">
+      <span className="hero-tag">
         <span>🏀</span>
         <span>Join the Community</span>
-      </div>
+      </span>
       <div className="hero-title">
         <h1 id="black-text">Play Basketball</h1>
         <h1 id="orange-text">Every Week</h1>
@@ -357,8 +357,8 @@ const Footer = () => {
 
 function App() {
   return (
-    <div>
-      {/* <Header /> */}
+    <div className="app-container">
+      <Header />
       <Hero />
       <Schedule />
       <Rules />

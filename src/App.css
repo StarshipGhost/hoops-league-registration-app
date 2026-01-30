@@ -4,15 +4,17 @@
      padding: 0;
  }
 
- body {
+ .app-container {
      width: 100%;
  }
 
  .header {
+     min-width: 350px;
      background-color: #fff;
      display: flex;
      align-items: center;
      justify-content: space-between;
+     box-sizing: border-box;
      padding: 1rem;
      position: sticky;
      top: 0;
@@ -45,18 +47,10 @@
      font-weight: bold;
  }
 
- .material-symbols-outlined {
-     font-size: 32px;
- }
-
- .material-symbols-outlined:hover {
-     cursor: pointer;
- }
-
  .navigation-bar {
      display: flex;
      align-items: center;
-     gap: 1rem;
+     gap: 1.5rem;
  }
 
  .navigation-link {
@@ -77,9 +71,13 @@
      border-radius: 0.5rem;
      font-size: 14px;
      color: #fff;
-     font-weight: 700;
+     font-weight: 500;
      transition: brightness ease 1s;
      white-space: nowrap;
+ }
+
+ .hide-on-desktop {
+     display: none;
  }
 
  .navigation-button:hover {
@@ -87,12 +85,28 @@
      filter: brightness(0.95);
  }
 
+ @media (max-width: 650px) {
+     .hide-on-mobile {
+         display: none;
+     }
+
+     .material-symbols-outlined {
+        display: block;
+         font-size: 32px;
+     }
+
+     .material-symbols-outlined:hover {
+        display: block;
+         cursor: pointer;
+     }
+ }
+
  .hero-container {
      display: flex;
      flex-direction: column;
      gap: 1.25rem;
-     min-width: 300px;
-     padding: 7rem 0rem;
+     min-width: 350px;
+     padding: 6.75rem 0rem;
      background: linear-gradient(134deg, #fcf1e8, #edf2fd);
  }
 
@@ -114,8 +128,8 @@
 
  .hero-title {
      text-align: center;
-     font-size: clamp(1rem, 8vw, 2.75rem);
-     line-height: clamp(2.50rem, 16vw, 5.50rem);
+     font-size: clamp(1rem, 6vw, 2.75rem);
+     line-height: clamp(2.50rem, 12vw, 5.50rem);
      letter-spacing: -0.025em;
  }
 
