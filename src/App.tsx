@@ -1,75 +1,89 @@
 import './App.css'
 
-const Header = () => {
+const BasketballLogo = () => {
   return (
-    <div>
-      <div>
-        <img src={undefined}></img>
-        <span>🏀</span>
-        <div>Hoops League</div>
+    <div className="brand">
+      <div className="basketball-logo-container">
+        <div className="basketball-logo">🏀</div>
       </div>
-      <ul>
-        <li>Schedule</li>
-        <li>Rules</li>
-        <li>Pricing</li>
-        <li>Register</li>
-      </ul>
-      <button>Join Now</button>
+      <div className="brand-name">Hoops League</div>
     </div>
   )
 }
-
-const HeroTitle = () => {
+const Header = () => {
   return (
-    <div>
-      <img src={undefined}></img>
-      <div>Join the Community</div>
-      <div>
-        <span>Play Basketball</span>
-        <span>Every Week</span>
-      </div>
+    <div className="header">
+      <BasketballLogo />
+      <ul className="navigation-bar">
+        <li className="navigation-link">Schedule</li>
+        <li className="navigation-link">Rules</li>
+        <li className="navigation-link">Pricing</li>
+        <li className="navigation-link">Register</li>
+        <li>
+          <button className="navigation-button">Join Now</button>
+        </li>
+      </ul>
+      {/* <span className="material-symbols-outlined"> menu </span> */}
     </div>
   )
 }
 
 const HeroIntro = () => {
-  return <p>Join our organized basketball games for all skill levels. Meet new players, improve your game, and have fun on the court every week.</p>
+  return (
+    <div className="hero-intro-container">
+      <div className="hero-tag">
+        <span>🏀</span>
+        <span>Join the Community</span>
+      </div>
+      <div className="hero-title">
+        <h1 id="black-text">Play Basketball</h1>
+        <h1 id="orange-text">Every Week</h1>
+      </div>
+      <p className="hero-description">
+        Join our organized basketball games for all skill levels. Meet new players, improve your game, and have fun on the court every week.
+      </p>
+    </div>
+  )
 }
 
 const HeroButton = () => {
   return (
-    <div>
-      <button>Register Now</button>
-      <button>View Schedule</button>
+    <div className="hero-button-container">
+      <button className="hero-button" id="register">
+        Register Now
+      </button>
+      <button className="hero-button" id="schedule">
+        View Schedule
+      </button>
     </div>
   )
 }
 
 const HeroInformation = () => {
   return (
-    <div>
-      <div>
-        <span>50+</span>
-        <span>Active Players</span>
+    <div className="hero-information">
+      <div className="information-container">
+        <span id="number">50+ </span>
+        <span id="words">Active Players</span>
       </div>
-      <div>
-        <span>7</span>
-        <span>Games/Week</span>
+      <div className="information-container">
+        <span id="number">7 </span>
+        <span id="words">Games/Week</span>
       </div>
-      <div>
-        <span>3</span>
-        <span>Courts</span>
+      <div className="information-container">
+        <span id="number">3 </span>
+        <span id="words">Courts</span>
       </div>
     </div>
   )
 }
 const Hero = () => {
   return (
-    <div>
-      <HeroTitle />
+    <div className="hero-container">
       <HeroIntro />
       <HeroButton />
       <HeroInformation />
+      {/* <span className="material-symbols-outlined">menu</span> */}
     </div>
   )
 }
@@ -262,13 +276,13 @@ const RegistrationPlayerOption = () => {
 
 const RegistrationForm = () => {
   return (
-    <form onSubmit={(e) => e.preventDefault}>
+    <form>
       <div>
         <label>First name *</label>
         <input type="text" value="John" placeholder="Your name"></input>
       </div>
       <RegistrationPlayerOption />
-      <button>Complete reservation</button>
+      <button onSubmit={(e) => e.preventDefault()}>Complete reservation</button>
     </form>
   )
 }
@@ -285,49 +299,48 @@ const Registration = () => {
 const FooterSummary = () => {
   return (
     <div>
-      <span>🏀</span>
-      <span> Hoops League </span>
+      <p>Bringing basketball enthusiast together for competitive and fun games every week</p>
     </div>
   )
 }
 
 const FooterLinks = () => {
   return (
-    <div>
-      <span className="footer-table-cell" id="header">
+    <ul className="footer-list">
+      <li className="footer-table-cell" id="header">
         Quick Links
-      </span>
-      <span className="footer-table-cell">Schedule</span>
-      <span className="footer-table-cell">Rules</span>
-      <span className="footer-table-cell">Pricing</span>
-      <span className="footer-table-cell">Register</span>
-    </div>
+      </li>
+      <li className="footer-list-item">Schedule</li>
+      <li className="footer-list-item">Rules</li>
+      <li className="footer-list-item">Pricing</li>
+      <li className="footer-list-item">Register</li>
+    </ul>
   )
 }
 
 const FooterContact = () => {
   return (
-    <div>
-      <span className="footer-table-cell" id="header">
+    <ul className="footer-list">
+      <li className="footer-list-item" id="header">
         Contact
-      </span>
-      <span className="footer-table-cell">Email: info@hoopsLeague.com</span>
-      <span className="footer-table-cell">Phone: 514-xxx-xxxx</span>
-      <span className="footer-table-cell">Hours: Mon-Sun,6AM-10PM</span>
-    </div>
+      </li>
+      <li className="footer-list-cell">Email: info@hoopsLeague.com</li>
+      <li className="footer-list-cell">Phone: 514-xxx-xxxx</li>
+      <li className="footer-list-cell">Hours: Mon-Sun,6AM-10PM</li>
+    </ul>
   )
 }
 
 const FooterSocials = () => {
   return (
-    <div>
-      <span className="footer-table-cell" id="header">
+    <ul>
+      <li className="footer-table-cell" id="header">
         Follow Us
-      </span>
-      <span className="footer-table-cell">Facebook</span>
-      <span className="footer-table-cell">Instagram</span>
-      <span className="footer-table-cell">Twitter</span>
-    </div>
+      </li>
+      <li className="footer-table-cell">Facebook</li>
+      <li className="footer-table-cell">Instagram</li>
+      <li className="footer-table-cell">Twitter</li>
+    </ul>
   )
 }
 
@@ -345,7 +358,7 @@ const Footer = () => {
 function App() {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <Hero />
       <Schedule />
       <Rules />
