@@ -1,4 +1,8 @@
+import ClockIcon from './components/ClockIcon'
+import LocationIcon from './components/LocationIcon'
+import UsersIcon from './components/UsersIcon'
 import './App.css'
+import CalendarIcon from './components/CalendarIcon'
 
 const BasketballLogo = () => {
   return (
@@ -15,12 +19,22 @@ const Header = () => {
     <div className="header">
       <BasketballLogo />
       <ul className="navigation-bar">
-        <li className="navigation-link hide-on-mobile">Schedule</li>
-        <li className="navigation-link hide-on-mobile">Rules</li>
-        <li className="navigation-link hide-on-mobile">Pricing</li>
-        <li className="navigation-link hide-on-mobile">Register</li>
+        <li className="navigation-link hide-on-mobile" id="text">
+          Schedule
+        </li>
+        <li className="navigation-link hide-on-mobile" id="text">
+          Rules
+        </li>
+        <li className="navigation-link hide-on-mobile" id="text">
+          Pricing
+        </li>
+        <li className="navigation-link hide-on-mobile" id="text">
+          Register
+        </li>
         <li>
-          <button className="navigation-button hide-on-mobile">Join Now</button>
+          <button className="button navigation-button hide-on-mobile" id="button">
+            Join Now
+          </button>
         </li>
       </ul>
       <span className="material-symbols-outlined hide-on-desktop"> menu </span>
@@ -31,7 +45,7 @@ const Header = () => {
 const HeroIntro = () => {
   return (
     <div className="hero-intro-container">
-      <span className="hero-tag">
+      <span className="tag light-orange dark-orange">
         <span>🏀</span>
         <span>Join the Community</span>
       </span>
@@ -39,7 +53,7 @@ const HeroIntro = () => {
         <h1 id="black-text">Play Basketball</h1>
         <h1 id="orange-text">Every Week</h1>
       </div>
-      <p className="hero-description">
+      <p className="hero-description" id="text">
         Join our organized basketball games for all skill levels. Meet new players, improve your game, and have fun on the court every week.
       </p>
     </div>
@@ -49,10 +63,10 @@ const HeroIntro = () => {
 const HeroButton = () => {
   return (
     <div className="hero-button-container">
-      <button className="hero-button" id="register">
+      <button className="button hero-button" id="register">
         Register Now
       </button>
-      <button className="hero-button" id="schedule">
+      <button className="button hero-button" id="schedule">
         View Schedule
       </button>
     </div>
@@ -64,15 +78,15 @@ const HeroInformation = () => {
     <div className="hero-information">
       <div className="information-container">
         <span id="number">50+ </span>
-        <span id="words">Active Players</span>
+        <span id="text">Active Players</span>
       </div>
       <div className="information-container">
         <span id="number">7 </span>
-        <span id="words">Games/Week</span>
+        <span id="text">Games/Week</span>
       </div>
       <div className="information-container">
         <span id="number">3 </span>
-        <span id="words">Courts</span>
+        <span id="text">Courts</span>
       </div>
     </div>
   )
@@ -83,17 +97,18 @@ const Hero = () => {
       <HeroIntro />
       <HeroButton />
       <HeroInformation />
-      {/* <span className="material-symbols-outlined">menu</span> */}
     </div>
   )
 }
 
 const ScheduleHeader = () => {
   return (
-    <div>
-      <img src={undefined}></img>
-      <h2>Weekly Schedule</h2>
-      <p>Check out our weekly games and reserve your spot. The schedule is updated weekly!</p>
+    <div className="schedule-header-container">
+      <div className="calendar-icon-container">
+        <CalendarIcon />
+      </div>
+      <h1>Weekly Schedule</h1>
+      <p id="text">Check out our weekly games and reserve your spot. The schedule is updated regularly!</p>
     </div>
   )
 }
@@ -101,37 +116,67 @@ const ScheduleHeader = () => {
 const ScheduleCard = ({
   day,
   date,
-  hours,
+  duration,
   location,
   spotsTaken,
   tag,
 }: {
   day: string
   date: string
-  hours: string
+  duration: string
   location: string
   spotsTaken: number
   tag: string
 }) => {
   return (
-    <div>
-      <div>
-        <div>{day}</div>
-        <div>{date}</div>
-        <div>{hours}</div>
-        <div>{location}</div>
-        <div>{spotsTaken} of 14 spots available</div>
-        <div>
-          <div>Confirmed Players</div>
-          <div className="progress-bar"></div>
-          <div className="progress-bar fill"></div>
+    <div className="schedule-card">
+      <div className="card-top">
+        <div className="game-date">
+          <h2>{day}</h2>
+          <div>{date}</div>
         </div>
-        <div>
-          <button>Join Game</button>
+        <span className="tag" id="open-schedule">
+          <span className="game-availability">{tag}</span>
+        </span>
+      </div>
+
+      <div className="card-center">
+        <div className="icon-info">
+          <ClockIcon />
+          <span>{duration}</span>
+        </div>
+        <div className="icon-info">
+          <LocationIcon />
+          <span>{location}</span>
+        </div>
+        <div className="icon-info">
+          <UsersIcon />
+          <span>{spotsTaken} of 10 spots available</span>
         </div>
       </div>
-      <div>
-        <span>{tag}</span>
+
+      <div className="card-bottom">
+        <div className="progress-text">
+          <span>Registstered Players</span>
+          <span>4/10</span>
+        </div>
+        <div className="progress-bar-container">
+          <div className="progress-bar-container fill-orange"></div>
+          <div className="progress-bar-container fill-blue"></div>
+        </div>
+        <div className="legend-player-status">
+          <div className="player-status">
+            <div className="circle orange"></div>
+            <div id="text">Confirmed players 🞗 8</div>
+          </div>
+          <div className="player-status">
+            <div className="circle blue"></div>
+            <div id="text">Potential players 🞗 4</div>
+          </div>
+        </div>
+        <div className="schedule-card-button-container">
+          <button className="button schedule-card-button">Join Game</button>
+        </div>
       </div>
     </div>
   )
@@ -139,9 +184,12 @@ const ScheduleCard = ({
 
 const Schedule = () => {
   return (
-    <div>
+    <div className="schedule">
       <ScheduleHeader />
-      <ScheduleCard day="monday" date="Jan 15, 2024" hours="6:00 PM - 8:00 PM" location="Downtown Sports Center - Court A" spotsTaken={4} tag="OPEN" />
+      <div className="schedule-card-container">
+        <ScheduleCard day="Monday" date="Jan 15, 2024" duration="6:00 PM - 8:00 PM" location="Downtown Sports Center - Court A" spotsTaken={4} tag="OPEN" />
+        <ScheduleCard day="Tuesday" date="Jan 16, 2024" duration="6:00 PM - 8:00 PM" location="Downtown Sports Center - Court A" spotsTaken={4} tag="OPEN" />
+      </div>
     </div>
   )
 }
@@ -357,14 +405,16 @@ const Footer = () => {
 
 function App() {
   return (
-    <div className="app-container">
+    <div>
       <Header />
-      <Hero />
-      <Schedule />
-      <Rules />
-      <Pricing />
-      <Registration />
-      <Footer />
+      <div className="app-container">
+        <Hero />
+        <Schedule />
+        <Rules />
+        <Pricing />
+        <Registration />
+        <Footer />
+      </div>
     </div>
   )
 }
