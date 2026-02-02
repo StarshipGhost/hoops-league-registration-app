@@ -1,8 +1,15 @@
 import ClockIcon from './components/ClockIcon'
 import LocationIcon from './components/LocationIcon'
 import UsersIcon from './components/UsersIcon'
-import './App.css'
 import CalendarIcon from './components/CalendarIcon'
+import BookIcon from './components/BookIcon'
+import ShirtIcon from './components/ShirtIcon'
+import SafetyIcon from './components/SafetyIcon'
+import CancelIcon from './components/CancelIcon'
+import WarningIcon from './components/WarningIcon'
+import type {JSX} from 'react'
+import type {Rule} from './types/Rules'
+import './App.css'
 
 const BasketballLogo = () => {
   return (
@@ -104,7 +111,7 @@ const Hero = () => {
 const ScheduleHeader = () => {
   return (
     <div className="schedule-header-container">
-      <div className="calendar-icon-container">
+      <div className="icon-container light-orange">
         <CalendarIcon />
       </div>
       <h1>Weekly Schedule</h1>
@@ -142,7 +149,7 @@ const ScheduleCard = ({
 
       <div className="card-center">
         <div className="icon-info">
-          <ClockIcon />
+          <ClockIcon style={undefined} id="text" />
           <span>{duration}</span>
         </div>
         <div className="icon-info">
@@ -150,7 +157,7 @@ const ScheduleCard = ({
           <span>{location}</span>
         </div>
         <div className="icon-info">
-          <UsersIcon />
+          <UsersIcon style={undefined} id="text" />
           <span>{spotsTaken} of 10 spots available</span>
         </div>
       </div>
@@ -166,11 +173,11 @@ const ScheduleCard = ({
         </div>
         <div className="legend-player-status">
           <div className="player-status">
-            <div className="circle orange"></div>
+            <div className="circle fill-orange"></div>
             <div id="text">Confirmed players 🞗 8</div>
           </div>
           <div className="player-status">
-            <div className="circle blue"></div>
+            <div className="circle fill-blue"></div>
             <div id="text">Potential players 🞗 4</div>
           </div>
         </div>
@@ -184,10 +191,13 @@ const ScheduleCard = ({
 
 const Schedule = () => {
   return (
-    <div className="schedule">
+    <div className="schedule-container">
       <ScheduleHeader />
       <div className="schedule-card-container">
         <ScheduleCard day="Monday" date="Jan 15, 2024" duration="6:00 PM - 8:00 PM" location="Downtown Sports Center - Court A" spotsTaken={4} tag="OPEN" />
+        <ScheduleCard day="Tuesday" date="Jan 16, 2024" duration="6:00 PM - 8:00 PM" location="Downtown Sports Center - Court A" spotsTaken={4} tag="OPEN" />
+        <ScheduleCard day="Monday" date="Jan 15, 2024" duration="6:00 PM - 8:00 PM" location="Downtown Sports Center - Court A" spotsTaken={4} tag="OPEN" />
+        <ScheduleCard day="Tuesday" date="Jan 16, 2024" duration="6:00 PM - 8:00 PM" location="Downtown Sports Center - Court A" spotsTaken={4} tag="OPEN" />
         <ScheduleCard day="Tuesday" date="Jan 16, 2024" duration="6:00 PM - 8:00 PM" location="Downtown Sports Center - Court A" spotsTaken={4} tag="OPEN" />
       </div>
     </div>
@@ -195,17 +205,20 @@ const Schedule = () => {
 }
 const RulesHeader = () => {
   return (
-    <div>
-      <h2>Rules & Guidelines</h2>
-      <p>Please review our rules to ensure a safe and enjoyable experience for everyone.</p>
+    <div className="rule-header-container">
+      <div className="icon-container light-blue">
+        <BookIcon />
+      </div>
+      <h1 className="rule-title">Rules & Guidelines</h1>
+      <p id="text">Please review our rules to ensure a safe and enjoyable experience for everyone.</p>
     </div>
   )
 }
 const GameFormat = () => {
   return (
-    <div>
-      <h3>Game Format</h3>
-      <p>
+    <div className="game-format-container">
+      <h2>Game Format</h2>
+      <p className="game-format-description">
         Our games are organized as 5-on-5 full court matches with rotating teams to ensure everyone gets equal playing time and some rest if needed. Each
         session includes warm-up time and multiple games.
       </p>
@@ -213,26 +226,30 @@ const GameFormat = () => {
   )
 }
 
-const RuleCard = ({icon, rule, description}: {icon: string; rule: string; description: string}) => {
+const RuleCard = ({icon, name, description}: {icon: JSX.Element; name: string; description: string}) => {
   return (
-    <div>
-      <div>
-        <img src={icon}></img>
+    <div className="rule-card">
+      <div className="icon-container light-orange" id="square-icon">
+        {icon}
       </div>
-      <div>
-        <h3>{rule}</h3>
-        <p>{description}</p>
+      <div className="rule-text">
+        <h3 className="rule-name">{name}</h3>
+        <p className="rule-description">{description}</p>
       </div>
     </div>
   )
 }
 
-const Rules = () => {
+const Rules = ({rules}: {rules: Rule[]}) => {
   return (
-    <div>
+    <div className="rule-container">
       <RulesHeader />
       <GameFormat />
-      <RuleCard icon={''} rule="some rule" description="some description" />
+      <div className="rule-card-container">
+        {rules.map(({icon, name, description}) => (
+          <RuleCard icon={icon} name={name} description={description} />
+        ))}
+      </div>
     </div>
   )
 }
@@ -404,13 +421,46 @@ const Footer = () => {
 }
 
 function App() {
+  const rules: Rule[] = [
+    {
+      name: 'Respect All Players',
+      description: "Treat all participant with respect regardless of skill level. We're here to have fun and improve together.",
+      icon: <UsersIcon style={'orange-icon'} id={undefined} />,
+    },
+    {
+      name: 'Arrive on Time',
+      description: 'Please arrive 10 or 15mins before the game so we can start as soon as it begins.',
+      icon: <ClockIcon style={'orange-icon'} id={undefined} />,
+    },
+    {
+      name: 'Proper Attire Required',
+      description: 'Wear appropriate basketball shoes and athletic clothing. No jeans, boots or street shoes on the court.',
+      icon: <ShirtIcon />,
+    },
+    {
+      name: 'Fair play',
+      description: 'Play clean and call your own fouls honestly. Excessive physicall play will result in removal from the game.',
+      icon: <SafetyIcon />,
+    },
+    {
+      name: 'Equipement Care',
+      description: 'Respect the facility and equipement. clean up after yourself and report any damage immediately.',
+      icon: <WarningIcon />,
+    },
+    {
+      name: 'Cancellation Policy',
+      description:
+        'Cancel at least 2 hours in advance to give the opportunity to other players in the waitlist to participate, No-shows will be charged for the session.',
+      icon: <CancelIcon />,
+    },
+  ]
   return (
     <div>
       <Header />
       <div className="app-container">
         <Hero />
         <Schedule />
-        <Rules />
+        <Rules rules={rules} />
         <Pricing />
         <Registration />
         <Footer />

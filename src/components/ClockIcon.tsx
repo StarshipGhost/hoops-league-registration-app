@@ -1,4 +1,4 @@
-const ClockIcon = () => {
+const ClockIcon = ({style, id} : {style : string | undefined, id : string | undefined}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,8 +10,8 @@ const ClockIcon = () => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      className="lucide lucide-clock h-4 w-4 mr-2 text-muted-foreground"
-      id='text'
+      className={style}
+      id={id}
       aria-hidden="true"
     >
       <circle cx="12" cy="12" r="10"></circle>

@@ -1,4 +1,4 @@
-const UsersIcon = () => {
+const UsersIcon = ({style, id} : {style : string | undefined, id : string | undefined}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,8 +10,8 @@ const UsersIcon = () => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      className="lucide lucide-users h-4 w-4 mr-2 text-muted-foreground"
-      id='text'
+      className={style}
+      id={id}
       aria-hidden="true"
     >
       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>

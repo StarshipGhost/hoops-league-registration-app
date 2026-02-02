@@ -10,7 +10,7 @@ const CalendarIcon = () => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      className="calendar-icon"
+      className="orange-icon"
       aria-hidden="true"
     >
       <path d="M9 2v4"></path>

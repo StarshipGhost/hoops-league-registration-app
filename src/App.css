@@ -4,14 +4,7 @@
      padding: 0;
  }
 
- .app-container {
-     width: 100%;
-     display: flex;
-     flex-direction: column;
-     /* gap: 5rem; */
-     background-color: #f9f9f9;
- }
-
+ /*Utilities*/
  .light-orange {
      background-color: #ffdec1;
  }
@@ -24,8 +17,16 @@
      color: #ff7835;
  }
 
- .blue {
-     background-color: #5483f4;
+ .orange-icon {
+     color: #e87521;
+ }
+
+ .blue-icon {
+     color: #2a5fff;
+ }
+
+ .light-blue {
+     background-color: #e1e1fd;
  }
 
  #text {
@@ -51,8 +52,15 @@
      filter: brightness(0.9)
  }
 
+ .app-container {
+     display: flex;
+     flex-direction: column;
+     background-color: #f9f9f9;
+ }
+
+ /* Header Section */
  .header {
-     min-width: 350px;
+     min-width: 320px;
      background-color: #fff;
      display: flex;
      align-items: center;
@@ -75,7 +83,6 @@
      position: relative;
      min-width: 33px;
      height: 33px;
-
  }
 
  .basketball-logo {
@@ -131,13 +138,14 @@
      }
  }
 
+ /* Hero section */
  .hero-container {
      display: flex;
      flex-direction: column;
      gap: 1.25rem;
-     min-width: 350px;
+     min-width: 320px;
      padding: 6.75rem 0rem;
-     background: linear-gradient(134deg, #fcf1e8, #edf2fd);
+     background: linear-gradient(135deg, #fcf1e8, #edf2fd);
  }
 
  .hero-intro-container {
@@ -210,46 +218,37 @@
      font-size: 0.75rem;
  }
 
- .schedule {
-     min-width: 350px;
+ /* Schedule section */
+ .schedule-container {
+     min-width: 320px;
      display: flex;
      flex-direction: column;
      align-items: center;
      background-color: #f9f9f9;
-     padding: 3rem 0;
+     padding: 5rem 10vw;
+     box-sizing: border-box;
      gap: 3rem;
  }
 
  .schedule-header-container {
-     min-width: 350px;
      display: flex;
      flex-direction: column;
      align-items: center;
      gap: 0.5rem;
  }
 
- .calendar-icon-container {
+ .icon-container {
      padding: 0.50rem;
-     background-color: #ffdec1;
      border-radius: 2rem;
      min-width: 24px;
      height: 24px;
  }
 
- .calendar-icon {
-     color: #e87521;
- }
-
- .schedule-header-container p {
-     text-align: center;
- }
-
  .schedule-card-container {
      width: 100%;
      display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(350px, 720px));
+     grid-template-columns: repeat(2, minmax(0, 1fr));
      justify-content: center;
-     align-items: center;
      gap: 2rem;
  }
 
@@ -262,6 +261,13 @@
      border: #e4e4e7 solid 1px;
      border-radius: 1rem;
      box-sizing: border-box;
+     width: 100%;
+ }
+
+ @media (max-width: 800px) {
+     .schedule-card-container {
+         grid-template-columns: 1fr;
+     }
  }
 
  .card-top {
@@ -343,11 +349,10 @@
      background-color: #5483f4;
  }
 
-
  .legend-player-status {
      display: flex;
      gap: 1rem;
-     margin-top: 1rem;
+     margin: 1rem 0;
      flex-wrap: wrap;
  }
 
@@ -360,7 +365,6 @@
  .circle {
      height: 12px;
      width: 12px;
-     background-color: #ff7835;
      border-radius: 50%;
  }
 
@@ -377,6 +381,80 @@
      display: flex;
      justify-content: end;
  }
+
+ /* Rule section */
+ .rule-container {
+     min-width: 320px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     background-color: #fff;
+     gap: 3rem;
+     box-sizing: border-box;
+     padding: 5rem 10vw;
+ }
+
+ .rule-header-container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 0.5rem;
+ }
+
+ .rule-title {
+     min-width: 285px;
+ }
+
+ .game-format-container {
+     display: flex;
+     flex-direction: column;
+     align-items: start;
+     gap: 0.50rem;
+     border: solid #e1e1fd 1px;
+     border-radius: 0.50rem;
+     background: linear-gradient(134deg, #fcf1e8, #edf2fd);
+     padding: 1rem;
+ }
+
+ .game-format-description {
+     color: #7c7c84;
+     text-align: left;
+ }
+
+ .rule-card {
+     display: flex;
+     gap: 1rem;
+     border: solid lightgray 1px;
+     border-radius: 0.50rem;
+     padding: 1.5rem;
+     box-sizing: border-box;
+ }
+
+ .rule-card-container {
+     width: 100%;
+     display: grid;
+     grid-template-rows: repeat(2, 1fr);
+     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+     justify-content: center;
+     align-items: stretch;
+     gap: 2rem;
+ }
+
+ #square-icon {
+     border-radius: 0.5rem;
+ }
+
+ .rule-name {
+     margin-bottom: 0.5rem;
+ }
+
+ .rule-description {
+     text-align: left;
+     color: #7c7c84;
+     font-size: 1rem;
+     line-height: 1.5rem;
+ }
+
 
  li {
      list-style-type: none;
