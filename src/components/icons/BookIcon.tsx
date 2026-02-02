@@ -19,4 +19,4 @@ const BookIcon = () => {
   )
 }
 
-export default BookIcon;
+export default BookIcon

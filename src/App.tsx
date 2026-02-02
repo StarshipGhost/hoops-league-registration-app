@@ -1,12 +1,15 @@
-import ClockIcon from './components/ClockIcon'
-import LocationIcon from './components/LocationIcon'
-import UsersIcon from './components/UsersIcon'
-import CalendarIcon from './components/CalendarIcon'
-import BookIcon from './components/BookIcon'
-import ShirtIcon from './components/ShirtIcon'
-import SafetyIcon from './components/SafetyIcon'
-import CancelIcon from './components/CancelIcon'
-import WarningIcon from './components/WarningIcon'
+import ClockIcon from './components/icons/ClockIcon'
+import LocationIcon from './components/icons/LocationIcon'
+import UsersIcon from './components/icons/UsersIcon'
+import CalendarIcon from './components/icons/CalendarIcon'
+import BookIcon from './components/icons/BookIcon'
+import ShirtIcon from './components/icons/ShirtIcon'
+import SafetyIcon from './components/icons/SafetyIcon'
+import CancelIcon from './components/icons/CancelIcon'
+import WarningIcon from './components/icons/WarningIcon'
+import CheckIcon from './components/icons/CheckIcon'
+import DollarSignIcon from './components/icons/DollarSignIcon'
+import CardIcon from './components/icons/CardIcon'
 import type {JSX} from 'react'
 import type {Rule} from './types/Rules'
 import './App.css'
@@ -247,7 +250,7 @@ const Rules = ({rules}: {rules: Rule[]}) => {
       <GameFormat />
       <div className="rule-card-container">
         {rules.map(({icon, name, description}) => (
-          <RuleCard icon={icon} name={name} description={description} />
+          <RuleCard key={name} icon={icon} name={name} description={description} />
         ))}
       </div>
     </div>
@@ -256,52 +259,79 @@ const Rules = ({rules}: {rules: Rule[]}) => {
 
 const PricingHeader = () => {
   return (
-    <div>
-      <h2>Pricing & Payment</h2>
-      <p>The price include court rental and equipements</p>
+    <div className="pricing-header-container">
+      <div className="icon-container light-green">
+        <DollarSignIcon />
+      </div>
+      <h1 className="rule-title">Pricing & Payment</h1>
+      <p id="text">The price include court rental and equipements</p>
     </div>
   )
 }
 
 const PricingCard = () => {
   return (
-    <div>
-      <h3>Single Game</h3>
-      <div>
-        <span>$15</span>
-        <span>per game</span>
+    <div className="pricing-card">
+      <h2>Single Game</h2>
+      <div className="game-price-container">
+        <h1 className="price">$15</h1>
+        <span id="text">per game</span>
       </div>
-      <p>Perfect for trying out our games</p>
-      <ul>
-        <li>Access to one game session</li>
-        <li>More than 2 hours of play time</li>
-        <li>All equipement provided</li>
-        <li>Drinks included</li>
-        <li>Beginner friendly</li>
-      </ul>
-      <button>Get Started</button>
+      <p id="text">Perfect for trying out our games</p>
+      <div className="benefits-container">
+        <div className="check-icon-container">
+          <CheckIcon />
+          <span className="benefit-text">Access to one game session</span>
+        </div>
+        <div className="check-icon-container">
+          <CheckIcon />
+          <span>More than 2 hours of play time</span>
+        </div>
+        <div className="check-icon-container">
+          <CheckIcon />
+          <span>All equipement provided</span>
+        </div>
+        <div className="check-icon-container">
+          <CheckIcon />
+          <span>Drinks included</span>
+        </div>
+        <div className="check-icon-container">
+          <CheckIcon />
+          <span>Beginner friendly</span>
+        </div>
+      </div>
+      <button className="button" id="pricing-button">
+        Get Started
+      </button>
     </div>
   )
 }
 
 const PaymentMethod = () => {
   return (
-    <div>
-      <h3>Accepted Payment Methods</h3>
-      <ul>
-        <li>Cash (at venue)</li>
-      </ul>
-      <p>
-        Note: If there are no spots left and you have a reserved spot (as confirmed player), any no-show or cancellation with 2 hours of the games will count as
-        presence
-      </p>
+    <div className="payment-method-container">
+      <div className="payment-method-header">
+        <CardIcon />
+        <h2>Accepted Payment Methods</h2>
+      </div>
+      <div className="check-icon-container">
+        <CheckIcon />
+        <span>Cash (at venue)</span>
+      </div>
+      <div className="payment-method-note">
+        <b>Note: </b>
+        <span className="payment-method-note-text">
+          If there are no spots left and you have a reserved spot (as a confirmed player), any no-show or cancellation with 2 hours of the games will count as
+          presence.
+        </span>
+      </div>
     </div>
   )
 }
 
 const Pricing = () => {
   return (
-    <div>
+    <div className="pricing-container">
       <PricingHeader />
       <PricingCard />
       <PaymentMethod />
