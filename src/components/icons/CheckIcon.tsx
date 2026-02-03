@@ -10,7 +10,7 @@ const CheckIcon = () => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      className="benefit-icon green-icon"
+      style={{color: '#64c66a'}}
       aria-hidden="true"
     >
       <path d="M20 6 9 17l-5-5"></path>

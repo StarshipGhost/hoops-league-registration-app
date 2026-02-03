@@ -1,4 +1,4 @@
-const ClockIcon = ({style, id} : {style : string | undefined, id : string | undefined}) => {
+const ClockIcon = ({color, id} : {color : string | undefined, id? : string}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +10,7 @@ const ClockIcon = ({style, id} : {style : string | undefined, id : string | unde
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      className={style}
+      style={{color: color}}
       id={id}
       aria-hidden="true"
     >

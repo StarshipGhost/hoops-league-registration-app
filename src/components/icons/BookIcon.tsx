@@ -10,7 +10,7 @@ const BookIcon = () => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      className="blue-icon"
+      style={{color: '#2a5fff'}}
       aria-hidden="true"
     >
       <path d="M12 7v14"></path>

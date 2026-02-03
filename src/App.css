@@ -5,58 +5,39 @@
  }
 
  /*Utilities*/
- .light-orange {
-     background-color: #ffdec1;
- }
-
- .dark-orange {
-     color: #d95b1b;
- }
-
- .orange {
-     color: #ff7835;
- }
-
- .orange-icon {
-     color: #e87521;
- }
-
- .blue-icon {
-     color: #2a5fff;
- }
-
- .light-blue {
-     background-color: #e1e1fd;
- }
-
- .green-icon {
-     color: #64c66a;
- }
-
- .light-green {
-     background-color: #eaf5ec;
+ :root {
+     --primary-color: #ff7835;
+     --secondary-color: #5483f4;
+     --primary-bg-color: #ffffff;
+     --secondary-bg-color: #f9f9f9;
+     --light-orange: #ffdec1;
  }
 
  li {
      list-style-type: none;
  }
 
- #text {
+ .text {
      color: #7c7c84;
-     text-align: center;
      font-size: 1rem;
      line-height: 1.5rem;
      max-width: 475px;
  }
 
+ #text-center {
+     text-align: center;
+ }
+
  .button {
-     background-color: #ff7835;
+     color: #ffffff;
+     background-color: var(--primary-color);
      border: none;
      border-radius: 0.50rem;
      font-weight: 500;
      font-size: 14px;
      transition: brightness ease 1s;
      white-space: nowrap;
+     border: #e4e4e7 solid 1px;
  }
 
  .button:hover {
@@ -64,13 +45,46 @@
      filter: brightness(0.9)
  }
 
+ .icon-container {
+     padding: 0.50rem;
+     border-radius: 50%;
+     min-width: 24px;
+     height: 24px;
+ }
+
+ .section-container {
+     min-width: 320px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     padding: 5rem 10vw;
+     box-sizing: border-box;
+     gap: 2rem;
+ }
+
+ #even-section {
+     background-color: #f9f9f9;
+ }
+
+ #odd-section {
+     background-color: #ffffff;
+ }
+
+ .section-header {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 0.5rem;
+ }
+
+ /* app */
  .app-container {
      display: flex;
      flex-direction: column;
      background-color: #f9f9f9;
  }
 
- /* Header Section */
+ /* Header section */
  .header {
      min-width: 320px;
      background-color: #fff;
@@ -116,18 +130,17 @@
  }
 
  .navigation-link {
-     font-size: 14px;
+     font-size: 0.875rem;
      font-weight: 500;
  }
 
- .navigation-link#text:hover {
+ .navigation-link.text:hover {
      color: #09090b;
      cursor: pointer;
  }
 
  .navigation-button {
      padding: 0.6rem 1rem;
-     color: #fff;
  }
 
  .hide-on-desktop {
@@ -172,6 +185,25 @@
      border-radius: 1rem;
      font-weight: 600;
      padding: 0.5rem 1rem;
+     border: #e4e4e7 solid 1px;
+ }
+
+ #blue-tag {
+     background-color: #e1e1fd;
+ }
+
+ #green-tag {
+     background-color: #eaf5ec;
+ }
+
+ #orange-tag {
+     color: #d95b1b;
+     background-color: #fceee3;
+ }
+
+ #hero-orange-tag {
+     color: #d95b1b;
+     background-color: var(--light-orange);
  }
 
  .hero-title {
@@ -179,11 +211,6 @@
      font-size: clamp(1rem, 6vw, 2.75rem);
      line-height: clamp(2.50rem, 12vw, 5.50rem);
      letter-spacing: -0.025em;
- }
-
- .hero-title h1#orange-text {
-     color: #ff7835;
-     font-weight: 700;
  }
 
  .hero-button-container {
@@ -199,12 +226,12 @@
 
  .hero-button#hero-register-button {
      color: #fff;
-     background-color: #ff7835;
+     background-color: var(--primary-color);
  }
 
  .hero-button#hero-schedule-button {
+     color: #09090b;
      background-color: #fff;
-     border: #e4e4e7 solid 1px;
  }
 
  .hero-information {
@@ -226,36 +253,7 @@
      font-weight: 700;
  }
 
- .information-container #words {
-     font-size: 0.75rem;
- }
-
  /* Schedule section */
- .schedule-container {
-     min-width: 320px;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     background-color: #f9f9f9;
-     padding: 5rem 10vw;
-     box-sizing: border-box;
-     gap: 2rem;
- }
-
- .schedule-header-container {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     gap: 0.5rem;
- }
-
- .icon-container {
-     padding: 0.50rem;
-     border-radius: 2rem;
-     min-width: 24px;
-     height: 24px;
- }
-
  .schedule-card-container {
      width: 100%;
      display: grid;
@@ -265,15 +263,13 @@
  }
 
  .schedule-card {
-     background-color: #fff;
+     background-color: #ffffff;
      display: flex;
      flex-direction: column;
      gap: 1rem;
      padding: 1.25rem;
      border: #e4e4e7 solid 1px;
      border-radius: 1rem;
-     box-sizing: border-box;
-     width: 100%;
  }
 
  @media (max-width: 800px) {
@@ -289,24 +285,27 @@
 
  .card-top .game-date div {
      color: #7c7c84;
-     font-size: 14px;
+     font-size: 0.875rem;
      margin-top: 0.25rem;
  }
 
- .tag#open-schedule {
-     color: #4e8e53;
-     background-color: #e1fbe6;
-     font-size: 14px;
+ .schedule-tag {
+     font-size: 0.9rem;
      font-weight: 700;
+     border: solid #e4e4e7 1px;
+     border-radius: 0.50rem;
+     padding: 0.25rem 0.75rem;
      height: fit-content;
  }
 
- .tag#closed-schedule {
+ .tag.schedule-tag#open-schedule {
+     color: #4e8e53;
+     background-color: #e1fbe6;
+ }
+
+ .tag.schedule-tag#closed-schedule {
      color: #aa231f;
      background-color: #f9e3e3;
-     font-size: 14px;
-     font-weight: 700;
-     height: fit-content;
  }
 
  .card-center {
@@ -316,7 +315,7 @@
  }
 
  .card-center .icon-info span {
-     font-size: 14px;
+     font-size: 0.875rem;
      margin-left: 0.25rem;
  }
 
@@ -345,20 +344,21 @@
 
  .progress-bar-container {
      background-color: #e4e4e7;
-     height: 5px;
+     height: 0.5rem;
      display: flex;
+     border-radius: 0 0.25rem 0.25rem 0;
  }
 
  .fill-orange {
      width: 40%;
      border-radius: 0.25rem 0 0 0.25rem;
-     background-color: #ff7835;
+     background-color: var(--primary-color);
  }
 
  .fill-blue {
      width: 10%;
      border-radius: 0 0.25rem 0.25rem 0;
-     background-color: #5483f4;
+     background-color: var(--secondary-color);
  }
 
  .legend-player-status {
@@ -381,7 +381,7 @@
  }
 
  .circle.blue {
-     background-color: #5483f4;
+     background-color: var(--secondary-color);
  }
 
  .schedule-card-button {
@@ -395,29 +395,8 @@
  }
 
  /* Rule section */
- .rule-container {
-     min-width: 320px;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     background-color: #fff;
-     gap: 2rem;
-     box-sizing: border-box;
-     padding: 5rem 10vw;
- }
-
- .rule-header-container {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     gap: 0.5rem;
- }
-
- .rule-title {
-     min-width: 285px;
- }
-
  .game-format-container {
+     width: 100%;
      display: flex;
      flex-direction: column;
      align-items: start;
@@ -426,11 +405,7 @@
      border-radius: 0.50rem;
      background: linear-gradient(134deg, #fcf1e8, #edf2fd);
      padding: 1rem;
- }
-
- .game-format-description {
-     color: #7c7c84;
-     text-align: left;
+     box-sizing: border-box;
  }
 
  .rule-card {
@@ -439,32 +414,20 @@
      border: solid #e4e4e7 1px;
      border-radius: 0.50rem;
      padding: 1.5rem;
-     box-sizing: border-box;
  }
 
  .rule-card-container {
      width: 100%;
      display: grid;
-     grid-template-rows: repeat(2, 1fr);
+     grid-template-rows: 1fr;
      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-     justify-content: center;
-     align-items: stretch;
      gap: 2rem;
  }
 
- #square-icon {
+ #square-tag {
+     color: #d95b1b;
+     background-color: #fceee3;
      border-radius: 0.5rem;
- }
-
- .rule-name {
-     margin-bottom: 0.5rem;
- }
-
- .rule-description {
-     text-align: left;
-     color: #7c7c84;
-     font-size: 1rem;
-     line-height: 1.5rem;
  }
 
  /* pricing section */
@@ -513,7 +476,7 @@
      flex-wrap: wrap;
      align-items: flex-start;
      gap: 0.50rem;
-     margin-bottom: 1rem;
+     margin: 1rem 0;
  }
 
  .check-icon-container {
@@ -550,30 +513,7 @@
      border-radius: 0.5rem;
  }
 
- .payment-method-note-text {
-     color: #7c7c84;
-     font-weight: 400;
- }
-
  /* registration section */
- .register-container {
-     min-width: 320px;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     background-color: #fff;
-     gap: 2rem;
-     box-sizing: border-box;
-     padding: 5rem 10vw;
- }
-
- .register-header-container {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     gap: 0.5rem;
- }
-
  .register-form-card {
      display: flex;
      flex-direction: column;
@@ -597,13 +537,13 @@
  .register-form-input {
      border: solid #e4e4e7 1px;
      border-radius: 0.5rem;
-     padding: 0.50rem 0.25rem;
+     padding: 0.50rem;
      font-size: 1rem;
  }
 
  .radio-button-container {
      border: solid #7c7c84 1px;
-     border-radius: 2rem;
+     border-radius: 1rem;
      display: flex;
      align-items: center;
      gap: 1rem;
@@ -613,12 +553,12 @@
  }
 
  #confirmed-player {
-     background-color: #ff7835;
+     background-color: var(--primary-color);
      color: #fff;
  }
 
  #potential-player {
-     background-color: #5483f4;
+     background-color: var(--secondary-color);
      color: #fff;
  }
 
@@ -634,18 +574,17 @@
  }
 
  .radio-circle#confirmed-player {
-     background-color: #e87521;
+     background-color: var(--primary-color);
  }
 
  .radio-circle#potential-player {
-     background-color: #5483f4;
+     background-color: var(--secondary-color);
  }
 
  .radio-circle {
      height: 12px;
      width: 12px;
-     background-color: black;
-     border-radius: 2rem;
+     border-radius: 50%;
  }
 
  .radio-text-container {
@@ -653,18 +592,8 @@
      flex-direction: column;
  }
 
- .radio-text-detail {
-     color: #7c7c84;
-     font-size: 1rem;
-     line-height: 1.5rem;
-     max-width: 475px;
-}
-
-.selected {
-    color: #fff;
-}
-
- #register-button {
-     color: #fff;
+ .register-button {
+     color: #09090b;
+     background-color: #ffffff;
      padding: 0.5rem 8vw;
  }

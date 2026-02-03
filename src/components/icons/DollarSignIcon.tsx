@@ -10,7 +10,7 @@ const DollarSignIcon = () => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      className="green-icon"
+      style={{color: '#64c66a'}}
       aria-hidden="true"
     >
       <line x1="12" x2="12" y1="2" y2="22"></line>

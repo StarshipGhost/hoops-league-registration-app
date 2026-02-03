@@ -10,7 +10,7 @@ const WarningIcon = () => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      className="orange-icon"
+      style={{color: '#e87521'}}
       aria-hidden="true"
     >
       <circle cx="12" cy="12" r="10"></circle>

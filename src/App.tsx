@@ -10,10 +10,10 @@ import WarningIcon from './components/icons/WarningIcon'
 import CheckIcon from './components/icons/CheckIcon'
 import DollarSignIcon from './components/icons/DollarSignIcon'
 import CardIcon from './components/icons/CardIcon'
+import UserAdditionIcon from './components/icons/UserAdditionIcon'
 import {useState, type JSX} from 'react'
 import type {Rule} from './types/Rules'
 import './App.css'
-import UserAdditionIcon from './components/icons/UserAdditionIcon'
 import CustomRadioButton from './components/customs/RadioButton'
 
 const BasketballLogo = () => {
@@ -31,23 +31,11 @@ const Header = () => {
     <div className="header">
       <BasketballLogo />
       <ul className="navigation-bar">
-        <li className="navigation-link hide-on-mobile" id="text">
-          Schedule
-        </li>
-        <li className="navigation-link hide-on-mobile" id="text">
-          Rules
-        </li>
-        <li className="navigation-link hide-on-mobile" id="text">
-          Pricing
-        </li>
-        <li className="navigation-link hide-on-mobile" id="text">
-          Register
-        </li>
-        <li>
-          <button className="button navigation-button hide-on-mobile" id="button">
-            Join Now
-          </button>
-        </li>
+        <li className="navigation-link hide-on-mobile text"> Schedule </li>
+        <li className="navigation-link hide-on-mobile text"> Rules </li>
+        <li className="navigation-link hide-on-mobile text"> Pricing </li>
+        <li className="navigation-link hide-on-mobile text"> Register </li>
+        <li> <button className="button navigation-button hide-on-mobile" id="button"> Join Now </button> </li>
       </ul>
       <span className="material-symbols-outlined hide-on-desktop"> menu </span>
     </div>
@@ -57,15 +45,15 @@ const Header = () => {
 const HeroIntro = () => {
   return (
     <div className="hero-intro-container">
-      <span className="tag light-orange dark-orange">
+      <div className="tag" id="hero-orange-tag">
         <span>🏀</span>
         <span>Join the Community</span>
-      </span>
-      <div className="hero-title">
-        <h1 id="black-text">Play Basketball</h1>
-        <h1 id="orange-text">Every Week</h1>
       </div>
-      <p className="hero-description" id="text">
+      <div className="hero-title">
+        <h1>Play Basketball</h1>
+        <h1 style={{color: `#ff7835`}}>Every Week</h1>
+      </div>
+      <p className="text" id="text-center">
         Join our organized basketball games for all skill levels. Meet new players, improve your game, and have fun on the court every week.
       </p>
     </div>
@@ -89,16 +77,16 @@ const HeroInformation = () => {
   return (
     <div className="hero-information">
       <div className="information-container">
-        <span id="number">50+ </span>
-        <span id="text">Active Players</span>
+        <span id="number">100+ </span>
+        <span className="text">Active Players</span>
       </div>
       <div className="information-container">
-        <span id="number">7 </span>
-        <span id="text">Games/Week</span>
+        <span id="number">4 </span>
+        <span className="text">Games/Week</span>
       </div>
       <div className="information-container">
         <span id="number">3 </span>
-        <span id="text">Courts</span>
+        <span className="text">Courts</span>
       </div>
     </div>
   )
@@ -115,12 +103,14 @@ const Hero = () => {
 
 const ScheduleHeader = () => {
   return (
-    <div className="schedule-header-container">
-      <div className="icon-container light-orange">
+    <div className="section-header">
+      <div className="icon-container" id="orange-tag">
         <CalendarIcon />
       </div>
-      <h1>Weekly Schedule</h1>
-      <p id="text">Check out our weekly games and reserve your spot. The schedule is updated regularly!</p>
+      <h1 style={{whiteSpace: 'nowrap'}}>Weekly Schedule</h1>
+      <p className="text" id="text-center">
+        Check out our weekly games and reserve your spot. The schedule is updated regularly!
+      </p>
     </div>
   )
 }
@@ -147,14 +137,14 @@ const ScheduleCard = ({
           <h2>{day}</h2>
           <div>{date}</div>
         </div>
-        <span className="tag" id="open-schedule">
-          <span className="game-availability">{tag}</span>
-        </span>
+        <div className="tag schedule-tag" id="open-schedule">
+          <span>{tag}</span>
+        </div>
       </div>
 
       <div className="card-center">
         <div className="icon-info">
-          <ClockIcon style={undefined} id="text" />
+          <ClockIcon color={'#7c7c84'} />
           <span>{duration}</span>
         </div>
         <div className="icon-info">
@@ -162,7 +152,7 @@ const ScheduleCard = ({
           <span>{location}</span>
         </div>
         <div className="icon-info">
-          <UsersIcon style={undefined} id="text" />
+          <UsersIcon color={'#7c7c84'} />
           <span>{spotsTaken} of 10 spots available</span>
         </div>
       </div>
@@ -179,11 +169,11 @@ const ScheduleCard = ({
         <div className="legend-player-status">
           <div className="player-status">
             <div className="circle fill-orange"></div>
-            <div id="text">Confirmed players 🞗 8</div>
+            <div className="text">Confirmed players 🞗 8</div>
           </div>
           <div className="player-status">
             <div className="circle fill-blue"></div>
-            <div id="text">Potential players 🞗 4</div>
+            <div className="text">Potential players 🞗 4</div>
           </div>
         </div>
         <div className="schedule-card-button-container">
@@ -196,7 +186,7 @@ const ScheduleCard = ({
 
 const Schedule = () => {
   return (
-    <div className="schedule-container">
+    <div className="section-container" id="even-section">
       <ScheduleHeader />
       <div className="schedule-card-container">
         <ScheduleCard day="Monday" date="Jan 15, 2024" duration="6:00 PM - 8:00 PM" location="Downtown Sports Center - Court A" spotsTaken={4} tag="OPEN" />
@@ -210,12 +200,14 @@ const Schedule = () => {
 }
 const RulesHeader = () => {
   return (
-    <div className="rule-header-container">
-      <div className="icon-container light-blue">
+    <div className="section-header">
+      <div className="icon-container" id="blue-tag">
         <BookIcon />
       </div>
-      <h1 className="rule-title">Rules & Guidelines</h1>
-      <p id="text">Please review our rules to ensure a safe and enjoyable experience for everyone.</p>
+      <h1 style={{whiteSpace: 'nowrap'}}>Rules & Guidelines</h1>
+      <p className="text" id="text-center">
+        Please review our rules to ensure a safe and enjoyable experience for everyone.
+      </p>
     </div>
   )
 }
@@ -223,7 +215,7 @@ const GameFormat = () => {
   return (
     <div className="game-format-container">
       <h2>Game Format</h2>
-      <p className="game-format-description">
+      <p style={{color: '#7c7c84', textAlign: 'justify'}}>
         Our games are organized as 5-on-5 full court matches with rotating teams to ensure everyone gets equal playing time and some rest if needed. Each
         session includes warm-up time and multiple games.
       </p>
@@ -234,12 +226,12 @@ const GameFormat = () => {
 const RuleCard = ({icon, name, description}: {icon: JSX.Element; name: string; description: string}) => {
   return (
     <div className="rule-card">
-      <div className="icon-container light-orange" id="square-icon">
+      <div className="icon-container" id="square-tag">
         {icon}
       </div>
       <div className="rule-text">
-        <h3 className="rule-name">{name}</h3>
-        <p className="rule-description">{description}</p>
+        <h3 style={{marginBottom: '0.5rem'}}>{name}</h3>
+        <p className="text">{description}</p>
       </div>
     </div>
   )
@@ -247,7 +239,7 @@ const RuleCard = ({icon, name, description}: {icon: JSX.Element; name: string; d
 
 const Rules = ({rules}: {rules: Rule[]}) => {
   return (
-    <div className="rule-container">
+    <div className="section-container" id="odd-section">
       <RulesHeader />
       <GameFormat />
       <div className="rule-card-container">
@@ -262,11 +254,13 @@ const Rules = ({rules}: {rules: Rule[]}) => {
 const PricingHeader = () => {
   return (
     <div className="pricing-header-container">
-      <div className="icon-container light-green">
+      <div className="icon-container" id="green-tag">
         <DollarSignIcon />
       </div>
-      <h1 className="rule-title">Pricing & Payment</h1>
-      <p id="text">The price include court rental and equipements</p>
+      <h1 style={{whiteSpace: 'nowrap'}}>Pricing & Payment</h1>
+      <p className="text" id="text-center">
+        The price include court rental and equipements
+      </p>
     </div>
   )
 }
@@ -279,7 +273,9 @@ const PricingCard = () => {
         <h1 className="price">$15</h1>
         <span id="text">per game</span>
       </div>
-      <p id="text">Perfect for trying out our games</p>
+      <p className="text" id="text-center">
+        Perfect for trying out our games
+      </p>
       <div className="benefits-container">
         <div className="check-icon-container">
           <CheckIcon />
@@ -322,9 +318,9 @@ const PaymentMethod = () => {
       </div>
       <div className="payment-method-note">
         <b>Note: </b>
-        <span className="payment-method-note-text">
-          If there are no spots left and you have a reserved spot (as a confirmed player), any no-show or cancellation within 2 hours of the games will count as a
-          presence.
+        <span className="text">
+          If there are no spots left and you have a reserved spot (as a confirmed player), any no-show or cancellation within 2 hours of the games will count as
+          a presence.
         </span>
       </div>
     </div>
@@ -333,7 +329,7 @@ const PaymentMethod = () => {
 
 const Pricing = () => {
   return (
-    <div className="pricing-container">
+    <div className="section-container" id="even-section">
       <PricingHeader />
       <PricingCard />
       <PaymentMethod />
@@ -343,12 +339,14 @@ const Pricing = () => {
 
 const RegistrationHeader = () => {
   return (
-    <div className="register-header-container">
-      <div className="icon-container light-orange">
+    <div className="section-header">
+      <div className="icon-container" id="orange-tag">
         <UserAdditionIcon />
       </div>
-      <h2>Register to Play</h2>
-      <p id="text">Fill out the form below to reserve your spot in the upcoming game</p>
+      <h1 style={{whiteSpace: 'nowrap'}}>Register to Play</h1>
+      <p className="text" id="text-center">
+        Fill out the form below to reserve your spot in the upcoming game
+      </p>
     </div>
   )
 }
@@ -360,6 +358,7 @@ const RegistrationForm = () => {
   ]
 
   const [options, setOptions] = useState<{playerStatus: string; text: string; isSelected: boolean; style: string}[]>(currentOptions)
+  const selectedOption = options.find((option) => option.isSelected)
 
   const handleRadioChange = (playerStatus: string) => {
     return setOptions(
@@ -395,7 +394,7 @@ const RegistrationForm = () => {
           ))}
         </div>
       </div>
-      <button className="button" id="register-button" onSubmit={(e) => e.preventDefault()}>
+      <button className="button register-button" id={selectedOption?.style} onSubmit={(e) => e.preventDefault()}>
         Complete reservation
       </button>
     </form>
@@ -404,7 +403,7 @@ const RegistrationForm = () => {
 
 const Registration = () => {
   return (
-    <div className="register-container">
+    <div className="section-container" id="odd-section">
       <RegistrationHeader />
       <RegistrationForm />
     </div>
@@ -414,6 +413,7 @@ const Registration = () => {
 const FooterSummary = () => {
   return (
     <div>
+      <BasketballLogo />
       <p>Bringing basketball enthusiast together for competitive and fun games every week</p>
     </div>
   )
@@ -422,7 +422,7 @@ const FooterSummary = () => {
 const FooterLinks = () => {
   return (
     <ul className="footer-list">
-      <li className="footer-table-cell" id="header">
+      <li className="footer-table-cell" id="table-header">
         Quick Links
       </li>
       <li className="footer-list-item">Schedule</li>
@@ -436,7 +436,7 @@ const FooterLinks = () => {
 const FooterContact = () => {
   return (
     <ul className="footer-list">
-      <li className="footer-list-item" id="header">
+      <li className="footer-list-item" id="table-header">
         Contact
       </li>
       <li className="footer-list-cell">Email: info@hoopsLeague.com</li>
@@ -449,7 +449,7 @@ const FooterContact = () => {
 const FooterSocials = () => {
   return (
     <ul>
-      <li className="footer-table-cell" id="header">
+      <li className="footer-table-cell" id="table-header">
         Follow Us
       </li>
       <li className="footer-table-cell">Facebook</li>
@@ -475,12 +475,12 @@ function App() {
     {
       name: 'Respect All Players',
       description: "Treat all participant with respect regardless of skill level. We're here to have fun and improve together.",
-      icon: <UsersIcon style={'orange-icon'} id={undefined} />,
+      icon: <UsersIcon color={'#e87521'} />,
     },
     {
       name: 'Arrive on Time',
       description: 'Please arrive 10 or 15mins before the game so we can start as soon as it begins.',
-      icon: <ClockIcon style={'orange-icon'} id={undefined} />,
+      icon: <ClockIcon color={'#e87521'} />,
     },
     {
       name: 'Proper Attire Required',
