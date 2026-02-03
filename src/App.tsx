@@ -10,9 +10,11 @@ import WarningIcon from './components/icons/WarningIcon'
 import CheckIcon from './components/icons/CheckIcon'
 import DollarSignIcon from './components/icons/DollarSignIcon'
 import CardIcon from './components/icons/CardIcon'
-import type {JSX} from 'react'
+import {useState, type JSX} from 'react'
 import type {Rule} from './types/Rules'
 import './App.css'
+import UserAdditionIcon from './components/icons/UserAdditionIcon'
+import CustomRadioButton from './components/customs/RadioButton'
 
 const BasketballLogo = () => {
   return (
@@ -73,10 +75,10 @@ const HeroIntro = () => {
 const HeroButton = () => {
   return (
     <div className="hero-button-container">
-      <button className="button hero-button" id="register">
+      <button className="button hero-button" id="hero-register-button">
         Register Now
       </button>
-      <button className="button hero-button" id="schedule">
+      <button className="button hero-button" id="hero-schedule-button">
         View Schedule
       </button>
     </div>
@@ -321,7 +323,7 @@ const PaymentMethod = () => {
       <div className="payment-method-note">
         <b>Note: </b>
         <span className="payment-method-note-text">
-          If there are no spots left and you have a reserved spot (as a confirmed player), any no-show or cancellation with 2 hours of the games will count as
+          If there are no spots left and you have a reserved spot (as a confirmed player), any no-show or cancellation within 2 hours of the games will count as a
           presence.
         </span>
       </div>
@@ -341,50 +343,68 @@ const Pricing = () => {
 
 const RegistrationHeader = () => {
   return (
-    <div>
+    <div className="register-header-container">
+      <div className="icon-container light-orange">
+        <UserAdditionIcon />
+      </div>
       <h2>Register to Play</h2>
-      <p>Fill out the form below to reserve your spot in the upcoming game</p>
-    </div>
-  )
-}
-
-const RegistrationPlayerOption = () => {
-  return (
-    <div>
-      <div>
-        <input type="radio" checked={true}></input>
-        <div>
-          <span>Confirmed Player</span>
-          <span>I will definitely attend this game</span>
-        </div>
-      </div>
-      <div>
-        <input type="radio" checked={false}></input>
-        <div>
-          <span>Tentative Player</span>
-          <span>I'm not sure yet, but count me in for now</span>
-        </div>
-      </div>
+      <p id="text">Fill out the form below to reserve your spot in the upcoming game</p>
     </div>
   )
 }
 
 const RegistrationForm = () => {
+  const currentOptions: {playerStatus: string; text: string; isSelected: boolean; style: string}[] = [
+    {playerStatus: 'Confirmed player', text: 'I will definitely attend this game', isSelected: false, style: 'confirmed-player'},
+    {playerStatus: 'Potential player', text: "I'm not sure yet, but count me in for now", isSelected: false, style: 'potential-player'},
+  ]
+
+  const [options, setOptions] = useState<{playerStatus: string; text: string; isSelected: boolean; style: string}[]>(currentOptions)
+
+  const handleRadioChange = (playerStatus: string) => {
+    return setOptions(
+      options.map((option) =>
+        option.playerStatus === playerStatus
+          ? !option.isSelected
+            ? {...option, isSelected: !option.isSelected}
+            : option
+          : option.isSelected
+            ? {...option, isSelected: false}
+            : option,
+      ),
+    )
+  }
   return (
-    <form>
-      <div>
-        <label>First name *</label>
-        <input type="text" value="John" placeholder="Your name"></input>
+    <form className="register-form-card">
+      <div className="register-form-input-container">
+        <span className="register-form-label">First Name *</span>
+        <input className="register-form-input" type="text" placeholder="Your name"></input>
       </div>
-      <RegistrationPlayerOption />
-      <button onSubmit={(e) => e.preventDefault()}>Complete reservation</button>
+      <div className="register-form-input-container">
+        <span className="register-form-label">Player Status *</span>
+        <div className="radio-container">
+          {options.map(({playerStatus, text, isSelected, style}) => (
+            <CustomRadioButton
+              key={playerStatus}
+              playerStatus={playerStatus}
+              text={text}
+              isSelected={isSelected}
+              style={style}
+              onChangeHandler={() => handleRadioChange(playerStatus)}
+            />
+          ))}
+        </div>
+      </div>
+      <button className="button" id="register-button" onSubmit={(e) => e.preventDefault()}>
+        Complete reservation
+      </button>
     </form>
   )
 }
 
 const Registration = () => {
   return (
-    <div>
+    <div className="register-container">
       <RegistrationHeader />
       <RegistrationForm />
     </div>

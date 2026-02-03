@@ -197,12 +197,12 @@
      padding: 0.40rem 3rem;
  }
 
- .hero-button#register {
+ .hero-button#hero-register-button {
      color: #fff;
      background-color: #ff7835;
  }
 
- .hero-button#schedule {
+ .hero-button#hero-schedule-button {
      background-color: #fff;
      border: #e4e4e7 solid 1px;
  }
@@ -426,8 +426,6 @@
      border-radius: 0.50rem;
      background: linear-gradient(134deg, #fcf1e8, #edf2fd);
      padding: 1rem;
-     width: 100%;
-     box-sizing: border-box;
  }
 
  .game-format-description {
@@ -493,11 +491,10 @@
      flex-direction: column;
      align-items: center;
      border: #e4e4e7 solid 1px;
-     ;
      border-radius: 1rem;
      gap: 0.50rem;
      background-color: #fff;
-     padding: 2rem;
+     padding: 2rem 3vw;
  }
 
  .game-price-container {
@@ -513,6 +510,7 @@
  .benefits-container {
      display: flex;
      flex-direction: column;
+     flex-wrap: wrap;
      align-items: flex-start;
      gap: 0.50rem;
      margin-bottom: 1rem;
@@ -549,10 +547,124 @@
      background-color: #f7f7f7;
      padding: 1rem;
      border: solid #e4e4e7 1px;
-     border-radius: 0.50rem;
+     border-radius: 0.5rem;
  }
 
  .payment-method-note-text {
      color: #7c7c84;
      font-weight: 400;
+ }
+
+ /* registration section */
+ .register-container {
+     min-width: 320px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     background-color: #fff;
+     gap: 2rem;
+     box-sizing: border-box;
+     padding: 5rem 10vw;
+ }
+
+ .register-header-container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 0.5rem;
+ }
+
+ .register-form-card {
+     display: flex;
+     flex-direction: column;
+     gap: 2rem;
+     border: solid #e4e4e7 1px;
+     border-radius: 0.50rem;
+     padding: 3.5vw;
+ }
+
+ .register-form-input-container {
+     display: flex;
+     flex-direction: column;
+     gap: 0.75rem;
+ }
+
+ .register-form-label {
+     font-size: 1rem;
+     font-weight: 500;
+ }
+
+ .register-form-input {
+     border: solid #e4e4e7 1px;
+     border-radius: 0.5rem;
+     padding: 0.50rem 0.25rem;
+     font-size: 1rem;
+ }
+
+ .radio-button-container {
+     border: solid #7c7c84 1px;
+     border-radius: 2rem;
+     display: flex;
+     align-items: center;
+     gap: 1rem;
+     padding: 1rem;
+     cursor: pointer;
+     margin-bottom: 1rem;
+ }
+
+ #confirmed-player {
+     background-color: #ff7835;
+     color: #fff;
+ }
+
+ #potential-player {
+     background-color: #5483f4;
+     color: #fff;
+ }
+
+ .radio-slot-circle {
+     min-height: 24px;
+     min-width: 24px;
+     background-color: #fff;
+     border: solid #09090b 1px;
+     border-radius: 2rem;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ .radio-circle#confirmed-player {
+     background-color: #e87521;
+ }
+
+ .radio-circle#potential-player {
+     background-color: #5483f4;
+ }
+
+ .radio-circle {
+     height: 12px;
+     width: 12px;
+     background-color: black;
+     border-radius: 2rem;
+ }
+
+ .radio-text-container {
+     display: flex;
+     flex-direction: column;
+ }
+
+ .radio-text-detail {
+     color: #7c7c84;
+     font-size: 1rem;
+     line-height: 1.5rem;
+     max-width: 475px;
+}
+
+.selected {
+    color: #fff;
+}
+
+ #register-button {
+     color: #fff;
+     padding: 0.5rem 8vw;
  }
