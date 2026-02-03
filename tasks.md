@@ -1,4 +1,6 @@
-- [] Admin should display all weekly games so the user can plan his week. 
-- [] Admin should enable registration only on the upcoming game to allow user to register only to this game.
-- [] Admin should disable registration (while keeping them visible) on the rest of the games of the week.
-- [] Users should register by entering their name and selecting the reservation status.     
+- [ ] Admin should display all weekly games so the users can plan his week. 
+- [ ] Admin should enable registration only on the upcoming game to allow user to register only to this game.
+- [ ] Admin should disable registration (while keeping them visible) on the rest of the games of the week.
+- [ ] Admin should remove the past games from the schedule.
+- [ ] Admin should display the number of confirmed and potential player on the schedule.
+- [ ] Users should register by entering their name and selecting the reservation status.     
