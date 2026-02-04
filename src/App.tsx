@@ -253,7 +253,7 @@ const Rules = ({rules}: {rules: Rule[]}) => {
 
 const PricingHeader = () => {
   return (
-    <div className="pricing-header-container">
+    <div className="section-header">
       <div className="icon-container" id="green-tag">
         <DollarSignIcon />
       </div>
@@ -353,8 +353,8 @@ const RegistrationHeader = () => {
 
 const RegistrationForm = () => {
   const currentOptions: {playerStatus: string; text: string; isSelected: boolean; style: string}[] = [
-    {playerStatus: 'Confirmed player', text: 'I will definitely attend this game', isSelected: false, style: 'confirmed-player'},
-    {playerStatus: 'Potential player', text: "I'm not sure yet, but count me in for now", isSelected: false, style: 'potential-player'},
+    {playerStatus: 'Confirmed Player', text: 'I will definitely attend this game', isSelected: false, style: 'confirmed-player'},
+    {playerStatus: 'Potential Player', text: "I'm not sure yet, but count me in for now", isSelected: false, style: 'potential-player'},
   ]
 
   const [options, setOptions] = useState<{playerStatus: string; text: string; isSelected: boolean; style: string}[]>(currentOptions)
@@ -412,60 +412,64 @@ const Registration = () => {
 
 const FooterSummary = () => {
   return (
-    <div>
+    <div className="footer-summary-container">
       <BasketballLogo />
-      <p>Bringing basketball enthusiast together for competitive and fun games every week</p>
+      <p className="text" id="footer-text">
+        Bringing basketball enthusiast together for competitive and fun games every week
+      </p>
     </div>
   )
 }
 
 const FooterLinks = () => {
   return (
-    <ul className="footer-list">
-      <li className="footer-table-cell" id="table-header">
-        Quick Links
-      </li>
-      <li className="footer-list-item">Schedule</li>
-      <li className="footer-list-item">Rules</li>
-      <li className="footer-list-item">Pricing</li>
-      <li className="footer-list-item">Register</li>
-    </ul>
+    <div className="footer-col" id="footer-links">
+      <div style={{fontWeight: '500'}}>Quick Links</div>
+      <div className="navigation-link text">Schedule</div>
+      <div className="navigation-link text">Rules</div>
+      <div className="navigation-link text">Pricing</div>
+      <div className="navigation-link text">Register</div>
+    </div>
   )
 }
 
 const FooterContact = () => {
   return (
-    <ul className="footer-list">
-      <li className="footer-list-item" id="table-header">
-        Contact
-      </li>
-      <li className="footer-list-cell">Email: info@hoopsLeague.com</li>
-      <li className="footer-list-cell">Phone: 514-xxx-xxxx</li>
-      <li className="footer-list-cell">Hours: Mon-Sun,6AM-10PM</li>
-    </ul>
+    <div className="footer-col" id="footer-contact">
+      <div style={{fontWeight: '500'}}>Contact</div>
+      <div className="text">Email: info@hoopsleague.com</div>
+      <div className="text">Phone: (438)-xxx-xxxx</div>
+      <div className="text">Hours: Mon-Sun, 6AM-10PM</div>
+    </div>
   )
 }
 
 const FooterSocials = () => {
   return (
-    <ul>
-      <li className="footer-table-cell" id="table-header">
-        Follow Us
-      </li>
-      <li className="footer-table-cell">Facebook</li>
-      <li className="footer-table-cell">Instagram</li>
-      <li className="footer-table-cell">Twitter</li>
-    </ul>
+    <div className="footer-col" id="footer-socials">
+      <div style={{fontWeight: '500'}}>Follow Us</div>
+      <div className="navigation-link text">Facebook</div>
+      <div className="navigation-link text">Instagram</div>
+      <div className="navigation-link text">Twitter</div>
+    </div>
+  )
+}
+
+const FooterInformation = () => {
+  return (
+    <div className="footer-grid">
+      <FooterLinks />
+      <FooterContact />
+      <FooterSocials />
+    </div>
   )
 }
 
 const Footer = () => {
   return (
-    <div>
+    <div className="footer">
       <FooterSummary />
-      <FooterLinks />
-      <FooterContact />
-      <FooterSocials />
+      <FooterInformation />
     </div>
   )
 }
@@ -513,8 +517,8 @@ function App() {
         <Rules rules={rules} />
         <Pricing />
         <Registration />
-        <Footer />
       </div>
+      <Footer />
     </div>
   )
 }
