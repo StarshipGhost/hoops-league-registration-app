@@ -113,7 +113,7 @@ const CardBottomPart = ({gameEvent}: {gameEvent: GameEvent}) => {
   return (
     <div className="card-bottom">
       <div className="progress-text">
-        <span>Registstered Players</span>
+        <span>Registered Players</span>
         <span>{`${registeredPlayers.length}/${capacity}`}</span>
       </div>
       <ProgressBar confirmedPlayers={confirmed ? confirmed : []} potentialPlayers={potential ? potential : []} capacity={capacity} />
