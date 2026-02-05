@@ -16,13 +16,13 @@ const HeroIntro = () => {
   )
 }
 
-const HeroButton = () => {
+const HeroButton = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
   return (
     <div className="hero-button-container">
-      <button className="button hero-button" id="hero-register-button">
+      <button onClick={() => scrollFunction(4)} className="button hero-button" id="hero-register-button">
         Register Now
       </button>
-      <button className="button hero-button" id="hero-schedule-button">
+      <button  onClick={() => scrollFunction(1)} className="button hero-button" id="hero-schedule-button">
         View Schedule
       </button>
     </div>
@@ -47,11 +47,11 @@ const HeroInformation = () => {
     </div>
   )
 }
-const Hero = () => {
+const Hero = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
   return (
     <div className="hero-container">
       <HeroIntro />
-      <HeroButton />
+      <HeroButton scrollFunction={scrollFunction}/>
       <HeroInformation />
     </div>
   )

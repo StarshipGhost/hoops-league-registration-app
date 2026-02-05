@@ -33,7 +33,7 @@ function App() {
     <div>
       <Header scrollFunction={scrollToSection} />
       <div ref={sectionRef} className="app-container">
-        <Hero />
+        <Hero scrollFunction={scrollToSection} />
         <Schedule />
         <Rules />
         <Pricing />
