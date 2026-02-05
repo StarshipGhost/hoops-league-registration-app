@@ -15,10 +15,10 @@ const FooterLinks = ({scrollFunction} : {scrollFunction : (index: number) => voi
   return (
     <div className="footer-col" id="footer-links">
       <div style={{fontWeight: '500'}}>Quick Links</div>
-      <div onClick={() => scrollFunction(1)} className="navigation-link text">Schedule</div>
-      <div onClick={() => scrollFunction(2)} className="navigation-link text">Rules</div>
-      <div onClick={() => scrollFunction(3)} className="navigation-link text">Pricing</div>
-      <div onClick={() => scrollFunction(4)} className="navigation-link text">Register</div>
+      <div onClick={() => scrollFunction(1)} className="navigation-link text"><a>Schedule</a></div>
+      <div onClick={() => scrollFunction(2)} className="navigation-link text"><a>Rules</a></div>
+      <div onClick={() => scrollFunction(3)} className="navigation-link text"><a>Pricing</a></div>
+      <div onClick={() => scrollFunction(4)} className="navigation-link text"><a>Register</a></div>
     </div>
   )
 }
@@ -38,9 +38,9 @@ const FooterSocials = () => {
   return (
     <div className="footer-col" id="footer-socials">
       <div style={{fontWeight: '500'}}>Follow Us</div>
-      <div className="navigation-link text">Facebook</div>
-      <div className="navigation-link text">Instagram</div>
-      <div className="navigation-link text">Twitter</div>
+      <div className="navigation-link text"><a>Facebook</a></div>
+      <div className="navigation-link text"><a>Instagram</a></div>
+      <div className="navigation-link text"><a>Twitter</a></div>
     </div>
   )
 }

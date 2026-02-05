@@ -14,7 +14,7 @@ export const BasketballLogo = ({scrollFunction}: {scrollFunction?: (index: numbe
       <div className="basketball-logo-container">
         <div className="basketball-logo">🏀</div>
       </div>
-      <div className="brand-name">Hoops League</div>
+      <div className="brand-name"><a>Hoops League</a></div>
     </div>
   )
 }

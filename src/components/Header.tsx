@@ -12,10 +12,10 @@ const HeaderIcon = ({open, handler}: {open: boolean; handler: () => void}) => {
 const DesktopNavigationBar = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
   return (
     <ul className="navigation-bar hide-on-mobile">
-      <li onClick={() => scrollFunction(1)} className="navigation-link text"> Schedule </li>
-      <li onClick={() => scrollFunction(2)} className="navigation-link text"> Rules </li>
-      <li onClick={() => scrollFunction(3)} className="navigation-link text"> Pricing </li>
-      <li onClick={() => scrollFunction(4)} className="navigation-link text"> Register </li>
+      <li onClick={() => scrollFunction(1)} className="navigation-link text"> <a>Schedule </a></li>
+      <li onClick={() => scrollFunction(2)} className="navigation-link text"> <a>Rules </a></li>
+      <li onClick={() => scrollFunction(3)} className="navigation-link text"> <a>Pricing </a></li>
+      <li onClick={() => scrollFunction(4)} className="navigation-link text"> <a>Register </a></li>
       <li> <button onClick={() => scrollFunction(4)} className="button navigation-button"> Join Now </button> </li>
     </ul>
   )
@@ -23,10 +23,10 @@ const DesktopNavigationBar = ({scrollFunction} : {scrollFunction : (index: numbe
 const MobileNavigationBar = ({open, scrollFunction, closeBarFunction}: {open: boolean, scrollFunction : (index: number) => void, closeBarFunction: () => void}) => {
   return (
     <ul className={`mobile-navigation-bar hide-on-desktop ${open && 'open'}`}>
-      <li onClick={() => {scrollFunction(1); closeBarFunction()}} className="navigation-link text"> Schedule </li>
-      <li onClick={() => {scrollFunction(2); closeBarFunction()}} className="navigation-link text"> Rules </li>
-      <li onClick={() => {scrollFunction(3); closeBarFunction()}} className="navigation-link text"> Pricing </li>
-      <li onClick={() => {scrollFunction(4); closeBarFunction()}} className="navigation-link text"> Register </li>
+      <li onClick={() => {scrollFunction(1); closeBarFunction()}} className="navigation-link text"> <a>Schedule </a></li>
+      <li onClick={() => {scrollFunction(2); closeBarFunction()}} className="navigation-link text"> <a>Rules </a></li>
+      <li onClick={() => {scrollFunction(3); closeBarFunction()}} className="navigation-link text"> <a>Pricing </a></li>
+      <li onClick={() => {scrollFunction(4); closeBarFunction()}} className="navigation-link text"> <a>Register </a></li>
       <li> <button onClick={() => {scrollFunction(4); closeBarFunction()}} className="button navigation-button"> Join Now </button> </li>
     </ul>
   )
