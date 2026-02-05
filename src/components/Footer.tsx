@@ -5,20 +5,20 @@ const FooterSummary = () => {
     <div className="footer-summary-container">
       <BasketballLogo />
       <p className="text" id="footer-text">
-        Bringing basketball enthusiast together for competitive and fun games every week
+        Bringing basketball enthusiasts together for competitive and fun games every week.
       </p>
     </div>
   )
 }
 
-const FooterLinks = () => {
+const FooterLinks = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
   return (
     <div className="footer-col" id="footer-links">
       <div style={{fontWeight: '500'}}>Quick Links</div>
-      <div className="navigation-link text">Schedule</div>
-      <div className="navigation-link text">Rules</div>
-      <div className="navigation-link text">Pricing</div>
-      <div className="navigation-link text">Register</div>
+      <div onClick={() => scrollFunction(1)} className="navigation-link text">Schedule</div>
+      <div onClick={() => scrollFunction(2)} className="navigation-link text">Rules</div>
+      <div onClick={() => scrollFunction(3)} className="navigation-link text">Pricing</div>
+      <div onClick={() => scrollFunction(4)} className="navigation-link text">Register</div>
     </div>
   )
 }
@@ -45,21 +45,21 @@ const FooterSocials = () => {
   )
 }
 
-const FooterInformation = () => {
+const FooterInformation = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
   return (
     <div className="footer-grid">
-      <FooterLinks />
+      <FooterLinks scrollFunction={scrollFunction}/>
       <FooterContact />
       <FooterSocials />
     </div>
   )
 }
 
-const Footer = () => {
+const Footer = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
   return (
     <div className="footer">
       <FooterSummary />
-      <FooterInformation />
+      <FooterInformation scrollFunction={scrollFunction}/>
     </div>
   )
 }

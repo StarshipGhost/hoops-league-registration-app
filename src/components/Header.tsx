@@ -9,40 +9,40 @@ const HeaderIcon = ({open, handler}: {open: boolean; handler: () => void}) => {
   )
 }
 
-const DesktopNavigationBar = () => {
+const DesktopNavigationBar = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
   return (
     <ul className="navigation-bar hide-on-mobile">
-      <li className="navigation-link text"> Schedule </li>
-      <li className="navigation-link text"> Rules </li>
-      <li className="navigation-link text"> Pricing </li>
-      <li className="navigation-link text"> Register </li>
-      <li> <button className="button navigation-button" id="button"> Join Now </button> </li>
+      <li onClick={() => scrollFunction(1)} className="navigation-link text"> Schedule </li>
+      <li onClick={() => scrollFunction(2)} className="navigation-link text"> Rules </li>
+      <li onClick={() => scrollFunction(3)} className="navigation-link text"> Pricing </li>
+      <li onClick={() => scrollFunction(4)} className="navigation-link text"> Register </li>
+      <li> <button onClick={() => scrollFunction(4)} className="button navigation-button"> Join Now </button> </li>
     </ul>
   )
 }
-const MobileNavigationBar = ({open}: {open: boolean}) => {
+const MobileNavigationBar = ({open, scrollFunction, closeBarFunction}: {open: boolean, scrollFunction : (index: number) => void, closeBarFunction: () => void}) => {
   return (
     <ul className={`mobile-navigation-bar hide-on-desktop ${open && 'open'}`}>
-      <li className="navigation-link text"> Schedule </li>
-      <li className="navigation-link text"> Rules </li>
-      <li className="navigation-link text"> Pricing </li>
-      <li className="navigation-link text"> Register </li>
-      <li> <button className="button navigation-button" id="button"> Join Now </button> </li>
+      <li onClick={() => {scrollFunction(1); closeBarFunction()}} className="navigation-link text"> Schedule </li>
+      <li onClick={() => {scrollFunction(2); closeBarFunction()}} className="navigation-link text"> Rules </li>
+      <li onClick={() => {scrollFunction(3); closeBarFunction()}} className="navigation-link text"> Pricing </li>
+      <li onClick={() => {scrollFunction(4); closeBarFunction()}} className="navigation-link text"> Register </li>
+      <li> <button onClick={() => {scrollFunction(4); closeBarFunction()}} className="button navigation-button"> Join Now </button> </li>
     </ul>
   )
 }
 
-const Header = () => {
+const Header = ({scrollFunction} : {scrollFunction : (index : number) => void}) => {
   const [open, setOpen] = useState<boolean>(false)
   return (
     <div className="header-container">
       <div className="header">
-        <BasketballLogo />
-        <DesktopNavigationBar />
+        <BasketballLogo scrollFunction={scrollFunction} />
+        <DesktopNavigationBar scrollFunction={scrollFunction}/>
         <HeaderIcon open={open} handler={() => setOpen((v) => !v)} />
       </div>
-      <div className="mobile-header">
-        <MobileNavigationBar open={open} />
+      <div className='mobile-header'>
+        <MobileNavigationBar scrollFunction={scrollFunction} open={open} closeBarFunction={() => setOpen((v) => !v)} />
       </div>
     </div>
   )
