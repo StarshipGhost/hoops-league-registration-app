@@ -6,37 +6,42 @@ import Rules from './components/Rules'
 import Pricing from './components/Pricing'
 import Registration from './components/Registration'
 import Footer from './components/Footer'
-import {useRef} from 'react'
+import {useRef, useState} from 'react'
 
 export const BasketballLogo = ({scrollFunction}: {scrollFunction?: (index: number) => void}) => {
   return (
-    <div onClick={() => { if (scrollFunction) scrollFunction(0) }} className="brand" >
+    <div onClick={() => { if (scrollFunction) scrollFunction(0) }} className="brand">
       <div className="basketball-logo-container">
         <div className="basketball-logo">🏀</div>
       </div>
-      <div className="brand-name"><a>Hoops League</a></div>
+      <div className="brand-name">
+        <a>Hoops League</a>
+      </div>
     </div>
   )
 }
 
 function App() {
   const sectionRef = useRef<HTMLDivElement | null>(null)
-  function scrollToSection(index: number) {
+  function scrollToSection(index: number) : void {
     const section = sectionRef.current
     if (section) {
-      const sectionNode = section.querySelectorAll('.app-container > div')[index]
+      const sectionNode = section.querySelectorAll('.main > div')[index]
       sectionNode.scrollIntoView({behavior: 'smooth', block: 'start'})
     }
   }
 
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const toggle = () : void => setDarkMode((v) => !v) ;
+  
   return (
-    <div>
-      <Header scrollFunction={scrollToSection} />
-      <div ref={sectionRef} className="app-container">
+    <div className="app-container" app-theme={`${darkMode ? `dark` : ``}`}>
+      <Header darkMode={darkMode} toggleFunction={toggle} scrollFunction={scrollToSection} />
+      <div ref={sectionRef} className="main">
         <Hero scrollFunction={scrollToSection} />
         <Schedule />
         <Rules />
-        <Pricing />
+        <Pricing scrollFunction={scrollToSection} />
         <Registration />
       </div>
       <Footer scrollFunction={scrollToSection} />

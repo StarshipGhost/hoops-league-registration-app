@@ -8,10 +8,10 @@ import type {Player} from '../types/Player'
 const ScheduleHeader = () => {
   return (
     <div className="section-header">
-      <div className="icon-container" id="orange-tag">
+      <div className="icon-container orange-tag">
         <CalendarIcon />
       </div>
-      <h1 style={{whiteSpace: 'nowrap'}}>Weekly Schedule</h1>
+      <h1 className="header-title">Weekly Schedule</h1>
       <p className="text" id="text-center">
         Check out our weekly games and reserve your spot. The schedule is updated regularly!
       </p>
@@ -27,7 +27,7 @@ const CardTopPart = ({gameEvent}: {gameEvent: GameEvent}) => {
   return (
     <div className="card-top">
       <div className="game-date">
-        <h2>{days[date.getDay()]}</h2>
+        <h2 id="light-mode-black">{days[date.getDay()]}</h2>
         <div>{`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}</div>
       </div>
       <div className="tag schedule-tag" id={isFull(registeredPlayers.length) ? `closed-schedule` : `open-schedule`}>
@@ -56,18 +56,18 @@ const CardMiddlePart = ({gameEvent}: {gameEvent: GameEvent}) => {
   return (
     <div className="card-center">
       <div className="icon-info">
-        <ClockIcon color={'#7c7c84'} />
-        <span>{`${timeString(start)} - ${timeString(end)}`}</span>
+        <ClockIcon className={'text'}/>
+        <span id="light-mode-black">{`${timeString(start)} - ${timeString(end)}`}</span>
       </div>
       <div className="icon-info">
         <LocationIcon />
         <span>
-          <a href={link}>{name}</a>
+          <a id='location-hyperlink' href={link}>{name}</a>
         </span>
       </div>
       <div className="icon-info">
-        <UsersIcon color={'#7c7c84'} />
-        <span>{`${registeredPlayers.length} of ${capacity} spots available`}</span>
+        <UsersIcon className={'text'}/>
+        <span id="light-mode-black">{`${registeredPlayers.length} of ${capacity} spots available`}</span>
       </div>
     </div>
   )
@@ -98,7 +98,7 @@ const Legend = ({confirmedPlayers, potentialPlayers}: {confirmedPlayers: Player[
       </div>
       <div className="player-status">
         <div className="circle fill-blue"></div>
-        <div className="text">{`Potential players 🞗 ${potentialPlayers.length}`}</div>
+        <div className="text">{`Potential Players 🞗 ${potentialPlayers.length}`}</div>
       </div>
     </div>
   )
@@ -136,6 +136,16 @@ const ScheduleCard = ({gameEvent}: {gameEvent: GameEvent}) => {
 }
 
 const Schedule = () => {
+  const players: Player[] = [
+    {firstName: 'saad', status: 'Potential Player'},
+    {firstName: 'jalal', status: 'Confirmed Player'},
+    {firstName: 'saad', status: 'Potential Player'},
+    {firstName: 'jalal', status: 'Confirmed Player'},
+    {firstName: 'saad', status: 'Potential Player'},
+    {firstName: 'jalal', status: 'Confirmed Player'},
+    {firstName: 'saad', status: 'Potential Player'},
+    {firstName: 'jalal', status: 'Confirmed Player'},
+  ]
   const schedule: GameEvent[] = [
     {
       date: new Date('2026-02-05'),
@@ -145,7 +155,7 @@ const Schedule = () => {
         name: 'Complexe sportif du Collège Bois de Boulogne - 2ième étage',
         link: 'https://www.google.com/maps/place/10500+Ave+de+Bois-de-Boulogne,+Montreal,+QC+H4N+1L4/@45.5363681,-73.6761788,17z/data=!3m1!4b1!4m6!3m5!1s0x4cc9188eaf11c6dd:0xab8ca3e2415cadc5!8m2!3d45.5363681!4d-73.6736039!16s%2Fg%2F11nntq6jk2?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D',
       },
-      registeredPlayers: [],
+      registeredPlayers: players,
       capacity: 23,
     },
     {

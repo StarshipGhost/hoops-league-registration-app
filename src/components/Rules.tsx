@@ -9,12 +9,12 @@ import WarningIcon from './icons/WarningIcon'
 
 const rules: {icon: JSX.Element; name: string; description: string}[] = [
   {
-    icon: <UsersIcon color={'#e87521'} />,
+    icon: <UsersIcon className='square-tag'/>,
     name: 'Respect All Players',
     description: "Treat all participant with respect regardless of skill level. We're here to have fun and improve together.",
   },
   {
-    icon: <ClockIcon color={'#e87521'} />,
+    icon: <ClockIcon className='square-tag'/>,
     name: 'Arrive on Time',
     description: 'Please arrive 10 or 15mins before the game so we can start as soon as it begins.',
   },
@@ -25,7 +25,7 @@ const rules: {icon: JSX.Element; name: string; description: string}[] = [
   },
   {
     icon: <SafetyIcon />,
-    name: 'Fair play',
+    name: 'Fair Play',
     description: 'Play clean and call your own fouls honestly. Excessive physicall play will result in removal from the game.',
   },
   {
@@ -44,10 +44,10 @@ const rules: {icon: JSX.Element; name: string; description: string}[] = [
 const RulesHeader = () => {
   return (
     <div className="section-header">
-      <div className="icon-container" id="blue-tag">
+      <div className="icon-container blue-tag">
         <BookIcon />
       </div>
-      <h1 style={{whiteSpace: 'nowrap'}}>Rules & Guidelines</h1>
+      <h1 className='header-title'>Rules & Guidelines</h1>
       <p className="text" id="text-center">
         Please review our rules to ensure a safe and enjoyable experience for everyone.
       </p>
@@ -57,8 +57,8 @@ const RulesHeader = () => {
 const GameFormat = () => {
   return (
     <div className="game-format-container">
-      <h2>Game Format</h2>
-      <p style={{color: '#7c7c84', textAlign: 'justify'}}>
+      <h2 id='light-mode-black'>Game Format</h2>
+      <p className='game-format-text'>
         Our games are organized as 5-on-5 full court matches with rotating teams to ensure everyone gets equal playing time and some rest if needed. Each
         session includes warm-up time and multiple games.
       </p>
@@ -69,11 +69,11 @@ const GameFormat = () => {
 const RuleCard = ({icon, name, description}: {icon: JSX.Element; name: string; description: string}) => {
   return (
     <div className="rule-card">
-      <div className="icon-container" id="square-tag">
+      <div className="icon-container square-tag">
         {icon}
       </div>
-      <div className="rule-text">
-        <h3 style={{marginBottom: '0.5rem'}}>{name}</h3>
+      <div>
+        <h3 className='rule-card-header-title'>{name}</h3>
         <p className="text">{description}</p>
       </div>
     </div>

@@ -5,10 +5,10 @@ import {useState} from 'react'
 const RegistrationHeader = () => {
   return (
     <div className="section-header">
-      <div className="icon-container" id="orange-tag">
+      <div className="icon-container orange-tag">
         <UserAdditionIcon />
       </div>
-      <h1 style={{whiteSpace: 'nowrap'}}>Register to Play</h1>
+      <h1 className='header-title'>Register to Play</h1>
       <p className="text" id="text-center">
         Fill out the form below to reserve your spot in the upcoming game
       </p>

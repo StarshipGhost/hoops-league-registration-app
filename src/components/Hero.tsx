@@ -1,13 +1,13 @@
 const HeroIntro = () => {
   return (
     <div className="hero-intro-container">
-      <div className="tag" id="hero-orange-tag">
+      <div className="tag hero-orange-tag">
         <span>🏀</span>
         <span>Join the Community</span>
       </div>
       <div className="hero-title">
-        <h1>Play Basketball</h1>
-        <h1 style={{color: `#ff7835`}}>Every Week</h1>
+        <h1 className='header-title'>Play Basketball</h1>
+        <h1 className="orange-header-title">Every Week</h1>
       </div>
       <p className="text" id="text-center">
         Join our organized basketball games for all skill levels. Meet new players, improve your game, and have fun on the court every week.
@@ -16,13 +16,13 @@ const HeroIntro = () => {
   )
 }
 
-const HeroButton = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
+const HeroButton = ({scrollFunction}: {scrollFunction: (index: number) => void}) => {
   return (
     <div className="hero-button-container">
       <button onClick={() => scrollFunction(4)} className="button hero-button" id="hero-register-button">
         Register Now
       </button>
-      <button  onClick={() => scrollFunction(1)} className="button hero-button" id="hero-schedule-button">
+      <button onClick={() => scrollFunction(1)} className="button hero-button" id="hero-schedule-button">
         View Schedule
       </button>
     </div>
@@ -47,14 +47,14 @@ const HeroInformation = () => {
     </div>
   )
 }
-const Hero = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
+const Hero = ({scrollFunction}: {scrollFunction: (index: number) => void}) => {
   return (
     <div className="hero-container">
       <HeroIntro />
-      <HeroButton scrollFunction={scrollFunction}/>
+      <HeroButton scrollFunction={scrollFunction} />
       <HeroInformation />
     </div>
   )
 }
 
-export default Hero;
+export default Hero
