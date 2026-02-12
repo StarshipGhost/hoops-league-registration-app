@@ -10,7 +10,7 @@ const RegistrationHeader = () => {
       </div>
       <h1 className='header-title'>Register to Play</h1>
       <p className="text" id="text-center">
-        Fill out the form below to reserve your spot in the upcoming game
+        Fill out the form below to reserve your spot in the upcoming game.
       </p>
     </div>
   )
