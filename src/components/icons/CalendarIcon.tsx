@@ -1,4 +1,4 @@
-const CalendarIcon = () => {
+const CalendarIcon = ({className} : {className?: string}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +10,7 @@ const CalendarIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      style={{color: '#e87521'}}
+      className={className}
       aria-hidden="true"
     >
       <path d="M9 2v4"></path>

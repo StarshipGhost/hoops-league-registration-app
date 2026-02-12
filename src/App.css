@@ -5,27 +5,27 @@
  }
 
  /*Utilities*/
- :root {
+ [app-theme='light'] {
      --primary-color: #f97316;
-     --secondary-color_1: #5483f4;
+     --secondary-color: #3b82f6;
      --title-color: #000000;
      --text-color: #717171;
      --border-color: #e4e4e7;
 
-     --hero-text-color: #f97316;
+     --hero-text-color: var(--primary-color);
      --hero-tag-text-color: #ea580c;
      --hero-tag-bg-color: #f973161a;
      --hero-bg-gradient: linear-gradient(to bottom right, #f973161a, #3b83f61a);
 
-     --hover-color: #09090b;
+     --text-hover-color: #09090b;
      --primary-bg-color: #ffffff;
      --secondary-bg-color: #f9f9f9;
 
-     --orange-tag-color: #f97316;
-     --blue-tag-color: #3b82f6;
+     --orange-tag-color: var(--primary-color);
+     --blue-tag-color: var(--secondary-color);
      --green-tag-color: #22c55e;
      --light-orange-tag-bg-color: #f973161a;
-     --light-blue-tag-bg-color: #3b82f61a;
+     --light-blue-tag-bg-color: #3b82f64d;
      --light-green-tag-bg-color: #22c55e1a;
 
      --schedule-card-green-color: #15803d;
@@ -33,16 +33,17 @@
      --schedule-card-red-color: #b91c1c;
      --schedule-card-red-bg-color: #fee2e2;
 
-     --orange-progress-bar: #f97316;
-     --blue-progress-bar: #3b82f6;
+     --orange-progress-bar: var(--primary-color);
+     --blue-progress-bar: var(--secondary-color);
 
-     --payment-method-note-box-bg-color: #71717a;
+     --payment-method-note-box-bg-color: #f4f4f5;
      --mobile-navigation-links-hover-background-color: #f4f4f5;
+     --hyperlink-color: var(--primary-color);
  }
 
  [app-theme='dark'] {
      --primary-color: #ea580c;
-     --secondary-color_1: #5483f4;
+     --secondary-color: #2563eb;
      --title-color: #fafafa;
      --text-color: #a1a1aa;
      --border-color: #27272a;
@@ -52,7 +53,7 @@
      --hero-tag-bg-color: #f9731633;
      --hero-bg-gradient: linear-gradient(to bottom right, #f973160d, #3b82f60d);
 
-     --hover-color: #fafafa;
+     --text-hover-color: #fafafa;
      --primary-bg-color: #09090b;
      --secondary-bg-color: #27272a4d;
 
@@ -68,11 +69,12 @@
      --schedule-card-red-color: #fca5a5;
      --schedule-card-red-bg-color: #7f1d1d;
 
-     --orange-progress-bar: #ea580c;
-     --blue-progress-bar: #2563eb;
+     --orange-progress-bar: var(--primary-color);
+     --blue-progress-bar: var(--secondary-color);
 
      --payment-method-note-box-bg-color: #27272a;
      --mobile-navigation-links-hover-background-color: #27272a;
+     --hyperlink-color: #faaa71;
  }
 
  #light-mode-black {
@@ -85,7 +87,7 @@
 
  .text {
      color: var(--text-color);
-     font-size: 1rem;
+     font-size: clamp(0.9rem, 3.00vw, 1.0rem);
      line-height: 1.5rem;
      max-width: 475px;
  }
@@ -149,19 +151,18 @@
 
  /* App */
  .app-container {
+     min-width: 320px;
      background-color: var(--primary-bg-color);
  }
 
  .main {
      background-color: var(--primary-bg-color);
-     min-width: 320px;
      display: flex;
      flex-direction: column;
  }
 
  /* Header section */
  .header-container {
-     min-width: 320px;
      position: sticky;
      top: 0;
  }
@@ -173,7 +174,7 @@
      justify-content: space-between;
      border-bottom: var(--border-color) solid 1px;
      box-sizing: border-box;
-     padding: 1rem;
+     padding: 1rem 1.25rem 1rem 2rem;
      position: relative;
      z-index: 1000;
  }
@@ -220,7 +221,7 @@
  }
 
  .navigation-link.text:hover {
-     color: var(--hover-color);
+     color: var(--text-hover-color);
      cursor: pointer;
  }
 
@@ -234,7 +235,12 @@
      display: flex;
      align-items: stretch;
      cursor: pointer;
-     margin: 0 0.5rem;
+     padding: 0.5rem;
+ }
+
+ #color-toggle-icon:hover {
+     background-color: var(--mobile-navigation-links-hover-background-color);
+     border-radius: 50%;
  }
 
  .hide-on-desktop {
@@ -245,15 +251,32 @@
      display: none;
  }
 
- @media (max-width: 675px) {
+ @media (max-width: 875px) {
      .hide-on-mobile {
          display: none;
+     }
+
+     .header {
+         padding: 1rem;
      }
 
      .mobile-header-icons {
          display: flex;
          align-items: center;
          gap: 2rem;
+     }
+
+     .mobile-header-icons #color-toggle-icon {
+         display: flex;
+         align-items: stretch;
+         cursor: pointer;
+         padding: 0.5rem;
+
+     }
+
+     .mobile-header-icons #color-toggle-icon:hover {
+         background-color: var(--mobile-navigation-links-hover-background-color);
+         border-radius: 50%;
      }
 
      .mobile-navigation-bar {
@@ -274,7 +297,7 @@
          max-width: 100%;
      }
 
-     .mobile-navigation-bar .navigation-link:hover {
+     .mobile-navigation-bar .navigation-link:hover, #hamburger-icon:hover {
          background-color: var(--mobile-navigation-links-hover-background-color);
          border-radius: 0.5rem;
      }
@@ -294,7 +317,6 @@
      display: flex;
      flex-direction: column;
      gap: 1.25rem;
-     min-width: 320px;
      padding: 6.75rem 0rem;
      background: var(--hero-bg-gradient);
  }
@@ -334,8 +356,8 @@
 
  .hero-title {
      text-align: center;
-     font-size: clamp(1rem, 5vw, 2.25rem);
-     line-height: clamp(2.50rem, 10vw, 4.50rem);
+     font-size: clamp(1.25rem, 5vw, 2.25rem);
+     line-height: clamp(2.75rem, 10vw, 4.50rem);
      letter-spacing: -0.025em;
  }
 
@@ -444,19 +466,27 @@
      gap: 0.5rem;
  }
 
- .card-center .icon-info span {
-     font-size: 0.875rem;
+ .game-information {
+     text-justify: auto;
+     display: flex;
+     align-items: center;
+ }
+
+ svg.text {
+     max-width: 16px;
+     max-height: 16px;
+     margin-right: 0.25rem;
+     box-sizing: border-box;
+ }
+
+ #schedule-text {
+     color: var(--title-color);
      margin-left: 0.25rem;
  }
 
- .card-center svg {
-     width: 14px;
-     height: 14px;
-     margin-right: 0.25rem;
- }
-
- #location-hyperlink {
-     color: var(--primary-color)
+ #schedule-location-hyperlink {
+     color: var(--hyperlink-color);
+     margin-left: 0.25rem;
  }
 
  .card-bottom {
@@ -509,13 +539,13 @@
  }
 
  .circle {
-     height: 12px;
-     width: 12px;
+     min-height: 12px;
+     min-width: 12px;
      border-radius: 50%;
  }
 
  .circle.blue {
-     background-color: var(--secondary-color_1);
+     background-color: var(--secondary-color);
  }
 
  .schedule-card-button {
@@ -647,6 +677,7 @@
 
  /* registration section */
  .register-form-card {
+     background-color: var(--primary-bg-color);
      color: var(--title-color);
      display: flex;
      flex-direction: column;
@@ -668,6 +699,7 @@
  }
 
  .register-form-input {
+     color: var(--title-color);
      background-color: var(--primary-bg-color);
      border: solid var(--border-color) 1px;
      border-radius: 0.5rem;
@@ -692,7 +724,7 @@
  }
 
  #potential-player {
-     background-color: var(--secondary-color_1);
+     background-color: var(--secondary-color);
      color: #fff;
  }
 
@@ -712,7 +744,7 @@
  }
 
  .radio-circle#potential-player {
-     background-color: var(--secondary-color_1);
+     background-color: var(--secondary-color);
  }
 
  .radio-circle {
@@ -732,9 +764,10 @@
      padding: 0.5rem 8vw;
  }
 
+ /* Footer section */
  .footer {
      min-width: 320px;
-     background-color: var(--secondary-bg-color);
+     background-color: var(--primary-bg-color);
      display: flex;
      flex-wrap: wrap;
      justify-content: center;
@@ -747,6 +780,14 @@
      display: flex;
      flex-direction: column;
      gap: 1rem;
+ }
+
+ .footer-col {
+     display: grid;
+     justify-self: center;
+     align-self: center;
+     grid-template-rows: 1.5fr repeat(4, 1fr);
+     gap: 0.25rem
  }
 
  .footer-col-header {
@@ -766,15 +807,148 @@
      gap: 2rem 1rem;
  }
 
- .footer-col {
+ .footer-link {
+     font-weight: 500;
+     font-size: 0.875rem;
+ }
+
+ .footer-link:hover {
+     color: var(--text-hover-color);
+     cursor: pointer
+ }
+
+ /* Registered players section */
+ .registered-players-grid {
+     background-color: var(--primary-bg-color);
+     width: 45vw;
      display: grid;
-     gap: 0.25rem
+     grid-template-rows: auto;
+     grid-template-columns: 1fr 1fr;
+     grid-template-areas:
+         "header header"
+         "confirmed-players potential-players"
+         "footer footer";
+     gap: 1px;
+     border: solid var(--border-color) 1px;
+     border-radius: 1rem;
  }
 
- #footer-links {
-     grid-template-rows: 1.5fr repeat(4, 1fr);
+ .game-information-container {
+     grid-area: header;
+     justify-self: stretch;
+     border: solid var(--border-color) 1px;
+     border-radius: 1rem 1rem 0 0;
+     padding: 1rem;
+     display: flex;
+     flex-direction: column;
+     gap: 0.25rem;
  }
 
- #footer-contact, #footer-socials {
-     grid-template-rows: 1.5fr repeat(3, 1fr);
+ .registered-players-col {
+     display: grid;
+     grid-template-rows: 50px 1fr;
+     grid-template-columns: 1fr;
+     grid-template-areas:
+         "category"
+         "players";
+     border: solid var(--border-color) 1px;
+ }
+
+ .registered-players-col#confirmed {
+     background-color: var(--light-orange-tag-bg-color);
+ }
+
+ .registered-players-col#potential {
+     background-color: var(--light-blue-tag-bg-color);
+ }
+
+ .registered-player-status-row {
+     grid-area: category;
+     justify-self: center;
+     align-self: center;
+     padding: 1rem;
+     font-weight: 500;
+ }
+
+ .registered-players {
+     grid-area: players;
+     justify-self: stretch;
+     white-space: nowrap;
+     width: 100%;
+     overflow-x: auto;
+     border: solid var(--border-color) 1px;
+     max-height: 250px;
+     overflow-y: auto;
+ }
+
+ .registered-players-spots-left {
+    color: var(--green-tag-color);
+     padding: 1rem;
+     font-weight: 500;
+     grid-area: footer;
+     justify-self: stretch;
+     text-align: center;
+     border-top: solid var(--border-color) 1px;
+     border-bottom: solid var(--border-color) 1px;
+     border-radius: 0 0 1rem 1rem;
+ }
+
+ .game-information-header {
+     color: var(--title-color);
+     margin-bottom: 0.25rem;
+ }
+
+ .registered-player-information {
+     display: flex;
+     gap: 0.5rem;
+ }
+
+ .registered-player-row {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 0.5rem;
+     border-top: solid var(--border-color) 1px;
+     min-width: 250px;
+ }
+
+ .player-profile {
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+ }
+
+ .player-avatar {
+     width: 5px;
+     height: 5px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 1rem;
+     border: solid black 1px;
+     border-radius: 50%;
+ }
+
+ .player-avatar#confirmed {
+     color: var(--orange-tag-color);
+     background-color: var(--light-orange-tag-bg-color);
+ }
+
+ .player-avatar#potential {
+     color: var(--blue-tag-color);
+     background-color: var(--light-blue-tag-bg-color);
+ }
+
+ .avatar-letter {
+     font-size: 1.25rem;
+     line-height: 5px;
+ }
+
+ .player-first-name {
+     color: var(--title-color);
+     font-weight: 500;
+ }
+
+ .player-registration-date {
+     font-size: 0.75rem;
  }

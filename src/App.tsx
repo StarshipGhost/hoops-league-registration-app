@@ -7,6 +7,7 @@ import Pricing from './components/Pricing'
 import Registration from './components/Registration'
 import Footer from './components/Footer'
 import {useRef, useState} from 'react'
+import RegisteredPlayers from './components/RegisteredPlayers'
 
 export const BasketballLogo = ({scrollFunction}: {scrollFunction?: (index: number) => void}) => {
   return (
@@ -33,13 +34,13 @@ function App() {
 
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const toggle = () : void => setDarkMode((v) => !v) ;
-  
   return (
-    <div className="app-container" app-theme={`${darkMode ? `dark` : ``}`}>
+    <div className="app-container" app-theme={`${darkMode ? `dark` : `light`}`}>
       <Header darkMode={darkMode} toggleFunction={toggle} scrollFunction={scrollToSection} />
       <div ref={sectionRef} className="main">
         <Hero scrollFunction={scrollToSection} />
         <Schedule />
+        <RegisteredPlayers/>
         <Rules />
         <Pricing scrollFunction={scrollToSection} />
         <Registration />
