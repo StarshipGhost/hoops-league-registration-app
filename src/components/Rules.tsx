@@ -9,12 +9,12 @@ import WarningIcon from './icons/WarningIcon'
 
 const rules: {icon: JSX.Element; name: string; description: string}[] = [
   {
-    icon: <UsersIcon className='square-tag'/>,
+    icon: <UsersIcon />,
     name: 'Respect All Players',
     description: "Treat all participant with respect regardless of skill level. We're here to have fun and improve together.",
   },
   {
-    icon: <ClockIcon className='square-tag'/>,
+    icon: <ClockIcon />,
     name: 'Arrive on Time',
     description: 'Please arrive 10 or 15mins before the game so we can start as soon as it begins.',
   },
@@ -82,7 +82,7 @@ const RuleCard = ({icon, name, description}: {icon: JSX.Element; name: string; d
 
 const Rules = () => {
   return (
-    <div className="section-container" id="odd-section">
+    <div className="section-container" id="even-section">
       <RulesHeader />
       <GameFormat />
       <div className="rule-card-container">

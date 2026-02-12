@@ -68,7 +68,8 @@ const RegistrationForm = () => {
 
 const Registration = () => {
   return (
-    <div className="section-container" id="odd-section">
+    <div className="section-container" id="even-section">
+
       <RegistrationHeader />
       <RegistrationForm />
     </div>

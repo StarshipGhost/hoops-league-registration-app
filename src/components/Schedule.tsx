@@ -1,9 +1,10 @@
+import type {GameEvent} from '../types/GameEvent'
+import type {Player} from '../types/Player'
 import CalendarIcon from './icons/CalendarIcon'
 import LocationIcon from './icons/LocationIcon'
 import ClockIcon from './icons/ClockIcon'
 import UsersIcon from './icons/UsersIcon'
-import type {GameEvent} from '../types/GameEvent'
-import type {Player} from '../types/Player'
+import { timeString } from '../utilities/timeString'
 
 const ScheduleHeader = () => {
   return (
@@ -46,28 +47,20 @@ const CardMiddlePart = ({gameEvent}: {gameEvent: GameEvent}) => {
     capacity,
   } = gameEvent
 
-  const timeString = (date: Date) =>
-    date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    })
 
   return (
     <div className="card-center">
-      <div className="icon-info">
-        <ClockIcon className={'text'}/>
-        <span id="light-mode-black">{`${timeString(start)} - ${timeString(end)}`}</span>
+      <div className='game-information'>
+        <ClockIcon className='text' />
+        <span className="text" id="schedule-text">{`${timeString(start)} - ${timeString(end)}`}</span>
       </div>
-      <div className="icon-info">
-        <LocationIcon />
-        <span>
-          <a id='location-hyperlink' href={link}>{name}</a>
-        </span>
+      <div className='game-information'>
+        <LocationIcon className='text'/>
+        <span> <a className="text" id="schedule-location-hyperlink" href={link}> {name} </a> </span>
       </div>
-      <div className="icon-info">
-        <UsersIcon className={'text'}/>
-        <span id="light-mode-black">{`${registeredPlayers.length} of ${capacity} spots available`}</span>
+      <div className='game-information'>
+        <UsersIcon className='text' />
+        <span className="text" id="schedule-text">{`${registeredPlayers.length} of ${capacity} spots available`}</span>
       </div>
     </div>
   )

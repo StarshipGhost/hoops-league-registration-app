@@ -16,9 +16,10 @@ const FooterLinks = ({scrollFunction} : {scrollFunction : (index: number) => voi
     <div className="footer-col">
       <div className="footer-col-header">Quick Links</div>
       <div onClick={() => scrollFunction(1)} className="text footer-link"><a>Schedule</a></div>
-      <div onClick={() => scrollFunction(2)} className="text footer-link"><a>Rules</a></div>
-      <div onClick={() => scrollFunction(3)} className="text footer-link"><a>Pricing</a></div>
-      <div onClick={() => scrollFunction(4)} className="text footer-link"><a>Register</a></div>
+      <div onClick={() => scrollFunction(2)} className="text footer-link"><a>Registered Players</a></div>
+      <div onClick={() => scrollFunction(3)} className="text footer-link"><a>Rules</a></div>
+      <div onClick={() => scrollFunction(4)} className="text footer-link"><a>Pricing</a></div>
+      <div onClick={() => scrollFunction(5)} className="text footer-link"><a>Register</a></div>
     </div>
   )
 }

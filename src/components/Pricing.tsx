@@ -80,7 +80,7 @@ const PaymentMethod = () => {
 
 const Pricing = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
   return (
-    <div className="section-container" id="even-section">
+    <div className="section-container" id="odd-section">
       <PricingHeader />
       <PricingCard scrollFunction={scrollFunction}/>
       <PaymentMethod />

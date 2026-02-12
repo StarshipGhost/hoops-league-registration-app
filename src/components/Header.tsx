@@ -31,11 +31,12 @@ const DesktopNavigationBar = ({darkMode, toggleFunction, scrollFunction}: {darkM
   return (
     <ul className="navigation-bar hide-on-mobile">
       <li onClick={() => scrollFunction(1)} className="navigation-link text"> <a>Schedule </a> </li>
-      <li onClick={() => scrollFunction(2)} className="navigation-link text"> <a>Rules </a> </li>
-      <li onClick={() => scrollFunction(3)} className="navigation-link text"> <a>Pricing </a> </li>
-      <li onClick={() => scrollFunction(4)} className="navigation-link text"> <a>Register </a> </li>
+      <li onClick={() => scrollFunction(2)} className="navigation-link text"> <a>Registered Players </a> </li>
+      <li onClick={() => scrollFunction(3)} className="navigation-link text"> <a>Rules </a> </li>
+      <li onClick={() => scrollFunction(4)} className="navigation-link text"> <a>Pricing </a> </li>
+      <li onClick={() => scrollFunction(5)} className="navigation-link text"> <a>Register </a> </li>
       <li><a><ColorToggleIcon  darkMode={darkMode} toggleFunction={toggleFunction}/></a></li>
-      <li> <button onClick={() => scrollFunction(4)} className="button navigation-button"> Join Now </button> </li>
+      <li> <button onClick={() => scrollFunction(5)} className="button navigation-button"> Join Now </button> </li>
     </ul>
   )
 }
@@ -43,10 +44,11 @@ const MobileNavigationBar = ({ open, scrollFunction, closeNavBarFunction, }: { o
   return (
     <ul className={`mobile-navigation-bar hide-on-desktop ${open && 'open'}`}>
       <li onClick={() => { scrollFunction(1); closeNavBarFunction() }} className="navigation-link text" > <a>Schedule </a> </li>
-      <li onClick={() => { scrollFunction(2); closeNavBarFunction() }} className="navigation-link text" > <a>Rules </a> </li>
-      <li onClick={() => { scrollFunction(3); closeNavBarFunction() }} className="navigation-link text" > <a>Pricing </a> </li>
-      <li onClick={() => { scrollFunction(4); closeNavBarFunction() }} className="navigation-link text" > <a>Register </a> </li> 
-      <li> <button onClick={() => { scrollFunction(4); closeNavBarFunction() }} className="button navigation-button" > Join Now </button> </li>
+      <li onClick={() => { scrollFunction(2); closeNavBarFunction() }} className="navigation-link text" > <a>Registered Players </a> </li>
+      <li onClick={() => { scrollFunction(3); closeNavBarFunction() }} className="navigation-link text" > <a>Rules </a> </li>
+      <li onClick={() => { scrollFunction(4); closeNavBarFunction() }} className="navigation-link text" > <a>Pricing </a> </li>
+      <li onClick={() => { scrollFunction(5); closeNavBarFunction() }} className="navigation-link text" > <a>Register </a> </li> 
+      <li> <button onClick={() => { scrollFunction(5); closeNavBarFunction() }} className="button navigation-button" > Join Now </button> </li>
     </ul>
   )
 }
