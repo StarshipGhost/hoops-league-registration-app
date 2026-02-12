@@ -10,7 +10,7 @@ const PricingHeader = () => {
       </div>
       <h1 className='header-title'>Pricing & Payment</h1>
       <p className="text" id="text-center">
-        The price include court rental and equipements
+        The price include court rental and equipements.
       </p>
     </div>
   )
@@ -38,7 +38,7 @@ const PricingCard = ({scrollFunction} : {scrollFunction : (index: number) => voi
         </div>
         <div className="check-icon-container">
           <CheckIcon />
-          <span className="benefit-item">All equipement provided</span>
+          <span className="benefit-item">All equipment provided</span>
         </div>
         <div className="check-icon-container">
           <CheckIcon />
