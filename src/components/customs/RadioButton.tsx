@@ -5,7 +5,7 @@ const CustomRadioButton = ({playerStatus, text, isSelected, style, onChangeHandl
         {isSelected && <div className="radio-circle" id={style}></div>}
       </div>
       <div className="radio-text-container" >
-        <span><b>{playerStatus}</b></span>
+        <span style={{whiteSpace: 'nowrap'}}><b>{playerStatus}</b></span>
         <span className="text" style={{color: `${isSelected ? '#ffffff' : '#7c7c84'}`}}> {text} </span>
       </div>
     </div>
