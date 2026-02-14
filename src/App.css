@@ -4,7 +4,6 @@
      padding: 0;
  }
 
- /*Utilities*/
  [app-theme='light'] {
      --primary-color: #f97316;
      --secondary-color: #3b82f6;
@@ -77,6 +76,7 @@
      --hyperlink-color: #faaa71;
  }
 
+ /*Utilities*/
  #light-mode-black {
      color: var(--title-color);
  }
@@ -165,6 +165,7 @@
  .header-container {
      position: sticky;
      top: 0;
+     z-index: 1000;
  }
 
  .header {
@@ -252,7 +253,7 @@
  }
 
  @media (max-width: 875px) {
-     .hide-on-mobile {
+     .navigation-bar.hide-on-mobile {
          display: none;
      }
 
@@ -263,7 +264,7 @@
      .mobile-header-icons {
          display: flex;
          align-items: center;
-         gap: 2rem;
+         gap: 1rem;
      }
 
      .mobile-header-icons #color-toggle-icon {
@@ -473,10 +474,14 @@
  }
 
  svg.text {
-     max-width: 16px;
-     max-height: 16px;
+     min-width: fit-content;
+     min-height: fit-content;
      margin-right: 0.25rem;
-     box-sizing: border-box;
+ }
+
+ .icon-container svg {
+     width: 24px;
+     height: 24px;
  }
 
  #schedule-text {
@@ -555,6 +560,240 @@
  .schedule-card-button-container {
      display: flex;
      justify-content: end;
+ }
+
+ /* Registered players section */
+ @media (max-width: 700px) {
+     .registered-players-grid.hide-on-mobile {
+         grid-template-areas:
+             "header header"
+             "tabs tabs"
+             "players-col players-col"
+             "footer footer";
+     }
+
+     .registered-players-col.active {
+         grid-area: players-col;
+     }
+
+     .registered-players-tabs {
+         display: block;
+         grid-area: tabs;
+         justify-self: center;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         flex-wrap: wrap;
+         gap: 1rem;
+         padding: 1rem;
+     }
+
+     .registered-players-tab {
+         width: 160px;
+         font-weight: 500;
+         border: solid var(--border-color) 1px;
+         border-radius: 1rem;
+         white-space: nowrap;
+         padding: 0.5rem 2rem;
+         box-sizing: border-box;
+         cursor: pointer;
+     }
+
+     .registered-players-tab.confirmed.active {
+         color: #ffffff;
+         background-color: var(--primary-color);
+     }
+
+     .registered-players-tab.potential.active {
+         color: #ffffff;
+         background-color: var(--secondary-color);
+     }
+
+     .registered-players-tab.confirmed {
+         color: var(--orange-tag-color);
+         background-color: var(--light-orange-tag-bg-color);
+     }
+
+     .registered-players-tab.potential {
+         color: var(--blue-tag-color);
+         background-color: var(--light-blue-tag-bg-color);
+     }
+
+     .registered-players-tab span {
+         border-radius: 1rem;
+         padding: 0 0.50rem;
+         font-weight: 500;
+         margin-left: 0.5rem;
+     }
+
+     .registered-players-tab.confirmed.active span {
+         color: var(--primary-color);
+         background-color: #ffffff;
+     }
+
+     .registered-players-tab.potential.active span {
+         color: var(--secondary-color);
+         background-color: #ffffff;
+     }
+
+     .registered-players-tab.confirmed span {
+         background-color: var(--light-orange-tag-bg-color);
+     }
+
+     .registered-players-tab.potential span {
+         background-color: var(--light-blue-tag-bg-color);
+     }
+
+     .registered-players-col.hide-on-desktop {
+         display: none;
+     }
+ }
+
+ .registered-players-grid {
+     background-color: var(--primary-bg-color);
+     display: grid;
+     grid-template-rows: auto;
+     grid-template-columns: 1fr 1fr;
+     grid-template-areas:
+         "header header"
+         "tabs tabs"
+         "confirmed-col potential-col"
+         "footer footer";
+     gap: 1px;
+     border: solid var(--border-color) 1px;
+     border-radius: 1rem;
+ }
+
+ .game-information-container {
+     grid-area: header;
+     justify-self: stretch;
+     border: solid var(--border-color) 1px;
+     border-radius: 1rem 1rem 0 0;
+     padding: 1rem;
+     display: flex;
+     flex-direction: column;
+     gap: 0.25rem;
+ }
+
+ .registered-players-col {
+     display: grid;
+     grid-template-rows: 50px 1fr;
+     grid-template-columns: 1fr;
+     grid-template-areas:
+         "category"
+         "players";
+     border: solid var(--border-color) 1px;
+ }
+
+ .registered-players-col-confirmed {
+     grid-area: confirmed-col;
+     background-color: var(--light-orange-tag-bg-color);
+ }
+
+ .registered-players-col-potential {
+     grid-area: potential-col;
+     background-color: var(--light-blue-tag-bg-color);
+ }
+
+ .registered-player-status-row {
+     color: var(--title-color);
+     grid-area: category;
+     justify-self: center;
+     align-self: center;
+     padding: 1rem;
+     font-weight: 500;
+ }
+
+ .registered-players {
+     grid-area: players;
+     justify-self: stretch;
+     white-space: nowrap;
+     width: 100%;
+     overflow-x: auto;
+     border: solid var(--border-color) 1px;
+     max-height: 250px;
+     overflow-y: auto;
+ }
+
+ .registered-players-spots-left {
+     color: var(--green-tag-color);
+     padding: 1rem;
+     font-weight: 500;
+     grid-area: footer;
+     justify-self: stretch;
+     text-align: center;
+     border-top: solid var(--border-color) 1px;
+     border-bottom: solid var(--border-color) 1px;
+     border-radius: 0 0 1rem 1rem;
+ }
+
+ .registered-players-spots-left.closed {
+     color: var(--schedule-card-red-color);
+ }
+
+ .game-information-header {
+     color: var(--title-color);
+     margin-bottom: 0.25rem;
+ }
+
+ .registered-player-information {
+     display: flex;
+     gap: 0.5rem;
+ }
+
+ .registered-player-row {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 0.5rem 1rem 0.5rem 0.5rem;
+     border-top: solid var(--border-color) 1px;
+     min-width: 300px;
+ }
+
+ .player-profile {
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+ }
+
+ .player-avatar {
+     width: 5px;
+     height: 5px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 1rem;
+     border: solid var(--border-color) 1px;
+     border-radius: 50%;
+ }
+
+ .player-avatar#confirmed {
+     color: var(--orange-tag-color);
+     background-color: var(--light-orange-tag-bg-color);
+ }
+
+ .player-avatar#potential {
+     color: var(--blue-tag-color);
+     background-color: var(--light-blue-tag-bg-color);
+ }
+
+ .avatar-letter {
+     font-size: 1.25rem;
+     font-weight: 500;
+     line-height: 5px;
+ }
+
+ .player-first-name {
+     color: var(--title-color);
+     font-weight: 500;
+ }
+
+ .player-registration-date {
+     font-size: 0.75rem;
+ }
+
+ .mobile-registered-players-grid {
+     display: none;
  }
 
  /* Rule section */
@@ -683,8 +922,8 @@
      flex-direction: column;
      gap: 2rem;
      border: solid var(--border-color) 1px;
-     border-radius: 0.50rem;
-     padding: 3.5vw;
+     border-radius: 1rem;
+     padding: 2rem;
  }
 
  .register-form-input-container {
@@ -708,7 +947,7 @@
  }
 
  .radio-button-container {
-     border: solid #7c7c84 1px;
+     border: solid var(--border-color) 1px;
      border-radius: 1rem;
      display: flex;
      align-items: center;
@@ -784,8 +1023,8 @@
 
  .footer-col {
      display: grid;
-     justify-self: center;
-     align-self: center;
+     justify-self: first baseline;
+     align-self: first baseline;
      grid-template-rows: 1.5fr repeat(4, 1fr);
      gap: 0.25rem
  }
@@ -815,140 +1054,4 @@
  .footer-link:hover {
      color: var(--text-hover-color);
      cursor: pointer
- }
-
- /* Registered players section */
- .registered-players-grid {
-     background-color: var(--primary-bg-color);
-     width: 45vw;
-     display: grid;
-     grid-template-rows: auto;
-     grid-template-columns: 1fr 1fr;
-     grid-template-areas:
-         "header header"
-         "confirmed-players potential-players"
-         "footer footer";
-     gap: 1px;
-     border: solid var(--border-color) 1px;
-     border-radius: 1rem;
- }
-
- .game-information-container {
-     grid-area: header;
-     justify-self: stretch;
-     border: solid var(--border-color) 1px;
-     border-radius: 1rem 1rem 0 0;
-     padding: 1rem;
-     display: flex;
-     flex-direction: column;
-     gap: 0.25rem;
- }
-
- .registered-players-col {
-     display: grid;
-     grid-template-rows: 50px 1fr;
-     grid-template-columns: 1fr;
-     grid-template-areas:
-         "category"
-         "players";
-     border: solid var(--border-color) 1px;
- }
-
- .registered-players-col#confirmed {
-     background-color: var(--light-orange-tag-bg-color);
- }
-
- .registered-players-col#potential {
-     background-color: var(--light-blue-tag-bg-color);
- }
-
- .registered-player-status-row {
-     grid-area: category;
-     justify-self: center;
-     align-self: center;
-     padding: 1rem;
-     font-weight: 500;
- }
-
- .registered-players {
-     grid-area: players;
-     justify-self: stretch;
-     white-space: nowrap;
-     width: 100%;
-     overflow-x: auto;
-     border: solid var(--border-color) 1px;
-     max-height: 250px;
-     overflow-y: auto;
- }
-
- .registered-players-spots-left {
-    color: var(--green-tag-color);
-     padding: 1rem;
-     font-weight: 500;
-     grid-area: footer;
-     justify-self: stretch;
-     text-align: center;
-     border-top: solid var(--border-color) 1px;
-     border-bottom: solid var(--border-color) 1px;
-     border-radius: 0 0 1rem 1rem;
- }
-
- .game-information-header {
-     color: var(--title-color);
-     margin-bottom: 0.25rem;
- }
-
- .registered-player-information {
-     display: flex;
-     gap: 0.5rem;
- }
-
- .registered-player-row {
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     padding: 0.5rem;
-     border-top: solid var(--border-color) 1px;
-     min-width: 250px;
- }
-
- .player-profile {
-     display: flex;
-     flex-direction: column;
-     justify-content: space-between;
- }
-
- .player-avatar {
-     width: 5px;
-     height: 5px;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     padding: 1rem;
-     border: solid black 1px;
-     border-radius: 50%;
- }
-
- .player-avatar#confirmed {
-     color: var(--orange-tag-color);
-     background-color: var(--light-orange-tag-bg-color);
- }
-
- .player-avatar#potential {
-     color: var(--blue-tag-color);
-     background-color: var(--light-blue-tag-bg-color);
- }
-
- .avatar-letter {
-     font-size: 1.25rem;
-     line-height: 5px;
- }
-
- .player-first-name {
-     color: var(--title-color);
-     font-weight: 500;
- }
-
- .player-registration-date {
-     font-size: 0.75rem;
  }

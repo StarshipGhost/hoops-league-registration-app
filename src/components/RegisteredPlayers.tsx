@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import CalendarIcon from './icons/CalendarIcon'
 import ClockIcon from './icons/ClockIcon'
 import LocationIcon from './icons/LocationIcon'
@@ -5,6 +6,12 @@ import UsersIcon from './icons/UsersIcon'
 import type {GameEvent} from '../types/GameEvent'
 import type {Player} from '../types/Player'
 import {timeString, dateFormat} from '../utilities/timeString'
+
+interface StatusTabsProps {
+  isActive: boolean
+  status: string
+  participants: number
+}
 
 const RegisteredPlayersHeader = () => {
   return (
@@ -64,13 +71,30 @@ const PlayerProfile = ({firstName}: {firstName: string}) => {
   )
 }
 
-const Players = ({players, status}: {players: Player[]; status: string}) => {
+const PlayersStatusTabs = ({statusTabs, toggleActive}: {statusTabs: StatusTabsProps[]; toggleActive: (status: string) => void}) => {
   return (
-    <div className="registered-players-col" id={status}>
+    <div className="registered-players-tabs hide-on-desktop">
+      {statusTabs.map((tab) => (
+        <button
+          key={tab.status}
+          className={`registered-players-tab ${tab.status.toLowerCase()} ${tab.isActive ? `active` : ``}`}
+          onClick={() => toggleActive(tab.status)}
+        >
+          {tab.status}
+          <span>{tab.participants}</span>
+        </button>
+      ))}
+    </div>
+  )
+}
+
+const Players = ({players, status, active}: {players: Player[]; status: string; active: boolean}) => {
+  return (
+    <div className={`registered-players-col registered-players-col-${status} ${active ? `active` : `hide-on-desktop`}`}>
       <div className="registered-player-status-row">{`${status === 'confirmed' ? `Confirmed` : `Potential`} Players (${players.length})`}</div>
       <div className="registered-players">
-        {players.map(({firstName}) => (
-          <div className="registered-player-row">
+        {players.map(({firstName}, index) => (
+          <div key={index} className="registered-player-row">
             <div className="registered-player-information">
               <PlayerLetterAvatar firstName={firstName} status={`${status === `confirmed` ? `confirmed` : `potential`}`} />
               <PlayerProfile firstName={firstName} />
@@ -82,27 +106,41 @@ const Players = ({players, status}: {players: Player[]; status: string}) => {
     </div>
   )
 }
-const RegisterdPlayerTable = ({gameEvent}: {gameEvent: GameEvent}) => {
+
+const RegisteredPlayersTable = ({gameEvent}: {gameEvent: GameEvent}) => {
   const {registeredPlayers, capacity} = gameEvent
   const {confirmed, potential} = Object.groupBy(registeredPlayers, (registeredPlayers) =>
     registeredPlayers.status === 'Confirmed Player' ? 'confirmed' : 'potential',
   )
+  const isFull = (registeredPlayers: number) => registeredPlayers >= capacity
 
   const confirmedPlayers = confirmed ?? []
   const potentialPlayers = potential ?? []
 
+  const playerStatusTabs: StatusTabsProps[] = [
+    {isActive: true, status: 'Confirmed', participants: confirmedPlayers.length},
+    {isActive: false, status: 'Potential', participants: potentialPlayers.length},
+  ]
+
+  const [statusTabs, setStatusTabs] = useState<StatusTabsProps[]>(playerStatusTabs)
+  const handleActiveToggle = (status: string) => {
+    setStatusTabs(statusTabs.map((tab) => (tab.status === status ? (tab.isActive ? tab : {...tab, isActive: !tab.isActive}) : {...tab, isActive: false})))
+  }
+
   return (
-    <div className="registered-players-grid">
+    <div className="registered-players-grid hide-on-mobile">
       <UpcomingGameDetail gameEvent={gameEvent} />
-      <Players players={confirmedPlayers} status="confirmed" />
-      <Players players={potentialPlayers} status="potential" />
-      <div className="registered-players-spots-left"> {capacity - registeredPlayers.length} Spots left </div>
+      <PlayersStatusTabs statusTabs={statusTabs} toggleActive={handleActiveToggle} />
+      <Players players={confirmedPlayers} status="confirmed" active={statusTabs[0].isActive} />
+      <Players players={potentialPlayers} status="potential" active={statusTabs[1].isActive} />
+      <div className={`registered-players-spots-left ${isFull(registeredPlayers.length) ? `closed` : `open`}`}>
+        {`${isFull(registeredPlayers.length) ? `FULL` : `${capacity - registeredPlayers.length} Spots left`}`}
+      </div>
     </div>
   )
 }
 
 const RegisteredPlayers = () => {
-
   const gameEvent = {
     date: new Date('2026-02-05'),
     start: new Date('2026-02-05T10:00'),
@@ -117,7 +155,7 @@ const RegisteredPlayers = () => {
   return (
     <div className="section-container" id="odd-section">
       <RegisteredPlayersHeader />
-      <RegisterdPlayerTable gameEvent={gameEvent} />
+      <RegisteredPlayersTable gameEvent={gameEvent} />
     </div>
   )
 }
