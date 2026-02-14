@@ -2,7 +2,7 @@ const HeroIntro = () => {
   return (
     <div className="hero-intro-container">
       <div className="tag hero-orange-tag">
-        <span>🏀</span>
+        <span> 🏀 </span>
         <span>Join the Community</span>
       </div>
       <div className="hero-title">
