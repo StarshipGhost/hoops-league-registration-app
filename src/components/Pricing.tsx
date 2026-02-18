@@ -1,6 +1,7 @@
 import CheckIcon from './icons/CheckIcon'
 import DollarSignIcon from './icons/DollarSignIcon'
 import CardIcon from './icons/CardIcon'
+import { useHeaderContext } from './customs/HeaderContext'
 
 const PricingHeader = () => {
   return (
@@ -16,7 +17,8 @@ const PricingHeader = () => {
   )
 }
 
-const PricingCard = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
+const PricingCard = () => {
+  const { scrollFunction } = useHeaderContext();
   return (
     <div className="pricing-card">
       <h2 id='light-mode-black'>Single Game</h2>
@@ -49,7 +51,7 @@ const PricingCard = ({scrollFunction} : {scrollFunction : (index: number) => voi
           <span className="benefit-item">Beginner friendly</span>
         </div>
       </div>
-      <button onClick={() => scrollFunction(4)}className="button" id="pricing-button">
+      <button onClick={() => scrollFunction(5)}className="button" id="pricing-button">
         Get Started
       </button>
     </div>
@@ -78,11 +80,11 @@ const PaymentMethod = () => {
   )
 }
 
-const Pricing = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
+const Pricing = () => {
   return (
     <div className="section-container" id="odd-section">
       <PricingHeader />
-      <PricingCard scrollFunction={scrollFunction}/>
+      <PricingCard />
       <PaymentMethod />
     </div>
   )

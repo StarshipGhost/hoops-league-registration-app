@@ -1,4 +1,5 @@
 import { BasketballLogo } from "../App"
+import { useHeaderContext } from "./customs/HeaderContext"
 
 const FooterSummary = () => {
   return (
@@ -11,7 +12,8 @@ const FooterSummary = () => {
   )
 }
 
-const FooterLinks = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
+const FooterLinks = () => {
+  const { scrollFunction } = useHeaderContext();
   return (
     <div className="footer-col">
       <div className="footer-col-header">Quick Links</div>
@@ -46,21 +48,21 @@ const FooterSocials = () => {
   )
 }
 
-const FooterInformation = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
+const FooterInformation = () => {
   return (
     <div className="footer-grid">
-      <FooterLinks scrollFunction={scrollFunction}/>
+      <FooterLinks />
       <FooterContact />
       <FooterSocials />
     </div>
   )
 }
 
-const Footer = ({scrollFunction} : {scrollFunction : (index: number) => void}) => {
+const Footer = () => {
   return (
     <div className="footer">
       <FooterSummary />
-      <FooterInformation scrollFunction={scrollFunction}/>
+      <FooterInformation />
     </div>
   )
 }

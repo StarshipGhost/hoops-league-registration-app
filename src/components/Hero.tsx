@@ -1,3 +1,5 @@
+import {useHeaderContext} from './customs/HeaderContext'
+
 const HeroIntro = () => {
   return (
     <div className="hero-intro-container">
@@ -6,7 +8,7 @@ const HeroIntro = () => {
         <span>Join the Community</span>
       </div>
       <div className="hero-title">
-        <h1 className='header-title'>Play Basketball</h1>
+        <h1 className="header-title">Play Basketball</h1>
         <h1 className="orange-header-title">Every Week</h1>
       </div>
       <p className="text" id="text-center">
@@ -16,7 +18,8 @@ const HeroIntro = () => {
   )
 }
 
-const HeroButton = ({scrollFunction}: {scrollFunction: (index: number) => void}) => {
+const HeroButton = () => {
+  const {scrollFunction} = useHeaderContext()
   return (
     <div className="hero-button-container">
       <button onClick={() => scrollFunction(4)} className="button hero-button" id="hero-register-button">
@@ -47,11 +50,11 @@ const HeroInformation = () => {
     </div>
   )
 }
-const Hero = ({scrollFunction}: {scrollFunction: (index: number) => void}) => {
+const Hero = () => {
   return (
     <div className="hero-container">
       <HeroIntro />
-      <HeroButton scrollFunction={scrollFunction} />
+      <HeroButton />
       <HeroInformation />
     </div>
   )

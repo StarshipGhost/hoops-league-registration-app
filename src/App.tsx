@@ -6,12 +6,15 @@ import Rules from './components/Rules'
 import Pricing from './components/Pricing'
 import Registration from './components/Registration'
 import Footer from './components/Footer'
+import {HeaderContext, useHeaderContext } from './components/customs/HeaderContext'
 import {useRef, useState} from 'react'
 import RegisteredPlayers from './components/RegisteredPlayers'
 
-export const BasketballLogo = ({scrollFunction}: {scrollFunction?: (index: number) => void}) => {
+export const BasketballLogo = () => {
+  const {scrollFunction} = useHeaderContext()
   return (
-    <div onClick={() => { if (scrollFunction) scrollFunction(0) }} className="brand">
+    <div
+      onClick={() => { if (scrollFunction) scrollFunction(0) }} className="brand" >
       <div className="basketball-logo-container">
         <div className="basketball-logo">🏀</div>
       </div>
@@ -24,7 +27,7 @@ export const BasketballLogo = ({scrollFunction}: {scrollFunction?: (index: numbe
 
 function App() {
   const sectionRef = useRef<HTMLDivElement | null>(null)
-  function scrollToSection(index: number) : void {
+  function scrollToSection(index: number): void {
     const section = sectionRef.current
     if (section) {
       const sectionNode = section.querySelectorAll('.main > div')[index]
@@ -32,20 +35,22 @@ function App() {
     }
   }
 
-  const [darkMode, setDarkMode] = useState<boolean>(false);
-  const toggle = () : void => setDarkMode((v) => !v) ;
+  const [darkMode, setDarkMode] = useState<boolean>(false)
+  const toggleThemeMode = (): void => setDarkMode((v) => !v)
   return (
     <div className="app-container" app-theme={`${darkMode ? `dark` : `light`}`}>
-      <Header darkMode={darkMode} toggleFunction={toggle} scrollFunction={scrollToSection} />
-      <div ref={sectionRef} className="main">
-        <Hero scrollFunction={scrollToSection} />
-        <Schedule />
-        <RegisteredPlayers/>
-        <Rules />
-        <Pricing scrollFunction={scrollToSection} />
-        <Registration />
-      </div>
-      <Footer scrollFunction={scrollToSection} />
+      <HeaderContext.Provider value={{scrollFunction: scrollToSection, darkMode: darkMode, toggleThemeMode: toggleThemeMode}}>
+        <Header />
+        <div ref={sectionRef} className="main">
+          <Hero />
+          <Schedule />
+          <RegisteredPlayers />
+          <Rules />
+          <Pricing />
+          <Registration />
+        </div>
+        <Footer />
+      </HeaderContext.Provider>
     </div>
   )
 }
