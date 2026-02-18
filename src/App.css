@@ -231,18 +231,17 @@
      padding: 0.6rem 1rem;
  }
 
-
- li a #color-toggle-icon {
+ .header-icon {
      display: flex;
      align-items: stretch;
      cursor: pointer;
      padding: 0.5rem;
- }
+}
 
- #color-toggle-icon:hover {
+.header-icon:hover {
      background-color: var(--mobile-navigation-links-hover-background-color);
      border-radius: 50%;
- }
+}
 
  .hide-on-desktop {
      display: none;
@@ -574,6 +573,7 @@
 
      .registered-players-col.active {
          grid-area: players-col;
+         min-width: 275px;
      }
 
      .registered-players-tabs {
@@ -650,6 +650,8 @@
  }
 
  .registered-players-grid {
+     width: 100%;
+     min-width: 275px;
      background-color: var(--primary-bg-color);
      display: grid;
      grid-template-rows: auto;
@@ -708,11 +710,9 @@
      grid-area: players;
      justify-self: stretch;
      white-space: nowrap;
-     width: 100%;
-     overflow-x: auto;
      border: solid var(--border-color) 1px;
      max-height: 250px;
-     overflow-y: auto;
+     overflow: auto;
  }
 
  .registered-players-spots-left {
@@ -747,7 +747,7 @@
      align-items: center;
      padding: 0.5rem 1rem 0.5rem 0.5rem;
      border-top: solid var(--border-color) 1px;
-     min-width: 300px;
+     gap: 2rem;
  }
 
  .player-profile {
@@ -828,7 +828,6 @@
      display: grid;
      grid-template-rows: auto;
      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-     justify-content: stretch;
      gap: 2rem;
      min-width: 320px;
  }
