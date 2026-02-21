@@ -22,10 +22,10 @@ const HeroButton = () => {
   const {scrollFunction} = useHeaderContext()
   return (
     <div className="hero-button-container">
-      <button onClick={() => scrollFunction(4)} className="button hero-button" id="hero-register-button">
+      <button onClick={() => scrollFunction(4)} className="button hero-button">
         Register Now
       </button>
-      <button onClick={() => scrollFunction(1)} className="button hero-button" id="hero-schedule-button">
+      <button onClick={() => scrollFunction(1)} className="button hero-button" id="white">
         View Schedule
       </button>
     </div>
