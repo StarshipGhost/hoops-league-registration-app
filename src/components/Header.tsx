@@ -1,43 +1,9 @@
 import {useState} from 'react'
 import {BasketballLogo} from '../App'
 import {useHeaderContext} from './customs/HeaderContext'
-
-const LockIcon = () => {
-  return <img src="./src/assets/lock_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg" width="22" height="22" className="header-icon"></img>
-}
-const ColorToggleIcon = () => {
-  const {darkMode, toggleThemeMode} = useHeaderContext()
-  return darkMode ? (
-    <img src={'./src/assets/light_mode_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'} onClick={toggleThemeMode} width="18" height="18" className="header-icon" ></img>
-  ) : (
-    <img src={'./src/assets/dark_mode_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg'} onClick={toggleThemeMode} width="18" height="18" className="header-icon" ></img>
-  )
-}
-
-const NavigationHamburgerIcon = ({open, handler}: {open: boolean; handler: () => void}) => {
-  const {darkMode} = useHeaderContext()
-  if (darkMode) {
-    if (open) {
-      return (
-        <img src={'./src/assets/close_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'} onClick={handler} width="32" height="32" className="hide-on-desktop" id="hamburger-icon" ></img>
-      )
-    } else {
-      return (
-        <img src={'./src/assets/menu_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'} onClick={handler} width="32" height="32" className="hide-on-desktop" id="hamburger-icon" ></img>
-      )
-    }
-  } else {
-    if (open) {
-      return (
-        <img src={'./src/assets/close_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg'} onClick={handler} width="32" height="32" className="hide-on-desktop" id="hamburger-icon" ></img>
-      )
-    } else {
-      return (
-        <img src={'./src/assets/menu_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg'} onClick={handler} width="32" height="32" className="hide-on-desktop" id="hamburger-icon" ></img>
-      )
-    }
-  }
-}
+import NavigationHamburgerIcon from './icons/header/NavigationHamburgerIcon'
+import ColorToggleIcon from './icons/header/ColorToggleIcon'
+import LockIcon from './icons/header/LockIcon'
 
 const DesktopNavigationBar = () => {
   const {scrollFunction} = useHeaderContext()
@@ -48,12 +14,13 @@ const DesktopNavigationBar = () => {
       <li onClick={() => scrollFunction(3)} className="navigation-link text"> <a>Rules </a> </li>
       <li onClick={() => scrollFunction(4)} className="navigation-link text"> <a>Pricing </a> </li>
       <li onClick={() => scrollFunction(5)} className="navigation-link text"> <a>Register </a> </li>
-      <li> <a> <ColorToggleIcon /> </a> </li> 
+      <li> <a> <ColorToggleIcon /> </a> </li>
       <li> <a> <LockIcon /> </a> </li>
       <li> <button onClick={() => scrollFunction(5)} className="button navigation-button"> Join Now </button> </li>
     </ul>
   )
 }
+
 const MobileNavigationBar = ({open, closeNavBarFunction}: {open: boolean; closeNavBarFunction: () => void}) => {
   const {scrollFunction} = useHeaderContext()
   return (
@@ -74,18 +41,14 @@ const Header = () => {
     <div className="header-container">
       <div className="header">
         <BasketballLogo />
-        <div>
-          <DesktopNavigationBar />
-          <div className="mobile-header-icons">
-            <ColorToggleIcon />
-            <NavigationHamburgerIcon open={open} handler={() => setOpen((v) => !v)} />
-            <LockIcon />
-          </div>
+        <DesktopNavigationBar />
+        <div className="mobile-header-icons">
+          <ColorToggleIcon />
+          <NavigationHamburgerIcon open={open} handler={() => setOpen((v) => !v)} />
+          <LockIcon  />
         </div>
       </div>
-      <div className="mobile-header">
-        <MobileNavigationBar open={open} closeNavBarFunction={() => setOpen((v) => !v)} />
-      </div>
+      <MobileNavigationBar open={open} closeNavBarFunction={() => setOpen((v) => !v)} />
     </div>
   )
 }
