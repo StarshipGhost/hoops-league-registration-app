@@ -2,12 +2,17 @@
      font-family: -ui, apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
      margin: 0;
      padding: 0;
+     box-sizing: border-box;
+ }
+
+ *::before, *::after {
+     box-sizing: border-box;
  }
 
  [app-theme='light'] {
      --primary-color: #f97316;
      --secondary-color: #3b82f6;
-     --title-color: #000000;
+     --contrast-color: #000000;
      --text-color: #717171;
      --border-color: #e4e4e7;
 
@@ -17,6 +22,7 @@
      --hero-bg-gradient: linear-gradient(to bottom right, #f973161a, #3b83f61a);
 
      --text-hover-color: #09090b;
+     --hover-bg-color: #f4f4f5;
      --primary-bg-color: #ffffff;
      --secondary-bg-color: #f9f9f9;
 
@@ -36,14 +42,15 @@
      --blue-progress-bar: var(--secondary-color);
 
      --payment-method-note-box-bg-color: #f4f4f5;
-     --mobile-navigation-links-hover-background-color: #f4f4f5;
      --hyperlink-color: var(--primary-color);
+
+     --brightness: 0.9;
  }
 
  [app-theme='dark'] {
      --primary-color: #ea580c;
      --secondary-color: #2563eb;
-     --title-color: #fafafa;
+     --contrast-color: #fafafa;
      --text-color: #a1a1aa;
      --border-color: #27272a;
 
@@ -53,6 +60,7 @@
      --hero-bg-gradient: linear-gradient(to bottom right, #f973160d, #3b82f60d);
 
      --text-hover-color: #fafafa;
+     --hover-bg-color: #27272a;
      --primary-bg-color: #09090b;
      --secondary-bg-color: #27272a4d;
 
@@ -72,13 +80,14 @@
      --blue-progress-bar: var(--secondary-color);
 
      --payment-method-note-box-bg-color: #27272a;
-     --mobile-navigation-links-hover-background-color: #27272a;
      --hyperlink-color: #faaa71;
+
+     --brightness: 1.1;
  }
 
  /*Utilities*/
  #light-mode-black {
-     color: var(--title-color);
+     color: var(--contrast-color);
  }
 
  li {
@@ -108,16 +117,28 @@
      border: var(--border-color) solid 1px;
  }
 
+ .button#white {
+     color: #09090b;
+     background-color: #fafafa;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+ }
+
  .button:hover {
      cursor: pointer;
-     filter: brightness(1.1)
+     filter: brightness(var(--brightness));
+ }
+
+ #white:hover {
+     filter: brightness(0.9);
  }
 
  .icon-container {
-     padding: 0.50rem;
+     display: flex;
+     justify-content: center;
+     align-items: center;
      border-radius: 50%;
-     min-width: 24px;
-     height: 24px;
+     min-width: 38px;
+     height: 38px;
  }
 
  .section-container {
@@ -146,7 +167,7 @@
 
  .header-title {
      white-space: nowrap;
-     color: var(--title-color)
+     color: var(--contrast-color)
  }
 
  /* App */
@@ -161,11 +182,86 @@
      flex-direction: column;
  }
 
+ /* Modal Popup Menu */
+ .modal {
+     display: none;
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     z-index: 1000;
+     overflow: auto;
+     /* backdrop-filter: blur(0.25rem); */
+     background-color: rgba(0, 0, 0, 0.5);
+ }
+
+ .modal-popup {
+     background-color: var(--primary-bg-color);
+     width: 450px;
+     display: flex;
+     flex-direction: column;
+     gap: 1rem;
+     padding: 1.5rem;
+     margin: auto 0.75rem;
+     border-radius: 1rem;
+     box-sizing: border-box;
+ }
+
+ .modal-header {
+     color: var(--contrast-color);
+ }
+
+ .auth-modal-textfields {
+     display: flex;
+     flex-direction: column;
+     gap: 0.75rem;
+ }
+
+ .auth-modal-textfields input {
+     color: var(--contrast-color);
+     background-color: var(--primary-bg-color);
+     border: solid var(--border-color) 3px;
+     border-radius: 0.50rem;
+     padding: 0.5rem;
+     font-size: 1rem;
+ }
+
+ .modal-popup input:focus {
+     border: solid var(--primary-color) 3px;
+     outline: none;
+ }
+
+ .modal-buttons {
+     display: flex;
+     justify-content: space-between;
+ }
+
+ .modal-button {
+     padding: 0.50rem 1.00rem;
+ }
+
+ #modal-cancel-button {
+     color: #000000;
+     background-color: #ffffff;
+ }
+
+ #modal-cancel-button:hover {
+     filter: brightness(0.9);
+ }
+
+
+ .modal.active {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ }
+
  /* Header section */
  .header-container {
      position: sticky;
      top: 0;
-     z-index: 1000;
+     z-index: 999;
  }
 
  .header {
@@ -181,7 +277,7 @@
  }
 
  .brand {
-     color: var(--title-color);
+     color: var(--contrast-color);
      display: flex;
      align-items: center;
      gap: 0.5rem;
@@ -206,7 +302,6 @@
  .brand-name {
      font-size: 20px;
      font-weight: bold;
-     white-space: nowrap;
  }
 
  .navigation-bar {
@@ -219,6 +314,7 @@
      font-size: 0.875rem;
      font-weight: 500;
      padding: 0.5rem;
+     white-space: nowrap;
  }
 
  .navigation-link.text:hover {
@@ -236,12 +332,12 @@
      align-items: stretch;
      cursor: pointer;
      padding: 0.5rem;
-}
+ }
 
-.header-icon:hover {
-     background-color: var(--mobile-navigation-links-hover-background-color);
+ .header-icon:hover {
+     background-color: var(--hover-bg-color);
      border-radius: 50%;
-}
+ }
 
  .hide-on-desktop {
      display: none;
@@ -275,7 +371,7 @@
      }
 
      .mobile-header-icons #color-toggle-icon:hover {
-         background-color: var(--mobile-navigation-links-hover-background-color);
+         background-color: var(--hover-bg-color);
          border-radius: 50%;
      }
 
@@ -298,7 +394,7 @@
      }
 
      .mobile-navigation-bar .navigation-link:hover, #hamburger-icon:hover {
-         background-color: var(--mobile-navigation-links-hover-background-color);
+         background-color: var(--hover-bg-color);
          border-radius: 0.5rem;
      }
 
@@ -376,16 +472,6 @@
      padding: 0.40rem 3rem;
  }
 
- .hero-button#hero-register-button {
-     color: #fff;
-     background-color: var(--primary-color);
- }
-
- .hero-button#hero-schedule-button {
-     color: #09090b;
-     background-color: #fff;
- }
-
  .hero-information {
      display: flex;
      justify-content: space-evenly;
@@ -422,6 +508,11 @@
      padding: 1.25rem;
      border: var(--border-color) solid 1px;
      border-radius: 1rem;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+ }
+
+ .schedule-creation-modal {
+     padding: 0.5rem 1.5rem;
  }
 
  @media (max-width: 800px) {
@@ -484,7 +575,7 @@
  }
 
  #schedule-text {
-     color: var(--title-color);
+     color: var(--contrast-color);
      margin-left: 0.25rem;
  }
 
@@ -664,6 +755,7 @@
      gap: 1px;
      border: solid var(--border-color) 1px;
      border-radius: 1rem;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
  }
 
  .game-information-container {
@@ -698,7 +790,7 @@
  }
 
  .registered-player-status-row {
-     color: var(--title-color);
+     color: var(--contrast-color);
      grid-area: category;
      justify-self: center;
      align-self: center;
@@ -732,7 +824,7 @@
  }
 
  .game-information-header {
-     color: var(--title-color);
+     color: var(--contrast-color);
      margin-bottom: 0.25rem;
  }
 
@@ -784,7 +876,7 @@
  }
 
  .player-first-name {
-     color: var(--title-color);
+     color: var(--contrast-color);
      font-weight: 500;
  }
 
@@ -821,6 +913,7 @@
      border: solid var(--border-color) 1px;
      border-radius: 0.50rem;
      padding: 1.5rem;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
  }
 
  .rule-card-container {
@@ -833,7 +926,7 @@
  }
 
  .rule-card-header-title {
-     color: var(--title-color);
+     color: var(--contrast-color);
      margin-bottom: 0.5rem;
  }
 
@@ -853,6 +946,7 @@
      gap: 0.50rem;
      background-color: var(--primary-bg-color);
      padding: 2rem 3vw;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
  }
 
  .game-price-container {
@@ -875,7 +969,7 @@
  }
 
  .benefit-item {
-     color: var(--title-color);
+     color: var(--contrast-color);
  }
 
  .check-icon-container {
@@ -916,13 +1010,14 @@
  /* registration section */
  .register-form-card {
      background-color: var(--primary-bg-color);
-     color: var(--title-color);
+     color: var(--contrast-color);
      display: flex;
      flex-direction: column;
      gap: 2rem;
      border: solid var(--border-color) 1px;
      border-radius: 1rem;
      padding: 2rem;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
  }
 
  .register-form-input-container {
@@ -937,7 +1032,7 @@
  }
 
  .register-form-input {
-     color: var(--title-color);
+     color: var(--contrast-color);
      background-color: var(--primary-bg-color);
      border: solid var(--border-color) 1px;
      border-radius: 0.5rem;
@@ -997,8 +1092,6 @@
  }
 
  .register-button {
-     color: #09090b;
-     background-color: #ffffff;
      padding: 0.5rem 8vw;
  }
 
@@ -1029,7 +1122,7 @@
  }
 
  .footer-col-header {
-     color: var(--title-color);
+     color: var(--contrast-color);
      font-weight: 500;
  }
 
