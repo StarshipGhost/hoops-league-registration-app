@@ -1,10 +1,12 @@
 import type {GameEvent} from '../types/GameEvent'
 import type {Player} from '../types/Player'
+import ScheduleModal from './modals/ScheduleModalForm';
 import CalendarIcon from './icons/CalendarIcon'
 import LocationIcon from './icons/LocationIcon'
 import ClockIcon from './icons/ClockIcon'
 import UsersIcon from './icons/UsersIcon'
-import { timeString } from '../utilities/timeString'
+import {months, days, timeString} from '../utilities/timeString'
+import { useState } from 'react'
 
 const ScheduleHeader = () => {
   return (
@@ -22,8 +24,6 @@ const ScheduleHeader = () => {
 
 const CardTopPart = ({gameEvent}: {gameEvent: GameEvent}) => {
   const {date, registeredPlayers, capacity} = gameEvent
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
   const isFull = (n: number) => n >= capacity
   return (
     <div className="card-top">
@@ -46,7 +46,6 @@ const CardMiddlePart = ({gameEvent}: {gameEvent: GameEvent}) => {
     registeredPlayers,
     capacity,
   } = gameEvent
-
 
   return (
     <div className="card-center">
@@ -118,6 +117,7 @@ const CardBottomPart = ({gameEvent}: {gameEvent: GameEvent}) => {
   )
 }
 
+
 const ScheduleCard = ({gameEvent}: {gameEvent: GameEvent}) => {
   return (
     <div className="schedule-card">
@@ -129,16 +129,7 @@ const ScheduleCard = ({gameEvent}: {gameEvent: GameEvent}) => {
 }
 
 const Schedule = () => {
-  const players: Player[] = [
-    {firstName: 'saad', status: 'Potential Player'},
-    {firstName: 'jalal', status: 'Confirmed Player'},
-    {firstName: 'saad', status: 'Potential Player'},
-    {firstName: 'jalal', status: 'Confirmed Player'},
-    {firstName: 'saad', status: 'Potential Player'},
-    {firstName: 'jalal', status: 'Confirmed Player'},
-    {firstName: 'saad', status: 'Potential Player'},
-    {firstName: 'jalal', status: 'Confirmed Player'},
-  ]
+  const [scheduleModal, setScheduleModal] = useState<boolean>(false);
   const schedule: GameEvent[] = [
     {
       date: new Date('2026-02-05'),
@@ -148,7 +139,7 @@ const Schedule = () => {
         name: 'Complexe sportif du Collège Bois de Boulogne - 2ième étage',
         link: 'https://www.google.com/maps/place/10500+Ave+de+Bois-de-Boulogne,+Montreal,+QC+H4N+1L4/@45.5363681,-73.6761788,17z/data=!3m1!4b1!4m6!3m5!1s0x4cc9188eaf11c6dd:0xab8ca3e2415cadc5!8m2!3d45.5363681!4d-73.6736039!16s%2Fg%2F11nntq6jk2?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D',
       },
-      registeredPlayers: players,
+      registeredPlayers: [],
       capacity: 23,
     },
     {
@@ -177,6 +168,8 @@ const Schedule = () => {
   return (
     <div className="section-container" id="even-section">
       <ScheduleHeader />
+      <ScheduleModal isActive={scheduleModal} handler={() => setScheduleModal((v) => !v)} />
+      <button className="button schedule-creation-modal" onClick={() => setScheduleModal((v) => !v)}>Create New Game Event </button>
       <div className="schedule-card-container">
         {schedule.map((schedule) => (
           <ScheduleCard key={schedule.date.getDay()} gameEvent={schedule} />
