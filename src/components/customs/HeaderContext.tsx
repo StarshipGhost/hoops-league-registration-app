@@ -1,6 +1,16 @@
 import {createContext, useContext} from 'react'
 
-export const HeaderContext = createContext<{scrollFunction: (index: number) => void; darkMode: boolean; toggleThemeMode: () => void} | undefined>(undefined)
+interface ThemeProps {
+  darkMode: boolean
+  toggleThemeMode: () => void
+}
+
+interface AuthModalProps {
+  authModalActive: boolean
+  toggleAuthModal: () => void
+}
+
+export const HeaderContext = createContext<{scrollFunction: (index: number) => void; theme: ThemeProps; authModal: AuthModalProps} | undefined>(undefined)
 
 export const useHeaderContext = () => {
   const headerContext = useContext(HeaderContext)
