@@ -59,7 +59,7 @@ const RegistrationForm = () => {
           ))}
         </div>
       </div>
-      <button className="button register-button" id={selectedOption?.style} onSubmit={(e) => e.preventDefault()}>
+      <button className="button register-button" id={`${selectedOption ? selectedOption.style : `white`}`} onSubmit={(e) => e.preventDefault()}>
         Complete reservation
       </button>
     </form>
@@ -69,11 +69,10 @@ const RegistrationForm = () => {
 const Registration = () => {
   return (
     <div className="section-container" id="even-section">
-
       <RegistrationHeader />
       <RegistrationForm />
     </div>
   )
 }
 
-export default Registration;
+export default Registration
