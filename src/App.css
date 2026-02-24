@@ -132,6 +132,15 @@
      filter: brightness(0.9);
  }
 
+ input {
+     color: var(--contrast-color);
+     background-color: var(--primary-bg-color);
+     border: solid var(--border-color) 1px;
+     border-radius: 0.5rem;
+     padding: 0.50rem;
+     font-size: 1rem;
+ }
+
  .icon-container {
      display: flex;
      justify-content: center;
@@ -448,6 +457,7 @@
  .hero-orange-tag {
      color: var(--hero-tag-text-color);
      background-color: var(--hero-tag-bg-color);
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
  }
 
  .hero-title {
@@ -539,6 +549,8 @@
      border-radius: 0.50rem;
      padding: 0.25rem 0.75rem;
      height: fit-content;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+     
  }
 
  .tag.schedule-tag#open-schedule {
@@ -900,6 +912,7 @@
      background: var(--hero-bg-gradient);
      padding: 1rem;
      box-sizing: border-box;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
  }
 
  .game-format-text {
@@ -992,6 +1005,7 @@
      border: solid var(--border-color) 1px;
      border-radius: 1rem;
      padding: 1rem;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
  }
 
  .payment-method-header {
