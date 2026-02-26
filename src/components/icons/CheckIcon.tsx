@@ -10,7 +10,7 @@ const CheckIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      style={{color: '#64c66a'}}
+      className="text-green-500 dark:text-green-600"
       aria-hidden="true"
     >
       <path d="M20 6 9 17l-5-5"></path>

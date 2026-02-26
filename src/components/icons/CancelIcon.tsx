@@ -10,7 +10,6 @@ const CancelIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      style={{color: '#e87521'}}
       aria-hidden="true"
     >
       <circle cx="12" cy="12" r="10"></circle>

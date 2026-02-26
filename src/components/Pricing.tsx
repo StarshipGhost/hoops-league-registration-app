@@ -1,77 +1,73 @@
 import CheckIcon from './icons/CheckIcon'
 import DollarSignIcon from './icons/DollarSignIcon'
 import CardIcon from './icons/CardIcon'
-import { useHeaderContext } from './customs/HeaderContext'
+import {useHeaderContext} from './customs/HeaderContext'
+import SectionHeader from './SectionHeader'
+import Button from './Button'
 
 const PricingHeader = () => {
+  const sectionHeaderIcon: {icon: React.ReactNode} = {icon: <DollarSignIcon />}
   return (
-    <div className="section-header">
-      <div className="icon-container green-tag">
-        <DollarSignIcon />
-      </div>
-      <h1 className='header-title'>Pricing & Payment</h1>
-      <p className="text" id="text-center">
-        The price include court rental and equipements.
-      </p>
-    </div>
+    <SectionHeader
+      sectionIcon={sectionHeaderIcon}
+      iconBg={'bg-green-500/10 dark:bg-green-500/20'}
+      title={'Pricing & Payment'}
+      description={'The price include court rental and equipement'}
+    />
   )
 }
 
 const PricingCard = () => {
-  const { scrollFunction } = useHeaderContext();
+  const {scrollFunction} = useHeaderContext()
   return (
-    <div className="pricing-card">
-      <h2 id='light-mode-black'>Single Game</h2>
-      <div className="game-price-container">
-        <h1 className="price" id='light-mode-black'>$15</h1>
-        <span className='text'>per game</span>
+    <div className="flex flex-col items-center gap-2 border border-solid border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-black py-8 px-[3vw] shadow-md">
+      <h2 className="dark:text-white">Single Game</h2>
+      <div className="flex items-end gap-2">
+        <h1 className="tracking-tighter dark:text-white">$15</h1>
+        <span className="text-center max-w-md text-zinc-500 dark:text-zinc-400 text-(length:--text-fluid)">per game</span>
       </div>
-      <p className="text" id="text-center">
-        Perfect for trying out our games
-      </p>
-      <div className="benefits-container">
-        <div className="check-icon-container">
+      <p className="max-w-md text-zinc-500 dark:text-zinc-400 text-(length:--text-fluid)">Perfect for trying out our games</p>
+      <div className="flex flex-col flex-wrap items-start gap-2 my-4">
+        <div className="flex gap-2">
           <CheckIcon />
-          <span className="benefit-item">Access to one game session</span>
+          <span className="dark:text-white">Access to one game session</span>
         </div>
-        <div className="check-icon-container">
+        <div className="flex gap-2">
           <CheckIcon />
-          <span className="benefit-item">More than 2 hours of play time</span>
+          <span className="dark:text-white">More than 2 hours of play time</span>
         </div>
-        <div className="check-icon-container">
+        <div className="flex gap-2">
           <CheckIcon />
-          <span className="benefit-item">All equipment provided</span>
+          <span className="dark:text-white">All equipment provided</span>
         </div>
-        <div className="check-icon-container">
+        <div className="flex gap-2">
           <CheckIcon />
-          <span className="benefit-item">Drinks included</span>
+          <span className="dark:text-white">Drinks included</span>
         </div>
-        <div className="check-icon-container">
+        <div className="flex gap-2">
           <CheckIcon />
-          <span className="benefit-item">Beginner friendly</span>
+          <span className="dark:text-white">Beginner friendly</span>
         </div>
       </div>
-      <button onClick={() => scrollFunction(5)}className="button" id="pricing-button">
-        Get Started
-      </button>
+      <Button extra="text-white bg-orange-500/90 dark:bg-orange-500 py-2 px-24" text="Get Started" onClick={() => scrollFunction(5)} />
     </div>
   )
 }
 
 const PaymentMethod = () => {
   return (
-    <div className="payment-method-container">
-      <div className="payment-method-header">
+    <div className="w-full bg-white dark:bg-black flex flex-col gap-4 border border-solid border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 shadow-md">
+      <div className="flex gap-3 items-center">
         <CardIcon />
-        <h2 id='light-mode-black'>Accepted Payment Methods</h2>
+        <h2 className="dark:text-white">Accepted Payment Methods</h2>
       </div>
-      <div className="check-icon-container">
+      <div className="flex gap-2">
         <CheckIcon />
-        <span id='light-mode-black'>Cash (at venue)</span>
+        <span className='dark:text-white'>Cash (at venue)</span>
       </div>
-      <div className="payment-method-note">
-        <b id='light-mode-black'>Note: </b>
-        <span className="text">
+      <div className="bg-zinc-100 dark:bg-zinc-800 p-4 border border-solid border-neutral-200 dark:border-neutral-800 rounded-lg">
+        <b className="dark:text-white">Note: </b>
+        <span className="max-w-md text-zinc-500 dark:text-zinc-400 text-(length:--text-fluid)">
           If there are no spots left and you have a reserved spot (as a confirmed player), any no-show or cancellation within 2 hours of the games will count as
           a presence.
         </span>
@@ -82,7 +78,7 @@ const PaymentMethod = () => {
 
 const Pricing = () => {
   return (
-    <div className="section-container" id="odd-section">
+    <div className="flex flex-col items-center bg-white dark:bg-black px-[10vw] py-20 border-box gap-8">
       <PricingHeader />
       <PricingCard />
       <PaymentMethod />
@@ -90,4 +86,4 @@ const Pricing = () => {
   )
 }
 
-export default Pricing;
+export default Pricing

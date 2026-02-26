@@ -14,11 +14,11 @@ import Modal from './components/modals/AuthModal'
 export const BasketballLogo = () => {
   const {scrollFunction} = useHeaderContext()
   return (
-    <div onClick={() => { if (scrollFunction) scrollFunction(0) }} className="brand">
-      <div className="basketball-logo-container">
-        <div className="basketball-logo">🏀</div>
+    <div onClick={() => { if (scrollFunction) scrollFunction(0) }} className="dark:text-white flex items-center gap-2 cursor-pointer">
+      <div className="bg-orange-500/90 relative flex min-w-8.5 h-8.5 rounded-lg">
+        <div className="text-xl absolute top-[2px] right-[3px]">🏀</div>
       </div>
-      <div className="brand-name">
+      <div className="text-xl font-bold">
         <a>Hoops League</a>
       </div>
     </div>
@@ -46,11 +46,11 @@ function App() {
   }
 
   return (
-    <div className="app-container" app-theme={`${darkMode ? `dark` : `light`}`}>
+    <div className={`min-w-80 bg-white dark:bg-black ${darkMode && 'dark'}`}>
       <HeaderContext.Provider value={providerProps}>
         <Modal />
         <Header />
-        <div ref={sectionRef} className="main">
+        <div ref={sectionRef} className="main bg-white dark:bg-black flex flex-col">
           <Hero />
           <Schedule />
           <RegisteredPlayers />

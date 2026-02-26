@@ -1,25 +1,25 @@
 import CustomRadioButton from './customs/RadioButton'
 import UserAdditionIcon from './icons/UserAdditionIcon'
 import {useState} from 'react'
+import SectionHeader from './SectionHeader'
+import Button from './Button'
 
 const RegistrationHeader = () => {
+  const sectionHeaderIcon: {icon: React.ReactNode} = {icon: <UserAdditionIcon />}
   return (
-    <div className="section-header">
-      <div className="icon-container orange-tag">
-        <UserAdditionIcon />
-      </div>
-      <h1 className='header-title'>Register to Play</h1>
-      <p className="text" id="text-center">
-        Fill out the form below to reserve your spot in the upcoming game.
-      </p>
-    </div>
+    <SectionHeader
+      sectionIcon={sectionHeaderIcon}
+      iconBg={'bg-orange-500/10 dark:bg-orange-500/20'}
+      title={'Register to Play'}
+      description={'Fill out fhe form below to reserve your spot in the upcoming game.'}
+    />
   )
 }
 
 const RegistrationForm = () => {
   const currentOptions: {playerStatus: string; text: string; isSelected: boolean; style: string}[] = [
-    {playerStatus: 'Confirmed Player', text: 'I will definitely attend this game', isSelected: false, style: 'confirmed-player'},
-    {playerStatus: 'Potential Player', text: "I'm not sure yet, but count me in for now", isSelected: false, style: 'potential-player'},
+    {playerStatus: 'Confirmed Player', text: 'I will definitely attend this game', isSelected: false, style: 'text-white bg-orange-500/90 dark:bg-orange-500'},
+    {playerStatus: 'Potential Player', text: "I'm not sure yet, but count me in for now", isSelected: false, style: 'text-white bg-blue-500 dark:bg-blue-600'},
   ]
 
   const [options, setOptions] = useState<{playerStatus: string; text: string; isSelected: boolean; style: string}[]>(currentOptions)
@@ -39,14 +39,14 @@ const RegistrationForm = () => {
     )
   }
   return (
-    <form className="register-form-card">
-      <div className="register-form-input-container">
-        <span className="register-form-label">First Name *</span>
-        <input className="register-form-input" type="text" placeholder="Your name"></input>
+    <form className="text-black dark:text-white bg-white dark:bg-black flex flex-col gap-8 border border-solid border-neutral-200 dark:border-neutral-800 rounded-2xl p-8 shadow-md">
+      <div className="flex flex-col gap-3">
+        <span className="font-medium">First Name *</span>
+        <input className="dark:text-white dark:bg-black border border-solid border-neutral-200 dark:border-neutral-800 rounded-lg p-2" type="max-w-md text-zinc-500 text-(length:--text-fluid)" placeholder="Your name"></input>
       </div>
-      <div className="register-form-input-container">
-        <span className="register-form-label">Player Status *</span>
-        <div className="radio-container">
+      <div className="flex flex-col gap-3">
+        <span className="font-medium">Player Status *</span>
+        <div>
           {options.map(({playerStatus, text, isSelected, style}) => (
             <CustomRadioButton
               key={playerStatus}
@@ -59,16 +59,14 @@ const RegistrationForm = () => {
           ))}
         </div>
       </div>
-      <button className="button register-button" id={`${selectedOption ? selectedOption.style : `white`}`} onSubmit={(e) => e.preventDefault()}>
-        Complete reservation
-      </button>
+      <Button extra={ `px-[8vw] py-2 shadow-md ${selectedOption ? selectedOption.style : `text-black bg-neutral-50`} `} text='Complete Reservation' />
     </form>
   )
 }
 
 const Registration = () => {
   return (
-    <div className="section-container" id="even-section">
+    <div className="flex flex-col items-center bg-zinc-50 dark:bg-zinc-900/60 px-[10vw] py-20 border-box gap-8" >
       <RegistrationHeader />
       <RegistrationForm />
     </div>

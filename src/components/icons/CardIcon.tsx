@@ -10,7 +10,7 @@ const CardIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      style={{color: '#e87521'}}
+      className="flex-none text-orange-600 dark:text-orange-400"
       aria-hidden="true"
     >
       <rect width="20" height="14" x="2" y="5" rx="2"></rect>

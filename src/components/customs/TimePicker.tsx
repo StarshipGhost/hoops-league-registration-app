@@ -31,7 +31,7 @@ const TimePicker = () => {
     }
   }, [])
 
-  return <input ref={inputRef} type="text" />
+  return <input ref={inputRef} className='dark:text-white border border-solid border-neutral-400 dark:border-neutral-800 p-2 p-1 rounded-lg' type="text" placeholder='Select a time'/>
 }
 
 export default TimePicker
