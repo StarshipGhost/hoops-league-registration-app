@@ -5,7 +5,7 @@ import LocationIcon from './icons/LocationIcon'
 import UsersIcon from './icons/UsersIcon'
 import type {GameEvent} from '../types/GameEvent'
 import type {Player} from '../types/Player'
-import {timeString, dateFormat} from '../utilities/timeString'
+import {dateFormat} from '../utilities/timeString'
 import SectionHeader from './SectionHeader'
 
 interface StatusTabsProps {
@@ -27,27 +27,22 @@ const RegisteredPlayersHeader = () => {
 }
 
 const UpcomingGameDetail = ({gameEvent}: {gameEvent: GameEvent}) => {
-  const {
-    date,
-    start,
-    end,
-    location: {name},
-  } = gameEvent
+  const { date, start, end, location: {name}, } = gameEvent
 
   return (
     <div className="[grid-area:header] border border-solid border-neutral-200 dark:border-neutral-800 rounded-tl-2xl rounded-tr-2xl p-4 flex flex-col gap-1">
-      <h2 className="dark:text-neutral-50 mb-1">Next Game</h2>
+      <h2 className="text-2xl font-bold dark:text-neutral-50 mb-2">Next Game</h2>
       <div className="flex items-center gap-1.5">
         <CalendarIcon className="text-zinc-500 dark:text-zinc-400 w-4 h-4" />
-        <span className=" dark:text-neutral-50">{dateFormat(date)}</span>
+        <span className=" dark:text-white">{dateFormat(date)}</span>
       </div>
       <div className="flex items-center gap-1.5">
         <LocationIcon className="text-zinc-500 dark:text-zinc-400 w-4 h-4 flex-none" />
-        <span className=" dark:text-neutral-50">{name}</span>
+        <span className=" dark:text-white">{name}</span>
       </div>
       <div className="flex items-center gap-1.5">
         <ClockIcon className="text-zinc-500 dark:text-zinc-400 w-4 h-4" />
-        <span className=" dark:text-neutral-50">{`${timeString(start)} - ${timeString(end)}`}</span>
+        <span className=" dark:text-white">{`${start} - ${end}`}</span>
       </div>
     </div>
   )
@@ -77,25 +72,19 @@ const PlayersStatusTabs = ({statusTabs, toggleActive}: {statusTabs: StatusTabsPr
       ? 'text-orange-600 dark:orange-400 bg-orange-500/10 dark:bg-orange-500/20'
       : 'text-blue-500 dark:text-blue-400 bg-blue-500/10 dark:bg-blue-500/20'
   }
-
   const activePlayerTab = (tab: string) => {
     return tab === 'Confirmed' ? 'text-white bg-orange-500/90 dark:bg-orange-500' : 'text-white bg-blue-500 dark:bg-blue-600'
   }
-
   const activePlayerAmountTab = (tab: string) => {
-    return tab === 'Confirmed' ? 'text-orange-600 dark:orange-400 bg-zinc-50' : 'text-blue-500 dark:text-blue-400 bg-zinc-50'
+    return tab === 'Confirmed' ? 'text-orange-600 dark:orange-400 bg-white' : 'text-blue-500 dark:text-blue-400 bg-white'
   }
   const defaultPlayerTab = 'w-40 font-medium border border-solid border-neutral-200 dark:border-neutral-800 flex justify-center rounded-2xl whitespace-nowrap px-8 py-2 box-border cursor-pointer'
   return (
     <div className="[grid-area:tabs] justify-self-center flex items-center justify-center flex-wrap gap-4 p-4 lg:hidden">
       {statusTabs.map((tab) => (
-        <button
-          key={tab.status}
-          className={`${defaultPlayerTab} ${tab.isActive ? `${activePlayerTab(tab.status)}` : `${playerStatusColor(tab.status)}`}`}
-          onClick={() => toggleActive(tab.status)}
-        >
+        <button key={tab.status} className={`${defaultPlayerTab} ${tab.isActive ? `${activePlayerTab(tab.status)}` : `${playerStatusColor(tab.status)}`}`} onClick={() => toggleActive(tab.status)} >
           {tab.status}
-          <span className={`rounded-2xl px-2 font-medium ml-2  ${tab.isActive ? `${activePlayerAmountTab(tab.status)}` : `${playerStatusColor(tab.status)}`}`}>
+          <span className={`px-2 ml-2 font-medium  border border-solid border-neutral-200 dark:border-neutral-800 rounded-2xl ${tab.isActive ? `${activePlayerAmountTab(tab.status)}` : `${playerStatusColor(tab.status)}`}`}>
             {tab.participants}
           </span>
         </button>
@@ -167,8 +156,8 @@ const RegisteredPlayersTable = ({gameEvent}: {gameEvent: GameEvent}) => {
 const RegisteredPlayers = () => {
   const gameEvent = {
     date: new Date('2026-02-05'),
-    start: new Date('2026-02-05T10:00'),
-    end: new Date('2026-02-05T12:45'),
+    start: '10:00 AM',
+    end: '12:45 PM',
     location: {
       name: 'Complexe sportif du Collège Bois de Boulogne - 2e étage',
       link: 'https://www.google.com/maps/place/10500+Ave+de+Bois-de-Boulogne,+Montreal,+QC+H4N+1L4/@45.5363681,-73.6761788,17z/data=!3m1!4b1!4m6!3m5!1s0x4cc9188eaf11c6dd:0xab8ca3e2415cadc5!8m2!3d45.5363681!4d-73.6736039!16s%2Fg%2F11nntq6jk2?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D',
