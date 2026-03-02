@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {BasketballLogo} from './icons/BasketBallLogo'
+import {BasketballLogo} from './icons/BasketballLogo'
 import {useHeaderContext} from './customs/HeaderContext'
 import NavigationHamburgerIcon from './icons/header/NavigationHamburgerIcon'
 import ColorToggleIcon from './icons/header/ColorToggleIcon'

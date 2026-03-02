@@ -1,4 +1,4 @@
-import {BasketballLogo} from './icons/BasketBallLogo'
+import {BasketballLogo} from './icons/BasketballLogo'
 import {useHeaderContext} from './customs/HeaderContext'
 
 const FooterSummary = () => {
