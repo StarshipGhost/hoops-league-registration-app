@@ -132,7 +132,6 @@ const Schedule = () => {
 
   const addGameEvent = (date: Date, start: string, end: string, location: Location, capacity: number): void => {
     const newGameEvent: GameEvent = {date: date, start: start, end: end, location: location, registeredPlayers: [], capacity: capacity}
-    console.log(newGameEvent)
     setSchedule(schedule.concat(newGameEvent))
     setScheduleModal(false)
   }
