@@ -56,7 +56,7 @@ const RulesHeader = () => {
 const GameFormat = () => {
   return (
     <div className="w-full min-w-80 flex flex-col gap-2 border border-solid border-neutral-200 dark:border-neutral-800 rounded-lg bg-linear-to-br from-orange-500/10 via background to-blue-500/10 dark:from-orange-500/5 p-4 border-box shadow-md">
-      <h2 className='dark:text-white'>Game Format</h2>
+      <h2 className='text-2xl font-bold dark:text-white'>Game Format</h2>
       <p className='text-zinc-500 dark:text-zinc-400 text-justify'>
         Our games are organized as 5-on-5 full court matches with rotating teams to ensure everyone gets equal playing time and some rest if needed. Each
         session includes warm-up time and multiple games.
@@ -72,7 +72,7 @@ const RuleCard = ({icon, name, description}: {icon: JSX.Element; name: string; d
         {icon}
       </div>
       <div>
-        <h3 className='dark:text-white mb-2'>{name}</h3>
+        <h3 className='text-lg font-bold dark:text-white mb-2'>{name}</h3>
         <p className="text-zinc-500 dark:text-zinc-400">{description}</p>
       </div>
     </div>
