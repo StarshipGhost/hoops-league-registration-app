@@ -8,7 +8,7 @@ interface CustomRadioButtonProps {
 
 const CustomRadioButton = ({playerStatus, text, isSelected, style, onChangeHandler}: CustomRadioButtonProps) => {
   return (
-    <div className={`border border-solid border-neutral-200 dark:border-neutral-800 rounded-2xl flex items-center gap-4 p-4 cursor-pointer mb-4 ${isSelected && style}`} onClick={onChangeHandler} >
+    <a className={`border border-solid border-neutral-200 dark:border-neutral-800 rounded-2xl flex items-center gap-4 p-4 cursor-pointer mb-4 ${isSelected && style}`} onClick={onChangeHandler} >
       <div className="size-6 bg-white border border-solid border-neutral-200 dark:border-neutral-800 rounded-full flex flex-none items-center justify-center">
         {isSelected && <div className={ `size-3.5 rounded-full ${isSelected && style}`}></div>}
       </div>
@@ -20,7 +20,7 @@ const CustomRadioButton = ({playerStatus, text, isSelected, style, onChangeHandl
           {text}
         </span>
       </div>
-    </div>
+    </a>
   )
 }
 
