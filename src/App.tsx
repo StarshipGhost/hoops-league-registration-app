@@ -1,4 +1,5 @@
 import './App.css'
+import {useRef, useState} from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Schedule from './components/Schedule'
@@ -6,24 +7,10 @@ import Rules from './components/Rules'
 import Pricing from './components/Pricing'
 import Registration from './components/Registration'
 import Footer from './components/Footer'
-import {HeaderContext, useHeaderContext} from './components/customs/HeaderContext'
-import {useRef, useState} from 'react'
 import RegisteredPlayers from './components/RegisteredPlayers'
 import Modal from './components/modals/AuthModal'
+import {HeaderContext} from './components/customs/HeaderContext'
 
-export const BasketballLogo = () => {
-  const {scrollFunction} = useHeaderContext()
-  return (
-    <div onClick={() => { if (scrollFunction) scrollFunction(0) }} className="dark:text-white flex items-center gap-2 cursor-pointer">
-      <div className="bg-orange-500/90 relative flex min-w-8.5 h-8.5 rounded-lg">
-        <div className="text-xl absolute top-[2px] right-[3px]">🏀</div>
-      </div>
-      <div className="text-xl font-bold">
-        <a>Hoops League</a>
-      </div>
-    </div>
-  )
-}
 
 function App() {
   const sectionRef = useRef<HTMLDivElement | null>(null)
@@ -37,7 +24,10 @@ function App() {
 
   const [darkMode, setDarkMode] = useState<boolean>(false)
   const [authModalActive, setAuthModalActive] = useState<boolean>(false)
-  const toggleThemeMode = (): void => setDarkMode((v) => !v)
+  const toggleThemeMode = (): void => {
+    setDarkMode((v) => !v) 
+    document.documentElement.classList.toggle('dark');
+  }
   const toggleAuthModal = (): void => setAuthModalActive((v) => !v)
   const providerProps = {
     scrollFunction: scrollToSection,
@@ -46,7 +36,7 @@ function App() {
   }
 
   return (
-    <div className={`min-w-80 bg-white dark:bg-black ${darkMode && 'dark'}`}>
+    <div className={`min-w-80 bg-white dark:bg-black `}>
       <HeaderContext.Provider value={providerProps}>
         <Modal />
         <Header />
