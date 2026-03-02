@@ -10,6 +10,7 @@ const UserAdditionIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      className="text-orange-500/90 dark:text-orange-500 size-6" 
       aria-hidden="true"
     >
       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
