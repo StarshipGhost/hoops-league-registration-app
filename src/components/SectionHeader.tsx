@@ -8,8 +8,8 @@ const SectionHeader = ({sectionIcon, iconBg, title, description}: {sectionIcon: 
   return (
     <div className="flex flex-col items-center gap-4">
       <div className={`flex justify-center items-center rounded-full p-2 ${iconBg}`}>{sectionIcon.icon}</div>
-      <h1 className="text-3xl sm:text-4xl font-bold text-center whitespace-nowrap dark:text-zinc-50">{title}</h1>
-      <p className="max-w-md text-center text-zinc-500 text-(length:--text-fluid) dark:text-zinc-400">{description}</p>
+      <h1 className="text-3xl sm:text-4xl font-bold text-center whitespace-nowrap dark:text-white">{title}</h1>
+      <p className="max-w-md text-center text-zinc-500 text-fluid dark:text-zinc-400">{description}</p>
     </div>
   )
 }

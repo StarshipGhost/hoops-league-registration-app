@@ -17,7 +17,7 @@ const rules: {icon: JSX.Element; name: string; description: string}[] = [
   {
     icon: <ClockIcon className='size-6'/>,
     name: 'Arrive on Time',
-    description: 'Please arrive 10 or 15mins before the game so we can start as soon as it begins.',
+    description: 'Please arrive 10 or 15 minutes before the game so we can start as soon as it begins.',
   },
   {
     icon: <ShirtIcon />,
@@ -27,7 +27,7 @@ const rules: {icon: JSX.Element; name: string; description: string}[] = [
   {
     icon: <SafetyIcon />,
     name: 'Fair Play',
-    description: 'Play clean and call your own fouls honestly. Excessive physicall play will result in removal from the game.',
+    description: 'Play clean and call your own fouls honestly. Excessive physical play will result in removal from the game.',
   },
   {
     icon: <WarningIcon />,
@@ -43,10 +43,9 @@ const rules: {icon: JSX.Element; name: string; description: string}[] = [
 ]
 
 const RulesHeader = () => {
-  const sectionHeaderIcon: {icon: React.ReactNode} = {icon: <BookIcon />}
   return (
     <SectionHeader
-      sectionIcon={sectionHeaderIcon}
+      sectionIcon={{icon: <BookIcon/>}}
       iconBg={'bg-blue-500/10 dark:bg-blue-500/20'}
       title={'Rules & Guidelines'}
       description={'Please review our rules to ensure a safe and enjoyable experience for everyone.'}
@@ -55,9 +54,9 @@ const RulesHeader = () => {
 }
 const GameFormat = () => {
   return (
-    <div className="w-full min-w-80 flex flex-col gap-2 border border-solid border-neutral-200 dark:border-neutral-800 rounded-lg bg-linear-to-br from-orange-500/10 via background to-blue-500/10 dark:from-orange-500/5 p-4 border-box shadow-md">
-      <h2 className='text-2xl font-bold dark:text-white'>Game Format</h2>
-      <p className='text-zinc-500 dark:text-zinc-400 text-justify'>
+    <div className="w-full min-w-80 flex flex-col gap-2 border border-solid sm:border-neutral-300 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-lg bg-linear-to-br from-orange-500/10 via background to-blue-500/10 p-4 border-box shadow-md">
+      <h2 className='text-xl sm:text-2xl font-bold dark:text-white'>Game Format</h2>
+      <p className='text-sm sm:text-base text-zinc-500 dark:text-zinc-400 text-justify'>
         Our games are organized as 5-on-5 full court matches with rotating teams to ensure everyone gets equal playing time and some rest if needed. Each
         session includes warm-up time and multiple games.
       </p>
@@ -67,13 +66,13 @@ const GameFormat = () => {
 
 const RuleCard = ({icon, name, description}: {icon: JSX.Element; name: string; description: string}) => {
   return (
-    <div className="flex gap-4 border border-solid border-neutral-200 dark:border-neutral-800 rounded-lg p-6 shadow-md">
-      <div className="flex justify-center items-center rounded-lg min-w-9.5 h-9.5 text-orange-600 dark:text-orange-400 bg-orange-500/10 dark:bg-orange-500/20 border border-solid shadow-md border-neutral-200 dark:border-neutral-800">
+    <div className="flex gap-4 bg-white dark:bg-black border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-lg p-6 shadow-md">
+      <div className="flex justify-center items-center rounded-lg min-w-9.5 h-9.5 text-orange-500/90 dark:text-orange-400 bg-orange-500/10 dark:bg-orange-500/20 border border-solid shadow-md border-neutral-200 dark:border-neutral-800">
         {icon}
       </div>
       <div>
         <h3 className='text-lg font-bold dark:text-white mb-2'>{name}</h3>
-        <p className="text-zinc-500 dark:text-zinc-400">{description}</p>
+        <p className="text-sm sm:text-base text-zinc-500 dark:text-zinc-400">{description}</p>
       </div>
     </div>
   )
