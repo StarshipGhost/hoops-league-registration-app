@@ -4,12 +4,19 @@ import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigg
 import {Label} from '../label'
 import type {Location} from '../../../types/Location';
 
-export function DropdownSelect({label, options, location, setCurrentValue}: {label : string, options: Location[], location: Location | undefined, setCurrentValue: React.Dispatch<React.SetStateAction<Location | undefined>>}) {
+interface DropdownFormProps <T extends Location> {
+    label: string
+    options : T[],
+    option: T | undefined
+    setCurrentOption: React.Dispatch<React.SetStateAction<T | undefined>>
+}
+
+export function DropdownSelect<T extends Location> ({label, options, option, setCurrentOption}: DropdownFormProps<T>) {
   return (
-    <Select value={location?.name ?? ""} onValueChange={(selected: string) => setCurrentValue(options.find((option) => option.name === selected))} >
+    <Select value={option?.name ?? ""} onValueChange={(selected: string) => setCurrentOption(options.find((option) => option.name === selected))} >
       <Label>{label}</Label>
-      <SelectTrigger className="w-full mt-2 hover:bg-accent dark:bg-input/30 dark:border-input dark:hover:bg-input/50 focus:border-none focus:ring-2 focus:ring-orange-500/90 dark:focus:ring-orange-400 cursor-pointer">
-        <SelectValue  className='dark:text-white' defaultValue={"Select a location"} placeholder="Select a location">
+      <SelectTrigger className="w-full dark:text-white dark:data-placeholder:text-muted-foreground hover:bg-accent dark:bg-input/30 dark:border-input dark:hover:bg-input/50 focus:border-none focus:ring-2 focus:ring-orange-500/90 dark:focus:ring-orange-400 cursor-pointer">
+        <SelectValue  className='' defaultValue={`Select a ${label}`} placeholder={ `Select a ${ label }` }>
         </SelectValue> 
       </SelectTrigger>
       <SelectContent className="bg-white dark:bg-black z-9999" position='popper'>
