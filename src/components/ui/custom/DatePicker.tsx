@@ -14,7 +14,7 @@ export function DatePicker({date, setDate} : {date : Date | undefined, setDate :
         <Button
           variant="outline"
           data-empty={!date}
-          className="data-[empty=true]:text-muted-foreground border-neutral-300 dark:border-neutral-800 w-full justify-between text-left font-normal focus:outline-none focus:border-none focus:ring-2 focus:ring-orange-500/90 dark:focus:ring-orange-400 cursor-pointer"
+          className="data-[empty=true]:text-muted-foreground border-neutral-300 dark:border-input w-full justify-between text-left font-normal focus:outline-none focus:border-none focus:ring-2 focus:ring-orange-500/90 dark:focus:ring-orange-400 cursor-pointer"
         >
           {date ? format(date, "PPP") : <span>Select a date</span>}
           <ChevronDownIcon />
