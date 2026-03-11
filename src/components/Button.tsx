@@ -6,14 +6,14 @@ interface ButtonProps {
   onClick?: () => void
 }
 
-const commonStyle = 'text-sm font-medium border border-solid border-neutral-200 dark:border-neutral-800 rounded-md whitespace-nowrap cursor-pointer transition duration-100 ease hover:brightness-90'
+const commonStyle = 'text-xs sm:text-sm font-medium border border-solid border-neutral-200 dark:border-neutral-800 rounded-md whitespace-nowrap cursor-pointer transition duration-100 ease hover:brightness-90'
 export const Button = ({extra, text, type, disabled, onClick} : ButtonProps) => {
   return <button className={`${commonStyle} ${extra}`} onClick={onClick} type={type} disabled={disabled}>{text}</button>
 }
 
-export const OrangeButton = ({ extra, text, type, onClick }: ButtonProps) => {
+export const OrangeButton = ({ extra, text, type, disabled, onClick }: ButtonProps) => {
   return (
-    <button className={`${commonStyle} text-white bg-orange-500/90 dark:bg-orange-500 ${extra}`} onClick={onClick} type={type}>
+    <button className={`${commonStyle} text-white bg-orange-500/90 dark:bg-orange-500 ${extra}`} onClick={onClick} type={type} disabled={disabled}>
       {text}
     </button>
   );
