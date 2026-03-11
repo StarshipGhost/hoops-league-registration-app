@@ -54,7 +54,7 @@ const RulesHeader = () => {
 }
 const GameFormat = () => {
   return (
-    <div className="w-full min-w-80 flex flex-col gap-2 border border-solid sm:border-neutral-300 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-lg bg-linear-to-br from-orange-500/10 via background to-blue-500/10 p-4 border-box shadow-md">
+    <div className="w-full min-w-80 flex flex-col gap-2 border border-solid border-neutral-300 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-lg bg-linear-to-br from-orange-500/10 via background to-blue-500/10 p-4 border-box shadow-md">
       <h2 className='text-xl sm:text-2xl font-bold dark:text-white'>Game Format</h2>
       <p className='text-sm sm:text-base text-zinc-500 dark:text-zinc-400 text-justify'>
         Our games are organized as 5-on-5 full court matches with rotating teams to ensure everyone gets equal playing time and some rest if needed. Each
