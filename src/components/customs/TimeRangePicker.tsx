@@ -61,7 +61,7 @@ const TimeRangePicker = ({
     return () => {
       pickerRef.current?.destroy();
     };
-  }, [darkMode]);
+  }, [darkMode, handleStartTimeUpdate, handleEndTimeUpdate]);
 
   const value = start.length === 0 && end.length === 0 ? "" : `${start} - ${end}`;
   return (
