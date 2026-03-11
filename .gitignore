@@ -26,3 +26,4 @@ dist-ssr
 # Untracked files:
 .prettierrc
 untitled.txt
+node_modules/
