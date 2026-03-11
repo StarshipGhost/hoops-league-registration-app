@@ -1,15 +1,18 @@
 import type {GameEvent} from '../types/GameEvent'
 import type {Player} from '../types/Player'
 import ScheduleModal from './modals/ScheduleModalForm'
+import DeleteScheduleModal from './modals/DeleteScheduleModal'
 import CalendarIcon from './icons/CalendarIcon'
 import LocationIcon from './icons/LocationIcon'
 import ClockIcon from './icons/ClockIcon'
 import UsersIcon from './icons/UsersIcon'
-import {months, days} from '../utilities/timeString'
+import {months, days} from '../utils/timeString'
 import React, {useState} from 'react'
 import { OrangeButton } from './Button'
 import SectionHeader from './SectionHeader'
 import type {Location} from '@/types/Location'
+import { isGameAvailable } from './../utils/scheduleUtils'
+import { useHeaderContext } from './customs/HeaderContext'
 
 export interface GameInfoLineProps {
   icon: React.ReactNode,
@@ -40,23 +43,54 @@ export const GameInfoLine = ({icon, text, isLink, link} : GameInfoLineProps) => 
   )
 }
 
-const CardHeader = ({gameEvent}: {gameEvent: GameEvent}) => {
-  const {date, isAvailable} = gameEvent
-  const color: string = isAvailable
-    ? 'text-green-700 bg-green-100 dark:text-green-300 dark:bg-green-900 '
-    : 'text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900 '
+const CardHeader = ({
+  gameEvent,
+  isNextGame,
+  updateGame,
+  deleteGame,
+}: {
+  gameEvent: GameEvent;
+  updateGame: (gameEvent: GameEvent) => void;
+  isNextGame: boolean;
+  deleteGame: (gameEvent: GameEvent) => void;
+}) => {
+  const {
+    theme: { darkMode },
+  } = useHeaderContext();
+  const { date } = gameEvent;
+  const color: string = isGameAvailable(gameEvent) && isNextGame
+    ? "text-green-700 bg-green-100 dark:text-green-300 dark:bg-green-900 "
+    : "text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900 ";
   return (
     <div className="flex justify-between">
       <div>
         <h2 className="text-xl sm:text-2xl font-bold dark:text-neutral-50 mb-1.5">{days[date.getDay()]}</h2>
         <div className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">{`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}</div>
       </div>
-      <div className={`text-sm sm:text-base text-center h-fit rounded-md font-bold px-3 py-1 border border-solid border-neutral-200 dark:border-neutral-800 ${color}`}>
-        <span>{!isAvailable ? 'FULL' : 'OPEN'}</span>
+      <div className="flex flex-row-reverse flex-wrap gap-4">
+        <div
+          className={`text-sm sm:text-base text-center h-fit rounded-md font-bold px-3 py-1 border border-solid border-neutral-200 dark:border-neutral-800 ${color}`}
+        >
+          <span>{isGameAvailable(gameEvent) ? (isNextGame ? "OPEN" : "CLOSED") : "FULL"}</span>
+        </div>
+        <div className="flex flex-end items-start gap-4">
+          <a onClick={() => updateGame(gameEvent)}>
+            <img
+              src={`./../../src/assets/edit_24dp_${darkMode ? `FFFFFF` : `1F1F1F`}_FILL0_wght400_GRAD0_opsz24.svg`}
+              className="size-9 sm:size-10 cursor-pointer p-2 hover:bg-orange-100/50 dark:hover:bg-zinc-800 rounded-full"
+            ></img>
+          </a>
+          <a onClick={() => deleteGame(gameEvent)}>
+            <img
+              src={`./../../src/assets/delete_24dp_${darkMode ? `FFFFFF` : `1F1F1F`}_FILL0_wght400_GRAD0_opsz24.svg`}
+              className="size-9 sm:size-10 cursor-pointer p-2 hover:bg-red-100/50 dark:hover:bg-zinc-800 rounded-full"
+            ></img>
+          </a>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const CardGameInfo = ({gameEvent}: {gameEvent: GameEvent}) => {
   const { start, end, location: {name, link}, registeredPlayers, capacity } = gameEvent
@@ -102,53 +136,119 @@ const Legend = ({confirmedPlayers, potentialPlayers}: {confirmedPlayers: Player[
   )
 }
 
-const CardFooter = ({gameEvent, updateGame}: {gameEvent: GameEvent, updateGame: (gameEvent: GameEvent) => void}) => {
-  const {registeredPlayers, capacity} = gameEvent
-  const {confirmed, potential} = Object.groupBy(registeredPlayers, (registeredPlayers) =>
-    registeredPlayers.status === 'Confirmed Player' ? 'confirmed' : 'potential',
-  )
+const CardFooter = ({ gameEvent, isNextGame }: { gameEvent: GameEvent; isNextGame: boolean }) => {
+  const { registeredPlayers, capacity } = gameEvent;
+  const { confirmed, potential } = Object.groupBy(registeredPlayers, (registeredPlayers) =>
+    registeredPlayers.status === "Confirmed Player" ? "confirmed" : "potential",
+  );
+  const {scrollFunction} = useHeaderContext();
 
   return (
     <div className="flex flex-col gap-1">
       <div className="flex justify-between">
         <span className="text-sm text-zinc-500 dark:text-zinc-400">Registered Players</span>
-        <span className="text-sm text-zinc-500 dark:text-zinc-400">{Math.round((registeredPlayers.length/capacity) * 100)}% </span>
+        <span className="text-sm text-zinc-500 dark:text-zinc-400">{Math.round((registeredPlayers.length / capacity) * 100)}% </span>
       </div>
       <ProgressBar confirmedPlayers={confirmed ? confirmed : []} potentialPlayers={potential ? potential : []} capacity={capacity} />
       <Legend confirmedPlayers={confirmed ? confirmed : []} potentialPlayers={potential ? potential : []} />
-      <div className="flex justify-end">
-        <OrangeButton extra="px-4 py-2" text="Join Game" />
-        <OrangeButton extra="px-4 py-2" text='Update Game Event' onClick={() => updateGame(gameEvent)}></OrangeButton>
+      <div className='flex justify-end'>
+        <OrangeButton extra="px-4 py-2 disabled:opacity-30 disabled:cursor-not-allowed" text="Join Game" onClick={() => scrollFunction(5)} disabled={!isNextGame || !isGameAvailable(gameEvent)} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-const ScheduleCard = ({gameEvent, updateGame}: {gameEvent: GameEvent, updateGame: (gameEvent: GameEvent) => void}) => {
+const ScheduleCard = ({
+  gameEvent,
+  isNextGame,
+  updateGame,
+  deleteGame,
+}: {
+  gameEvent: GameEvent;
+  isNextGame: boolean;
+  updateGame: (gameEvent: GameEvent) => void;
+  deleteGame: (gameEvent: GameEvent) => void;
+}) => {
   return (
     <div className="flex flex-col gap-4 p-5 border border-solid sm:border-neutral-300 dark:border-neutral-500 sm:dark:border-neutral-800 bg-white dark:bg-black  rounded-2xl shadow-md">
-      <CardHeader gameEvent={gameEvent} />
+      <CardHeader gameEvent={gameEvent} isNextGame={isNextGame} updateGame={updateGame} deleteGame={deleteGame} />
       <CardGameInfo gameEvent={gameEvent} />
-      <CardFooter gameEvent={gameEvent} updateGame={updateGame}/>
+      <CardFooter gameEvent={gameEvent} isNextGame={isNextGame} />
     </div>
-  )
-}
+  );
+};
 
-const Schedule = ({ schedule, addGameEvent }: {schedule: GameEvent[], addGameEvent: (date: Date, start: string, end: string, location: Location, players: Player[], capacity: number) => void}) => {
+const Schedule = ({
+  schedule,
+  addGameEvent,
+  updateGameEvent,
+  deleteGameEvent,
+}: {
+  schedule: GameEvent[];
+  addGameEvent: (date: Date, start: string, end: string, location: Location, capacity: number) => void;
+  updateGameEvent: (gameEvent: GameEvent, date: Date, start: string, end: string, location: Location, capacity: number) => void;
+  deleteGameEvent: (gameEvent: GameEvent) => void
+}) => {
   const [scheduleModal, setScheduleModal] = useState<boolean>(false);
-  const addGameToSchedule = (date: Date, start: string, end: string, location: Location, players: Player[], capacity: number): void => {
-    addGameEvent(date, start, end, location, players, capacity);
+  const [deleteGameModal, setDeleteGameModal] = useState<boolean>(false);
+  const [editingEvent, setEditingEvent] = useState<GameEvent | null>(null);
+  const [deletingEvent, setDeletingEvent] = useState<GameEvent | null>(null);
+
+  const addGameToSchedule = (date: Date, start: string, end: string, location: Location, capacity: number): void => {
+    addGameEvent(date, start, end, location, capacity);
+    closeModal();
+  };
+
+  const updateGameSchedule = (date: Date, start: string, end: string, location: Location, capacity: number) => {
+    if (editingEvent) {
+      updateGameEvent(editingEvent, date, start, end, location, capacity);
+      closeModal();
+    }
+  };
+
+  const deleteGameFromSchedule = () => {
+    if (deletingEvent) {
+      deleteGameEvent(deletingEvent);
+      closeModal();
+    }
+  }
+
+  const openCreateModal = () => {
+    setScheduleModal(true);
+    setEditingEvent(null);
+  };
+
+  const openEditModal = (gameEvent: GameEvent) => {
+    setScheduleModal(true);
+    setEditingEvent(gameEvent);
+  };
+
+  const openDeleteModal = (gameEvent: GameEvent) => {
+    setDeleteGameModal(true);
+    setDeletingEvent(gameEvent)
+  }
+
+  const closeModal = () => {
+    setDeleteGameModal(false)
     setScheduleModal(false);
+    setEditingEvent(null);
   };
 
   return (
     <div className="flex flex-col items-center bg-zinc-50 dark:bg-zinc-900/60 px-[10vw] py-20 border-box gap-8">
       <ScheduleHeader />
-      <ScheduleModal isActive={scheduleModal} toggleScheduleModal={() => setScheduleModal((v) => !v)} addGameEvent={addGameToSchedule} />
-      <OrangeButton extra="px-4 py-2 sm:px-6 sm:py-2" text="Create New Game Event" onClick={() => setScheduleModal((v) => !v)} />
+      <ScheduleModal
+        isActive={scheduleModal}
+        editingEvent={editingEvent}
+        closeModal={closeModal}
+        addGameEvent={addGameToSchedule}
+        updateGameEvent={updateGameSchedule}
+      />
+      <DeleteScheduleModal isActive={deleteGameModal} closeModal={closeModal} deleteGameEvent={deleteGameFromSchedule}/>
+      <OrangeButton extra="px-4 py-2 sm:px-6 sm:py-2" text="Create New Game Event" onClick={openCreateModal} />
       <div className="w-full grid grid-cols-1 justify-center gap-8 lg:grid-cols-2">
         {schedule.map((schedule, index) => (
-          <ScheduleCard key={index} gameEvent={schedule} updateGame={() => console.log("update game")} />
+          <ScheduleCard key={index} gameEvent={schedule} isNextGame={index === 0} updateGame={openEditModal} deleteGame={openDeleteModal} />
         ))}
       </div>
     </div>

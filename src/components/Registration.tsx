@@ -5,6 +5,7 @@ import SectionHeader from "./SectionHeader";
 import { Button } from "./Button";
 import type { GameEvent } from "@/types/GameEvent";
 import type { Player } from "@/types/Player";
+import { isGameAvailable } from "./../utils/scheduleUtils";
 
 const RegistrationHeader = () => {
   return (
@@ -38,7 +39,7 @@ const NameInput = ({
         onChange={onNameChangeHandler}
         pattern="^[A-Za-z]*"
         placeholder="Your name"
-        disabled={!gameEvent?.isAvailable || isRegistered}
+        disabled={gameEvent && !isGameAvailable(gameEvent) || isRegistered}
       ></input>
     </div>
   );
@@ -80,7 +81,7 @@ const Buttons = ({
       />
       {isRegistered && (
         <Button
-          extra={"text-white text-xs sm:text-sm py-2 bg-red-500/90 dark:bg-red-500"}
+          extra={"text-white text-xs sm:text-sm py-2 bg-red-500 dark:bg-red-500/80"}
           text={"Cancel Registration"}
           onClick={() => (player ? submitCancellation(player) : console.log("player doesn't exist"))}
         />
@@ -129,14 +130,14 @@ const NoticeBox = ({ gameEvent, isRegistered }: { gameEvent: GameEvent | undefin
         description="Registration are now open. Secure your place to take part in competitive and friendly basketball games."
         boxStyle="bg-orange-100 dark:bg-orange-900/50 border-orange-500"
         textStyle="text-orange-700 dark:text-orange-300"
-        isActive={gameEvent?.isAvailable && !isRegistered ? true : false}
+        isActive={gameEvent && isGameAvailable(gameEvent) && !isRegistered ? true : false}
       />
       <RegistrationCategory
         title={"Registration Closed"}
         description="The schedule for the upcoming basketball session is currently full. The registration for the next game will be reopen the same day at the end of the session."
         boxStyle="bg-red-100 dark:bg-red-900/50 border-red-500"
         textStyle="text-red-700 dark:text-red-300"
-        isActive={gameEvent && !gameEvent.isAvailable && !isRegistered ? true : false}
+        isActive={gameEvent && !isGameAvailable(gameEvent) && !isRegistered ? true : false}
       />
       <RegistrationCategory
         title={"Registration Unavailable"}
@@ -153,13 +154,13 @@ const NoticeBox = ({ gameEvent, isRegistered }: { gameEvent: GameEvent | undefin
 const RegistrationForm = ({
   gameEvent,
   isRegistered,
-  updateRegistrationStatus,
+  registrationStatus,
   gameEventRegistration,
   gameEventCancellation,
 }: {
   gameEvent: GameEvent | undefined;
   isRegistered: boolean;
-  updateRegistrationStatus: (value: boolean) => void;
+  registrationStatus: (value: boolean) => void;
   gameEventRegistration: (player: Player) => void;
   gameEventCancellation: (player: Player) => void;
 }) => {
@@ -184,7 +185,7 @@ const RegistrationForm = ({
   const selectedOption : PlayerOptionProps | undefined = currentOptions.find((option) => option.isSelected);
 
   function isUserRegistrationAllowed(): boolean {
-    if (!gameEvent?.isAvailable || isRegistered) return false;
+    if (gameEvent && !isGameAvailable(gameEvent) || isRegistered) return false;
     return true;
   }
 
@@ -200,14 +201,14 @@ const RegistrationForm = ({
   const submitRegistration = (event: React.SubmitEvent<HTMLFormElement>) : void => {
     event.preventDefault();
     if (isUserRegistrationAllowed() && name.length > 0 && currentStatus) {
-      gameEventRegistration({firstName: name, status: currentStatus});
-      updateRegistrationStatus(true);
+      gameEventRegistration({firstName: name, status: currentStatus, registrationTime: new Date()});
+      registrationStatus(true);
     }
   };
 
   const submitCancellation = (player: Player) : void => {
       gameEventCancellation(player)
-      updateRegistrationStatus(false)
+      registrationStatus(false)
       setCurrentStatus(undefined);
   }
 
@@ -218,7 +219,7 @@ const RegistrationForm = ({
     >
       <NameInput gameEvent={gameEvent} isRegistered={isRegistered} name={name} onNameChangeHandler={handleNameChange} />
       <RadioButtons options={currentOptions} />
-      <Buttons selectedOption={selectedOption} isRegistered={isRegistered} player={{firstName: name, status: currentStatus ?? 'Confirmed Player'}} isUserRegistrationAllowed={isUserRegistrationAllowed} submitCancellation={submitCancellation} />
+      <Buttons selectedOption={selectedOption} isRegistered={isRegistered} player={{firstName: name, status: currentStatus ?? 'Confirmed Player', registrationTime: new Date()}} isUserRegistrationAllowed={isUserRegistrationAllowed} submitCancellation={submitCancellation} />
     </form>
   );
 };
@@ -240,7 +241,7 @@ const Registration = ({
       <RegistrationForm
         gameEvent={gameEvent}
         isRegistered={isRegistered}
-        updateRegistrationStatus={(value: boolean) => setIsRegistered(value)}
+        registrationStatus={(value: boolean) => setIsRegistered(value)}
         gameEventRegistration={gameEventRegistration}
         gameEventCancellation={gameEventCancellation}
       />

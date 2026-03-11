@@ -14,8 +14,11 @@ import type { GameEvent } from './types/GameEvent'
 import type { Location } from './types/Location';
 import type { Player } from './types/Player'
 
-
 function App() {
+  const [darkMode, setDarkMode] = useState<boolean>(false)
+  const [authModalActive, setAuthModalActive] = useState<boolean>(false)
+  const [schedule, setSchedule] = useState<GameEvent[]>([])
+
   const sectionRef = useRef<HTMLDivElement | null>(null)
   function scrollToSection(index: number): void {
     const section = sectionRef.current
@@ -25,9 +28,6 @@ function App() {
     }
   }
 
-  const [darkMode, setDarkMode] = useState<boolean>(false)
-  const [authModalActive, setAuthModalActive] = useState<boolean>(false)
-  const [schedule, setSchedule] = useState<GameEvent[]>([])
   const toggleThemeMode = (): void => {
     setDarkMode((v) => !v) 
     document.documentElement.classList.toggle('dark');
@@ -39,17 +39,50 @@ function App() {
     authModal: {authModalActive: authModalActive, toggleAuthModal: toggleAuthModal},
   }
 
-  const addGameEvent = (date: Date, start: string, end: string, location: Location, players: Player[], capacity: number): void => {
-      const newGameEvent: GameEvent = {id: schedule.length + 1, date: date, start: start, end: end, location: location, registeredPlayers: players, capacity: capacity, isAvailable: true}
+  const addGameEvent = (date: Date, start: string, end: string, location: Location, capacity: number): void => {
+      const newGameEvent: GameEvent = {
+        id: schedule.length + 1,
+        date: date,
+        start: start,
+        end: end,
+        location: location,
+        registeredPlayers: [],
+        capacity: capacity,
+      };
       setSchedule(schedule.concat(newGameEvent))
+  }
+
+  const updateGameEvent = (gameEvent: GameEvent, date: Date, start: string, end: string, location: Location, capacity: number) => {
+    setSchedule((prev) =>
+      prev.map((game) => {
+        if (gameEvent.id === game.id) {
+          return {
+            id: gameEvent.id,
+            date: date,
+            start: start,
+            end: end,
+            location: location,
+            registeredPlayers: game.registeredPlayers,
+            capacity: capacity,
+          };
+        } else {
+          return game;
+        }
+      }),
+    );
+  };
+
+  const deleteGameEvent = (gameEvent: GameEvent) => {
+    setSchedule((prev) => {
+      return prev.filter((game) => game.id !== gameEvent.id);
+    }) 
   }
 
   const gameEventRegistration = (player : Player) => {
     setSchedule(prev => {
       if (prev.length === 0) return prev
       const nextGame: GameEvent = prev[0]
-      const stillAvailable = nextGame.registeredPlayers.length + 1 < nextGame.capacity;
-      const updateFirst : GameEvent = {...nextGame, registeredPlayers: [...nextGame.registeredPlayers, player], isAvailable: stillAvailable};
+      const updateFirst : GameEvent = {...nextGame, registeredPlayers: [...nextGame.registeredPlayers, player]};
       return [updateFirst,... prev.slice(1)];
     })
   }
@@ -59,12 +92,10 @@ function App() {
       if (prev.length === 0) return prev
       const nextGame: GameEvent = prev[0]
       const findPlayer = nextGame.registeredPlayers.find((p) => p.firstName === player.firstName);
-      const stillAvailable = nextGame.registeredPlayers.length - 1 < nextGame.capacity;
-      const updateFirst : GameEvent = {...nextGame, registeredPlayers: nextGame.registeredPlayers.filter((p) => p.firstName !== findPlayer?.firstName), isAvailable: stillAvailable};
+      const updateFirst : GameEvent = {...nextGame, registeredPlayers: nextGame.registeredPlayers.filter((p) => p.firstName !== findPlayer?.firstName)};
       return [updateFirst, ...prev.slice(1)]
     })
   }
-
 
   return (
     <div className={`min-w-80 bg-white dark:bg-black `}>
@@ -73,7 +104,7 @@ function App() {
         <Header />
         <div ref={sectionRef} className="main bg-white dark:bg-black flex flex-col">
           <Hero />
-          <Schedule schedule={schedule} addGameEvent={addGameEvent}/>
+          <Schedule schedule={schedule} addGameEvent={addGameEvent} updateGameEvent={updateGameEvent} deleteGameEvent={deleteGameEvent}/>
           <RegisteredPlayers gameEvent={schedule[0]} />
           <Rules />
           <Pricing />

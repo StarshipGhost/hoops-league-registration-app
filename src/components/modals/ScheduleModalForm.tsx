@@ -1,4 +1,4 @@
-import React, { useState, type ChangeEvent } from "react";
+import React, { useEffect, useState, type ChangeEvent } from "react";
 import type { Location } from "../../types/Location";
 import { Button } from "../ui/button";
 import Select from "../ui/custom/Select";
@@ -10,6 +10,7 @@ import { useHeaderContext } from "../customs/HeaderContext";
 import type { Player } from "@/types/Player";
 import CloseButton from "../customs/CloseButton";
 import Modal from "./Modal";
+import type { GameEvent } from "@/types/GameEvent";
 
 const ErrorMessage = ({ isInvalid }: { isInvalid: boolean }) => {
   return isInvalid && <div className="text-red-500 text-center mt-2">One or multiple fields are invalid!</div>;
@@ -90,25 +91,23 @@ const LocationDropdown = ({ location, setLocation }: { location: Location | unde
 };
 
 const ScheduleFormCard = ({
-  toggleScheduleModal,
+  editingEvent, 
+  closeModal,
   addGameEvent,
+  updateGameEvent,
 }: {
-  toggleScheduleModal: () => void;
-  addGameEvent: (date: Date, start: string, end: string, location: Location, players: Player[], capacity: number) => void;
+  editingEvent: GameEvent | null,
+  closeModal: () => void;
+  addGameEvent: (date: Date, start: string, end: string, location: Location, capacity: number) => void;
+  updateGameEvent: (date: Date, start: string, end: string, location: Location, capacity: number) => void
 }) => {
   const [date, setDate] = useState<Date | undefined>();
   const [start, setStart] = useState<string>("");
   const [end, setEnd] = useState<string>("");
   const [location, setLocation] = useState<Location | undefined>();
   const [capacity, setCapacity] = useState<number>(NaN);
+  const [currentPlayers, setCurrentPlayers] = useState<Player[]>(editingEvent ? editingEvent.registeredPlayers: [])
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
-
-  const handleCapacityChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length < 3) {
-      const number = parseInt(e.target.value) || "";
-      setCapacity(number as number);
-    }
-  };
 
   const clearFields = () => {
     setDate(undefined);
@@ -119,30 +118,56 @@ const ScheduleFormCard = ({
     setIsFormInvalid(false);
   };
 
+  useEffect(() => {
+    if (editingEvent) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDate(editingEvent.date)
+      setStart(editingEvent.start);
+      setEnd(editingEvent.end);
+      setLocation(editingEvent.location);
+      setCapacity(editingEvent.capacity);
+      setCurrentPlayers(editingEvent.registeredPlayers);
+      setIsFormInvalid(false)
+    }
+    else {
+      clearFields();
+    }
+  }, [editingEvent])
+  const handleCapacityChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const number = parseInt(e.target.value) || "";
+    if (e.target.value.length < 3) {
+      setCapacity(number as number);
+    }
+  };
+
   const closeCard = (): void => {
-    toggleScheduleModal();
+    closeModal();
     clearFields();
   };
 
   const submitGameEvent = (date: Date | undefined, start: string, end: string, location: Location | undefined, players: Player[], capacity: number) => {
     const isEmpty = (value: string): boolean => value.length === 0;
-      if (!date || isEmpty(start) || isEmpty(end) || !location || isNaN(capacity) || capacity > 30) {
-        setIsFormInvalid(true);
-        setTimeout(() => {
-          setIsFormInvalid(false);
-        }, 5000);
-      } else {
-        addGameEvent(date, start, end, location, players, capacity);
-        clearFields();
-      }
+    if (!date || isEmpty(start) || isEmpty(end) || !location || isNaN(capacity) || capacity < players.length) {
+      setIsFormInvalid(true);
+      setTimeout(() => {
+        setIsFormInvalid(false);
+      }, 5000);
+      return;
+    }
+    if (editingEvent === null) {
+      addGameEvent(date, start, end, location, capacity);
+    } else {
+      updateGameEvent(date, start, end, location, capacity);
+    }
+    clearFields();
   };
 
   return (
     <Card className="w-135 min-w-80 border-box">
       <CardHeader className="relative">
         <CloseButton closeFunction={closeCard} />
-        <CardTitle className="text-xl">New Game Event</CardTitle>
-        <CardDescription>Add a new basket-ball session this week</CardDescription>
+        <CardTitle className="text-xl">{editingEvent ? "Update game event" : "New game event"}</CardTitle>
+        <CardDescription>{editingEvent ? "Edit the selected basket-ball session" : "Add a new basket-ball session this week"}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <GameDateInput date={date} setDate={setDate} />
@@ -153,7 +178,7 @@ const ScheduleFormCard = ({
         </div>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button type="submit" variant="orange" onClick={() => submitGameEvent(date, start, end, location, [], capacity)}>
+        <Button type="submit" variant="orange" onClick={() => submitGameEvent(date, start, end, location, currentPlayers, capacity)}>
           Submit
         </Button>
         <Button variant="white" onClick={() => closeCard()}>
@@ -167,16 +192,20 @@ const ScheduleFormCard = ({
 
 const ScheduleModalForm = ({
   isActive,
-  toggleScheduleModal,
+  editingEvent,
+  closeModal,
   addGameEvent,
+  updateGameEvent
 }: {
   isActive: boolean;
-  toggleScheduleModal: () => void;
-  addGameEvent: (date: Date, start: string, end: string, location: Location, players: Player[], capacity: number) => void;
+  editingEvent: GameEvent | null,
+  closeModal: () => void;
+  addGameEvent: (date: Date, start: string, end: string, location: Location, capacity: number) => void;
+  updateGameEvent: (date: Date, start: string, end: string, location: Location, capacity: number) => void;
 }) => {
   return (
     <Modal isModalActive={isActive}>
-      <ScheduleFormCard toggleScheduleModal={toggleScheduleModal} addGameEvent={addGameEvent} />
+      <ScheduleFormCard editingEvent={editingEvent} closeModal={closeModal} addGameEvent={addGameEvent} updateGameEvent={updateGameEvent} />
     </Modal>
   );
 };
