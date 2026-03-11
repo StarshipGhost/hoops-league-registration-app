@@ -60,7 +60,7 @@ const PaymentMethod = () => {
         <h2 className="text-xl sm:text-2xl font-bold dark:text-white">Accepted Payment Methods</h2>
       </div>
       <PricingCheckLine text="Cash (at venue)" />
-      <div className="text-sm sm:text-base bg-gray-100 dark:bg-zinc-800 p-4 border border-solid border-neutral-300 dark:border-neutral-800 rounded-md">
+      <div className="text-sm sm:text-base bg-gray-200 dark:bg-zinc-800 p-4 border border-solid border-neutral-300 dark:border-neutral-800 rounded-md">
         <b className="dark:text-white">Note: </b>
         <span className="max-w-md text-zinc-500 dark:text-zinc-400">
           If there are no spots left and you have a reserved spot (as a confirmed player), any no-show or cancellation
