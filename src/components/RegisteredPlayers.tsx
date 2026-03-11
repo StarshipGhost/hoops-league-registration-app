@@ -5,9 +5,10 @@ import LocationIcon from './icons/LocationIcon'
 import UsersIcon from './icons/UsersIcon'
 import type {GameEvent} from '../types/GameEvent'
 import type {Player} from '../types/Player'
-import {dateFormat} from '../utilities/timeString'
+import {cardDateFormat, registrationTimeFormat} from '../utils/timeString'
 import SectionHeader from './SectionHeader'
 import { GameInfoLine } from './Schedule'
+import { isGameAvailable } from './../utils/scheduleUtils'
 
 interface StatusTabsProps {
   isActive: boolean
@@ -27,15 +28,15 @@ const RegisteredPlayersHeader = () => {
 
 const UpcomingGameDetail = ({gameEvent}: {gameEvent: GameEvent | undefined}) => {
   if (gameEvent) {
-  const { date, start, end, location: {name}, } = gameEvent
-  return (
-    <div className="[grid-area:header] border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-tl-2xl rounded-tr-2xl p-4 flex flex-col gap-1">
-      <h2 className="text-2xl font-bold dark:text-neutral-50 mb-2">Next Game</h2>
-      <GameInfoLine icon={<CalendarIcon className="text-zinc-500 dark:text-zinc-400 size-4" />} text={dateFormat(date)} isLink={false}/>
-      <GameInfoLine icon={<LocationIcon className="text-zinc-500 dark:text-zinc-400 size-4 flex-none"/>} text={name} isLink={false}/>
-      <GameInfoLine icon={<ClockIcon className="text-zinc-500 dark:text-zinc-400 size-4"/>} text={`${start} - ${end}`} isLink={false}/>
-    </div>
-  ) 
+    const { date, start, end, location: {name} } = gameEvent
+    return (
+      <div className="[grid-area:header] border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-tl-2xl rounded-tr-2xl p-4 flex flex-col gap-1">
+        <h2 className="text-2xl font-bold dark:text-neutral-50 mb-2">Next Game</h2>
+        <GameInfoLine icon={<CalendarIcon className="text-zinc-500 dark:text-zinc-400 size-4" />} text={cardDateFormat(date)} isLink={false}/>
+        <GameInfoLine icon={<LocationIcon className="text-zinc-500 dark:text-zinc-400 size-4 flex-none"/>} text={name} isLink={false}/>
+        <GameInfoLine icon={<ClockIcon className="text-zinc-500 dark:text-zinc-400 size-4"/>} text={`${start} - ${end}`} isLink={false}/>
+      </div>
+    ) 
   } else {
     return null
   }
@@ -50,11 +51,12 @@ const PlayerLetterAvatar = ({firstName, status}: {firstName: string; status: str
   )
 }
 
-const PlayerProfile = ({firstName}: {firstName: string}) => {
+const PlayerProfile = ({firstName, registrationTime}: {firstName: string, registrationTime: Date}) => {
+  const sanitizedFirstName = firstName.trim().replace(firstName.charAt(0), firstName.charAt(0).toUpperCase())
   return (
     <div className="flex flex-col justify-between">
-      <div className="sm:text-base font-medium dark:text-neutral-50">{firstName}</div>
-      <div className="text-xs text-zinc-500 dark:text-zinc-400">{`Joined on 2026-02-10 at 19:52`}</div>
+      <div className="sm:text-base font-medium dark:text-neutral-50">{sanitizedFirstName}</div>
+      <div className="text-xs text-zinc-500 dark:text-zinc-400">{`Joined on ${registrationTimeFormat(registrationTime)}`}</div>
     </div>
   )
 }
@@ -94,11 +96,11 @@ const Players = ({players, status, active}: {players: Player[]; status: string; 
     <div className={`grid  ${active ? `[grid-area:players-col]` : `hidden`}  lg:block ${playerArea} ${playerColor} [grid-template-areas:var(--players-col-layout)] border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 `} >
       <div className={`[grid-area:category] dark:text-white text-center justify-self-center self-center py-4 font-medium`}>{`${status === 'confirmed' ? `Confirmed` : `Potential`} Players (${players.length})`}</div>
       <div className="[grid-area:players] justify-self-stretch whitespace-nowrap border border-solid border-neutral-200 dark:border-neutral-800 max-h-62.5 overflow-auto">
-        {players.map(({firstName}, index) => (
+        {players.map(({firstName, registrationTime}, index) => (
           <div key={index} className="h-[62.5px] flex justify-between items-center pt-2 pr-4 pb-2 pl-2 border border-solid border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800">
             <div className="flex gap-3">
               <PlayerLetterAvatar firstName={firstName} status={`${status === `confirmed` ? `confirmed` : `potential`}`} />
-              <PlayerProfile firstName={firstName} />
+              <PlayerProfile firstName={firstName} registrationTime={registrationTime} />
             </div>
             <div className={`size-2.5 rounded-full flex-none ${playerCircleColor}`}></div>
           </div>
@@ -109,15 +111,15 @@ const Players = ({players, status, active}: {players: Player[]; status: string; 
 }
 
 const RegisteredPlayersTable = ({gameEvent}: {gameEvent: GameEvent | undefined}) => {
-  let players : Player[], capacity: number, available;
+  let players : Player[], capacity: number, isAvailable: boolean;
   if (gameEvent) {
     players = gameEvent.registeredPlayers;
     capacity = gameEvent.capacity;
-    available = gameEvent.isAvailable
+    isAvailable = isGameAvailable(gameEvent);
   } else {
     players = []
     capacity = 0;
-    available = false;
+    isAvailable = false;
   }
 
   const {confirmed, potential} = Object.groupBy(players, (registeredPlayers) =>
@@ -125,7 +127,7 @@ const RegisteredPlayersTable = ({gameEvent}: {gameEvent: GameEvent | undefined})
   )
   const confirmedPlayers = confirmed ?? []
   const potentialPlayers = potential ?? []
-  const currentCapacityColor = !available ? `text-red-500 dark:text-red-600` : `text-green-500 dark:text-green-600`
+  const currentCapacityColor = !isAvailable ? `text-red-500 dark:text-red-600` : `text-green-500 dark:text-green-600`
 
   const playerStatusTabs: StatusTabsProps[] = [
     {isActive: true, status: 'Confirmed'},
@@ -142,7 +144,7 @@ const RegisteredPlayersTable = ({gameEvent}: {gameEvent: GameEvent | undefined})
       <Players players={confirmedPlayers} status="confirmed" active={statusTabs[0].isActive} />
       <Players players={potentialPlayers} status="potential" active={statusTabs[1].isActive} />
       { capacity > 0 && <div className={`p-4 font-medium [grid-area:footer] text-center border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-bl-2xl rounded-br-2xl ${currentCapacityColor}`} >
-        {`${!available ? `FULL` : `${capacity - players.length} Spots Left`}`}
+        {`${!isAvailable ? `FULL` : `${capacity - players.length} Spots Left`}`}
       </div>
       }
     </div>
