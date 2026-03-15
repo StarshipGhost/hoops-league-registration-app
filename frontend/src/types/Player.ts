@@ -1,0 +1,1 @@
+export type Player = { firstName: string; status: "Confirmed Player" | "Potential Player"; registrationTime: string };
