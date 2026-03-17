@@ -1,0 +1,27 @@
+{
+  "name": "hoops-league-registration-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StarshipGhost/hoops-league-registration-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StarshipGhost/hoops-league-registration-app/issues"
+  },
+  "homepage": "https://github.com/StarshipGhost/hoops-league-registration-app#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "date-fns": "^4.1.0",
+    "express": "^5.2.1",
+    "uuid": "^13.0.0"
+  }
+}
