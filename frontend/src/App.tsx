@@ -63,7 +63,7 @@ function App() {
   }
 
   const updateGameEvent = async (gameEvent: GameEvent, date: Date, start: string, end: string, location: Location, capacity: number): Promise<void>=> {
-    const updateGame = await scheduleService.updateGameEvent(
+    const updatedGame = await scheduleService.updateGameEvent(
       {
         id: gameEvent.id,
         date: date,
@@ -75,13 +75,13 @@ function App() {
       },
       gameEvent.id,
     );
-    setSchedule((prev) => prev.map((game) => game.id === updateGame.id ? updateGame : game))
+    setSchedule((prev) => prev.map((game) => game.id === updatedGame.id ? updatedGame : game))
   };
 
   const deleteGameEvent = async (gameEvent: GameEvent) => {
-    const deleteGame = await scheduleService.deleteGameEvent(gameEvent.id)
+    await scheduleService.deleteGameEvent(gameEvent.id)
     setSchedule((prev) => {
-      return prev.filter((game) => deleteGame.id !== game.id);
+      return prev.filter((game) => gameEvent.id !== game.id);
     }) 
   }
 
