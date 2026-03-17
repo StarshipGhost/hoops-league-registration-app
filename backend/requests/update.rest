@@ -1,0 +1,30 @@
+POST http://localhost:3000/schedule 
+Content-Type: application/json
+
+{
+  "date": "2026-03-20T04:00:00.000Z",
+  "start": "10:00 PM",
+  "end": "10:35 PM",
+  "location": {
+    "name": "Collège Bois de Boulogne - Complexe sportif - 2e étage",
+    "link": "https://www.google.com/maps/place/10500+Ave+de+Bois-de-Boulogne,+Montreal,+QC+H4N+1L4/@45.5363681,-73.6761788,17z/data=!3m1!4b1!4m6!3m5!1s0x4cc9188eaf11c6dd:0xab8ca3e2415cadc5!8m2!3d45.5363681!4d-73.6736039!16s%2Fg%2F11nntq6jk2?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D"
+  },
+  "registeredPlayers": [],
+  "capacity": 7
+}
+
+
+###
+PATCH http://localhost:3000/schedule/1
+Content-Type: application/json
+
+{
+  "date": "2026-03-27T04:00:00.000Z",
+  "start": "10:35 PM",
+  "end": "12:30 AM",
+  "location": {
+    "name": "Collège Bois de Boulogne - Complexe sportif - 2e étage",
+    "link": "https://www.google.com/maps/place/10500+Ave+de+Bois-de-Boulogne,+Montreal,+QC+H4N+1L4/@45.5363681,-73.6761788,17z/data=!3m1!4b1!4m6!3m5!1s0x4cc9188eaf11c6dd:0xab8ca3e2415cadc5!8m2!3d45.5363681!4d-73.6736039!16s%2Fg%2F11nntq6jk2?entry=ttu&g_ep=EgoyMDI2MDIwMS4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D"
+  },
+  "capacity": 27
+}
