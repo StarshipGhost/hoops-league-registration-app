@@ -1,14 +1,14 @@
 import {useState} from 'react'
-import CalendarIcon from './icons/CalendarIcon'
-import ClockIcon from './icons/ClockIcon'
-import LocationIcon from './icons/LocationIcon'
-import UsersIcon from './icons/UsersIcon'
-import type {GameEvent} from '../types/GameEvent'
-import type {Player} from '../types/Player'
-import { getStringDateParts} from '../utils/timeString'
-import SectionHeader from './customs/SectionHeader'
+import CalendarIcon from '../icons/CalendarIcon'
+import ClockIcon from '../icons/ClockIcon'
+import LocationIcon from '../icons/LocationIcon'
+import UsersIcon from '../icons/UsersIcon'
+import type {GameEvent} from '../../types/GameEvent'
+import type {Player} from '../../types/Player'
+import { getStringDateParts} from '../../utils/timeString'
+import SectionHeader from '../customs/SectionHeader'
 import { GameInfoLine } from './Schedule'
-import { isGameAvailable } from '../utils/scheduleUtils'
+import { isGameAvailable } from '../../utils/scheduleUtils'
 
 interface StatusTabsProps {
   isActive: boolean

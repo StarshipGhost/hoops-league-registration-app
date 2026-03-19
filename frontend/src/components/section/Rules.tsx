@@ -1,12 +1,12 @@
 import {type JSX} from 'react'
-import BookIcon from './icons/BookIcon'
-import ClockIcon from './icons/ClockIcon'
-import UsersIcon from './icons/UsersIcon'
-import ShirtIcon from './icons/ShirtIcon'
-import SafetyIcon from './icons/SafetyIcon'
-import CancelIcon from './icons/CancelIcon'
-import WarningIcon from './icons/WarningIcon'
-import SectionHeader from './customs/SectionHeader'
+import BookIcon from '../icons/BookIcon'
+import ClockIcon from '../icons/ClockIcon'
+import UsersIcon from '../icons/UsersIcon'
+import ShirtIcon from '../icons/ShirtIcon'
+import SafetyIcon from '../icons/SafetyIcon'
+import CancelIcon from '../icons/CancelIcon'
+import WarningIcon from '../icons/WarningIcon'
+import SectionHeader from '../customs/SectionHeader'
 
 const rules: {icon: JSX.Element; name: string; description: string}[] = [
   {

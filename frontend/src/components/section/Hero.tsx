@@ -1,5 +1,5 @@
-import {OrangeButton,  WhiteButton } from './customs/Button'
-import {useHeaderContext} from './customs/HeaderContext'
+import {OrangeButton,  WhiteButton } from '../customs/Button'
+import {useHeaderContext} from '../customs/HeaderContext'
 
 const HeroIntro = () => {
   return (

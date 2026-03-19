@@ -1,11 +1,11 @@
-import CustomRadioButton, { type PlayerOptionProps } from "./customs/RadioButton";
-import UserAdditionIcon from "./icons/UserAdditionIcon";
+import CustomRadioButton, { type PlayerOptionProps } from "../customs/RadioButton";
+import UserAdditionIcon from "../icons/UserAdditionIcon";
 import { useEffect, useState, type ChangeEvent } from "react";
-import SectionHeader from "./customs/SectionHeader";
-import { Button } from "./customs/Button";
+import SectionHeader from "../customs/SectionHeader";
+import { Button } from "../customs/Button";
 import type { GameEvent } from "@/types/GameEvent";
 import type { Player } from "@/types/Player";
-import { isGameAvailable } from "../utils/scheduleUtils";
+import { isGameAvailable } from "../../utils/scheduleUtils";
 import { registrationTimeFormat } from "@/utils/timeString";
 import guestService from "@/services/guest";
 

@@ -1,9 +1,9 @@
-import CheckIcon from "./icons/CheckIcon";
-import DollarSignIcon from "./icons/DollarSignIcon";
-import CardIcon from "./icons/CardIcon";
-import { useHeaderContext } from "./customs/HeaderContext";
-import SectionHeader from "./customs/SectionHeader";
-import { OrangeButton } from "./customs/Button";
+import CheckIcon from "../icons/CheckIcon";
+import DollarSignIcon from "../icons/DollarSignIcon";
+import CardIcon from "../icons/CardIcon";
+import { useHeaderContext } from "../customs/HeaderContext";
+import SectionHeader from "../customs/SectionHeader";
+import { OrangeButton } from "../customs/Button";
 
 const PricingHeader = () => {
   return (
