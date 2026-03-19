@@ -19,7 +19,9 @@
   "homepage": "https://github.com/StarshipGhost/hoops-league-registration-app#readme",
   "description": "",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
+    "crypto": "^1.0.1",
     "date-fns": "^4.1.0",
     "express": "^5.2.1",
     "uuid": "^13.0.0"
