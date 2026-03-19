@@ -1,12 +1,14 @@
 import CustomRadioButton, { type PlayerOptionProps } from "./customs/RadioButton";
 import UserAdditionIcon from "./icons/UserAdditionIcon";
-import { useState, type ChangeEvent } from "react";
-import SectionHeader from "./SectionHeader";
-import { Button } from "./Button";
+import { useEffect, useState, type ChangeEvent } from "react";
+import SectionHeader from "./customs/SectionHeader";
+import { Button } from "./customs/Button";
 import type { GameEvent } from "@/types/GameEvent";
 import type { Player } from "@/types/Player";
-import { isGameAvailable } from "./../utils/scheduleUtils";
+import { isGameAvailable } from "../utils/scheduleUtils";
 import { registrationTimeFormat } from "@/utils/timeString";
+import guestService from "@/services/guest";
+
 
 const RegistrationHeader = () => {
   return (
@@ -40,7 +42,7 @@ const NameInput = ({
         onChange={onNameChangeHandler}
         pattern="^[A-Za-z]*"
         placeholder="Your name"
-        disabled={gameEvent && !isGameAvailable(gameEvent) || isRegistered}
+        disabled={!isGameAvailable(gameEvent) || isRegistered}
       ></input>
     </div>
   );
@@ -77,21 +79,21 @@ const Buttons = ({
   isRegistered: boolean;
   player: Player | undefined;
   isUserRegistrationAllowed: () => boolean;
-  submitCancellation: (player: Player) => void;
+  submitCancellation: (guestId: string) => void;
 }) => {
   return (
     <div className="flex flex-col gap-3">
       <Button
         type="submit"
-        extra={`text-xs sm:text-sm py-2 ${selectedOption ? selectedOption.style : `bg-white text-black disabled:opacity-30 disabled:border-neutral-500 disabled:cursor-not-allowed`}`}
+        extra={`text-xs sm:text-sm py-2 disabled:opacity-30 disabled:border-neutral-500 disabled:cursor-not-allowed ${selectedOption ? selectedOption.style : `bg-white text-black `}`}
         text="Complete Reservation"
-        disabled={!isUserRegistrationAllowed()}
+        disabled={!isUserRegistrationAllowed() || isRegistered}
       />
       {isRegistered && (
         <Button
           extra={"text-white text-xs sm:text-sm py-2 bg-red-500 dark:bg-red-500/80"}
           text={"Cancel Registration"}
-          onClick={() => (player ? submitCancellation(player) : console.log("player doesn't exist"))}
+          onClick={() => (player ? submitCancellation(player.guestId) : console.log("player doesn't exist"))}
         />
       )}
     </div>
@@ -162,16 +164,17 @@ const NoticeBox = ({ gameEvent, isRegistered }: { gameEvent: GameEvent | undefin
 const RegistrationForm = ({
   gameEvent,
   isRegistered,
-  registrationStatus,
+  registeredPlayer,
   gameEventRegistration,
   gameEventCancellation,
 }: {
   gameEvent: GameEvent | undefined;
   isRegistered: boolean;
-  registrationStatus: (value: boolean) => void;
+  registeredPlayer: Player | undefined
   gameEventRegistration: (player: Player) => void;
-  gameEventCancellation: (player: Player) => void;
+  gameEventCancellation: (guestId: string) => void;
 }) => {
+
   const [name, setName] = useState<string>("");
   const [currentStatus, setCurrentStatus] = useState<"Confirmed Player" | "Potential Player" | undefined>();
   const currentOptions: PlayerOptionProps[] = [
@@ -192,8 +195,20 @@ const RegistrationForm = ({
   ];
   const selectedOption : PlayerOptionProps | undefined = currentOptions.find((option) => option.isSelected);
 
+  useEffect(() => {
+    if (registeredPlayer) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setName(registeredPlayer.firstName)
+      setCurrentStatus(registeredPlayer.status)
+    }
+    else {
+      setName('')
+      setCurrentStatus(undefined)
+    }
+  }, [registeredPlayer])
+
   function isUserRegistrationAllowed(): boolean {
-    if (gameEvent && !isGameAvailable(gameEvent) || isRegistered) return false;
+    if (!isGameAvailable(gameEvent)) return false;
     return true;
   }
 
@@ -203,20 +218,19 @@ const RegistrationForm = ({
   };
 
   const handleRadioChange = (playerStatus: "Confirmed Player" | "Potential Player") : void => {
+    if (!isRegistered)
      setCurrentStatus(playerStatus);
   };
 
   const submitRegistration = (event: React.SubmitEvent<HTMLFormElement>) : void => {
     event.preventDefault();
     if (isUserRegistrationAllowed() && name.length > 0 && currentStatus) {
-      gameEventRegistration({firstName: name, status: currentStatus, registrationTime: registrationTimeFormat(new Date())});
-      registrationStatus(true);
+      gameEventRegistration({guestId: registeredPlayer?.guestId ?? '', firstName: name, status: currentStatus, registrationTime: registrationTimeFormat(new Date())});
     }
   };
 
-  const submitCancellation = (player: Player) : void => {
-      gameEventCancellation(player)
-      registrationStatus(false)
+  const submitCancellation = (guestId: string) : void => {
+      gameEventCancellation(guestId)
       setCurrentStatus(undefined);
   }
 
@@ -230,7 +244,7 @@ const RegistrationForm = ({
       <Buttons
         selectedOption={selectedOption}
         isRegistered={isRegistered}
-        player={{ firstName: name, status: currentStatus ?? "Confirmed Player", registrationTime: registrationTimeFormat(new Date()) }}
+        player={{ guestId: registeredPlayer?.guestId ?? '', firstName: name, status: currentStatus ?? "Confirmed Player", registrationTime: registrationTimeFormat(new Date()) }}
         isUserRegistrationAllowed={isUserRegistrationAllowed}
         submitCancellation={submitCancellation}
       />
@@ -243,23 +257,38 @@ const Registration = ({
   gameEventRegistration,
   gameEventCancellation,
 }: {
-  gameEvent: GameEvent | undefined;
+  gameEvent: GameEvent | undefined,
   gameEventRegistration: (player: Player) => void;
-  gameEventCancellation: (player: Player) => void;
-}) => {
-  const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  gameEventCancellation: (guestId: string) => void;
+}) => { 
+  const [guestId, setGuestId] = useState<string>('');
+  useEffect(() => {
+    const fetchGuestId = async () => {
+      try {
+        const id = await guestService.getGuestId();
+        setGuestId(id);
+      } catch (error) {
+        console.error("Failed to fetch guestId", error);
+      }
+    };
+
+    fetchGuestId();
+  }, []);
+
+  const registeredPlayer : Player | undefined = gameEvent?.registeredPlayers.find((player) => player.guestId === guestId)
+  const isRegistered = !!registeredPlayer
   return (
-    <div className="flex flex-col items-center bg-zinc-50 dark:bg-zinc-900/60 px-[10vw] py-20 border-box gap-8">
+    <section className="flex flex-col items-center bg-zinc-50 dark:bg-zinc-900/60 px-[10vw] py-20 border-box gap-8">
       <RegistrationHeader />
       <NoticeBox gameEvent={gameEvent} isRegistered={isRegistered} />
       <RegistrationForm
         gameEvent={gameEvent}
         isRegistered={isRegistered}
-        registrationStatus={(value: boolean) => setIsRegistered(value)}
+        registeredPlayer={registeredPlayer}
         gameEventRegistration={gameEventRegistration}
         gameEventCancellation={gameEventCancellation}
       />
-    </div>
+    </section>
   );
 };
 

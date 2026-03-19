@@ -1,4 +1,5 @@
 import type { GameEvent } from "@/types/GameEvent";
+import type { Player } from "@/types/Player";
 import axios from "axios";
 
 const BASE_URL = "http://localhost:3000/schedule";
@@ -28,4 +29,22 @@ const deleteGameEvent = async (id: number) => {
   return response.data;
 };
 
-export default { getSchedule, getGameEvent, createGameEvent, updateGameEvent, deleteGameEvent };
+const gameEventRegistration = async (id: number, player: Player) => {
+  const response = await axios.post(`${BASE_URL}/${id}/register`, player);
+  return response.data;
+};
+
+const gameEventCancellation = async (id: number, playerId: string) => {
+  const response = await axios.delete(`${BASE_URL}/${id}/register/${playerId}`);
+  return response.data;
+};
+
+export default {
+  getSchedule,
+  getGameEvent,
+  createGameEvent,
+  updateGameEvent,
+  deleteGameEvent,
+  gameEventRegistration,
+  gameEventCancellation,
+};

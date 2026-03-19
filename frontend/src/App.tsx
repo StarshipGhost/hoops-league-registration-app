@@ -26,13 +26,14 @@ function App() {
       setSchedule(schedule.concat(fetchedSchedule));
     }
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const sectionRef = useRef<HTMLDivElement | null>(null)
   function scrollToSection(index: number): void {
     const section = sectionRef.current
     if (section) {
-      const sectionNode = section.querySelectorAll('.main > div')[index]
+      const sectionNode = section.querySelectorAll('main > section')[index]
       sectionNode.scrollIntoView({behavior: 'smooth', block: 'start'})
     }
   }
@@ -78,28 +79,32 @@ function App() {
     setSchedule((prev) => prev.map((game) => game.id === updatedGame.id ? updatedGame : game))
   };
 
-  const deleteGameEvent = async (gameEvent: GameEvent) => {
+  const deleteGameEvent = async (gameEvent: GameEvent) : Promise<void> => {
     await scheduleService.deleteGameEvent(gameEvent.id)
     setSchedule((prev) => {
       return prev.filter((game) => gameEvent.id !== game.id);
     }) 
   }
 
-  const gameEventRegistration = async (player : Player) => {
-    if (schedule.length > 0) {
-      const updateGame = await scheduleService.updateGameEvent({...schedule[0], registeredPlayers: [...schedule[0].registeredPlayers, player]}, schedule[0].id);
-      setSchedule(schedule.map((game) => game.id === schedule[0].id ? updateGame : game))
+  const gameEventRegistration = async (player : Player) : Promise<void> => {
+    try {
+      const registeredPlayer = await scheduleService.gameEventRegistration(schedule[0].id, player);
+      const updatedGame = {...schedule[0], registeredPlayers: [...schedule[0].registeredPlayers, registeredPlayer]} 
+      setSchedule(schedule.map((game) => game.id === schedule[0].id ? updatedGame : game))
+    } catch (err) {
+      console.log(err)
     }
   }
 
-  const gameEventCancellation = async (player: Player) => {
-    if (schedule.length > 0) {
-      const findPlayer = schedule[0].registeredPlayers.find((p) => p.firstName === player.firstName);
-      const updateGame = await scheduleService.updateGameEvent(
-        { ...schedule[0], registeredPlayers: schedule[0].registeredPlayers.filter((p) => p.firstName !== findPlayer?.firstName) },
-        schedule[0].id,
-      );
-      setSchedule(schedule.map((game) => (game.id === schedule[0].id ? updateGame : game)));
+  const gameEventCancellation = async (guestId: string) => {
+    try {
+      const nextGame = schedule[0];
+      const findPlayer = nextGame.registeredPlayers.find((p) => p.guestId === guestId);
+      const updatedGame = { ...nextGame, registeredPlayers: nextGame.registeredPlayers.filter((p) => p.guestId !== findPlayer?.guestId) }
+      await scheduleService.gameEventCancellation(nextGame.id, guestId);
+      setSchedule(schedule.map((game) => (game.id === nextGame.id ? updatedGame : game)));
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -108,7 +113,7 @@ function App() {
       <HeaderContext.Provider value={providerProps}>
         <Modal />
         <Header />
-        <div ref={sectionRef} className="main bg-white dark:bg-black flex flex-col">
+        <main ref={sectionRef} className="bg-white dark:bg-black flex flex-col">
           <Hero />
           <Schedule schedule={schedule} addGameEvent={addGameEvent} updateGameEvent={updateGameEvent} deleteGameEvent={deleteGameEvent} />
           <RegisteredPlayers gameEvent={schedule[0]} />
@@ -119,7 +124,7 @@ function App() {
             gameEventRegistration={gameEventRegistration}
             gameEventCancellation={gameEventCancellation}
           />
-        </div>
+        </main>
         <Footer />
       </HeaderContext.Provider>
     </div>
