@@ -14,10 +14,10 @@ import type {Location} from '@/types/Location'
 import { isGameAvailable } from '../../utils/scheduleUtils'
 import { useHeaderContext } from '../customs/HeaderContext'
 
-import darkEdit from '../assets/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg'
-import darkDelete from '../assets/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg'
-import lightEdit from '../assets/edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'
-import lightDelete from '../assets/delete_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'
+import darkEdit from '../../assets/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg'
+import darkDelete from '../../assets/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg'
+import lightEdit from '../../assets/edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'
+import lightDelete from '../../assets/delete_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'
 
 export interface GameInfoLineProps {
   icon: React.ReactNode,
