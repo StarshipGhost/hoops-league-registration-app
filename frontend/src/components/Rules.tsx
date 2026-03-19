@@ -6,7 +6,7 @@ import ShirtIcon from './icons/ShirtIcon'
 import SafetyIcon from './icons/SafetyIcon'
 import CancelIcon from './icons/CancelIcon'
 import WarningIcon from './icons/WarningIcon'
-import SectionHeader from './SectionHeader'
+import SectionHeader from './customs/SectionHeader'
 
 const rules: {icon: JSX.Element; name: string; description: string}[] = [
   {
@@ -80,7 +80,7 @@ const RuleCard = ({icon, name, description}: {icon: JSX.Element; name: string; d
 
 const Rules = () => {
   return (
-    <div className="flex flex-col items-center bg-zinc-50 dark:bg-zinc-900/60 px-[10vw] py-20 border-box gap-8">
+    <section className="flex flex-col items-center bg-zinc-50 dark:bg-zinc-900/60 px-[10vw] py-20 border-box gap-8">
       <RulesHeader />
       <GameFormat />
       <div className="w-full grid grid-cols-1 gap-8 min-w-80 md:grid-cols-2 xl:grid-cols-3">
@@ -88,7 +88,7 @@ const Rules = () => {
           <RuleCard key={name} icon={icon} name={name} description={description} />
         ))}
       </div>
-    </div>
+    </section>
   )
 }
 

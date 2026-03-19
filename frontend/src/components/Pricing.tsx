@@ -2,8 +2,8 @@ import CheckIcon from "./icons/CheckIcon";
 import DollarSignIcon from "./icons/DollarSignIcon";
 import CardIcon from "./icons/CardIcon";
 import { useHeaderContext } from "./customs/HeaderContext";
-import SectionHeader from "./SectionHeader";
-import { OrangeButton } from "./Button";
+import SectionHeader from "./customs/SectionHeader";
+import { OrangeButton } from "./customs/Button";
 
 const PricingHeader = () => {
   return (
@@ -73,11 +73,11 @@ const PaymentMethod = () => {
 
 const Pricing = () => {
   return (
-    <div className="flex flex-col items-center bg-white dark:bg-black px-[10vw] py-20 border-box gap-8">
+    <section className="flex flex-col items-center bg-white dark:bg-black px-[10vw] py-20 border-box gap-8">
       <PricingHeader />
       <PricingCard />
       <PaymentMethod />
-    </div>
+    </section>
   );
 };
 

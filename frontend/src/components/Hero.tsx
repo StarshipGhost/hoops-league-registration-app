@@ -1,4 +1,4 @@
-import {OrangeButton,  WhiteButton } from './Button'
+import {OrangeButton,  WhiteButton } from './customs/Button'
 import {useHeaderContext} from './customs/HeaderContext'
 
 const HeroIntro = () => {
@@ -49,11 +49,11 @@ const HeroFooter = () => {
 }
 const Hero = () => {
   return (
-    <div className="flex flex-col gap-9 py-25 bg-linear-to-br from-orange-500/10 via-background to-blue-500/10">
+    <section className="flex flex-col gap-9 py-25 bg-linear-to-br from-orange-500/10 via-background to-blue-500/10">
       <HeroIntro />
       <HeroOrangeButton />
       <HeroFooter />
-    </div>
+    </section>
   )
 }
 

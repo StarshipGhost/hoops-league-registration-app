@@ -8,10 +8,10 @@ import ClockIcon from './icons/ClockIcon'
 import UsersIcon from './icons/UsersIcon'
 import {getStringDateParts} from '../utils/timeString'
 import React, {useState} from 'react'
-import { OrangeButton } from './Button'
-import SectionHeader from './SectionHeader'
+import { OrangeButton } from './customs/Button'
+import SectionHeader from './customs/SectionHeader'
 import type {Location} from '@/types/Location'
-import { isGameAvailable } from './../utils/scheduleUtils'
+import { isGameAvailable } from '../utils/scheduleUtils'
 import { useHeaderContext } from './customs/HeaderContext'
 
 import darkEdit from '../assets/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg'
@@ -241,7 +241,7 @@ const Schedule = ({
   };
 
   return (
-    <div className="flex flex-col items-center bg-zinc-50 dark:bg-zinc-900/60 px-[10vw] py-20 border-box gap-8">
+    <section className="flex flex-col items-center bg-zinc-50 dark:bg-zinc-900/60 px-[10vw] py-20 border-box gap-8">
       <ScheduleHeader />
       <ScheduleModal
         isActive={scheduleModal}
@@ -257,7 +257,7 @@ const Schedule = ({
           <ScheduleCard key={index} gameEvent={schedule} isNextGame={index === 0} updateGame={openEditModal} deleteGame={openDeleteModal} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

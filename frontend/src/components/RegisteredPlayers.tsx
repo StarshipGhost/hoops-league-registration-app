@@ -6,9 +6,9 @@ import UsersIcon from './icons/UsersIcon'
 import type {GameEvent} from '../types/GameEvent'
 import type {Player} from '../types/Player'
 import { getStringDateParts} from '../utils/timeString'
-import SectionHeader from './SectionHeader'
+import SectionHeader from './customs/SectionHeader'
 import { GameInfoLine } from './Schedule'
-import { isGameAvailable } from './../utils/scheduleUtils'
+import { isGameAvailable } from '../utils/scheduleUtils'
 
 interface StatusTabsProps {
   isActive: boolean
@@ -155,10 +155,10 @@ const RegisteredPlayersTable = ({gameEvent}: {gameEvent: GameEvent | undefined})
 
 const RegisteredPlayers = ({gameEvent} : { gameEvent: GameEvent | undefined }) => {
   return (
-    <div className="flex flex-col items-center bg-white dark:bg-black px-[10vw] py-20 border-box gap-8">
+    <section className="flex flex-col items-center bg-white dark:bg-black px-[10vw] py-20 border-box gap-8">
       <RegisteredPlayersHeader />
       <RegisteredPlayersTable gameEvent={gameEvent} />
-    </div>
+    </section>
   )
 }
 
