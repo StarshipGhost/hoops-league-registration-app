@@ -4,7 +4,7 @@ import {useHeaderContext} from './customs/HeaderContext'
 import NavigationHamburgerIcon from './icons/header/NavigationHamburgerIcon'
 import ColorToggleIcon from './icons/header/ColorToggleIcon'
 import LockIcon from './icons/header/LockIcon'
-import { OrangeButton } from './Button'
+import { OrangeButton } from './customs/Button'
 
 const navigationLinkStyle: {desktop: string; mobile: string} = {
   desktop: 'text-sm text-zinc-500 dark:text-zinc-400 font-medium p-2 white-space-nowrap cursor-pointer hover:text-black dark:hover:text-white',
