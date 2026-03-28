@@ -5,57 +5,23 @@ import lightClosedLock from  '../../../assets/lock_24dp_000000_FILL0_wght400_GRA
 import darkOpenLock from '../../../assets/lock_open_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'
 import darkClosedLock from '../../../assets/lock_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'
 
-const LockIcon = () => {
-  const { theme: { darkMode }, authModal: { toggleAuthModal }, } = useHeaderContext();
-  const isAuthenticated = false;
-  if (darkMode) {
-    if (isAuthenticated) {
-      return (
-        <a>
-          <img
-            src={darkOpenLock}
-            width="34"
-            height="34"
-            className="flex items-stretch cursor-pointer p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full"
-          ></img>
-        </a>
-      );
-    } else {
-      return (
-        <a onClick={toggleAuthModal}>
-          <img
-            src={darkClosedLock}
-            width="34"
-            height="34"
-            className="flex items-stretch cursor-pointer p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full"
-          ></img>
-        </a>
-      );
-    }
-  } else {
-    if (isAuthenticated) {
-      return (
-        <a>
-          <img
-            src={lightOpenLock}
-            width="34"
-            height="34"
-            className="flex items-stretch cursor-pointer p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full"
-          ></img>
-        </a>
-      );
-    } else {
-      return (
-        <a onClick={toggleAuthModal}>
-          <img
-            src={lightClosedLock}
-            width="34"
-            height="34"
-            className="flex items-stretch cursor-pointer p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full"
-          ></img>
-        </a>
-      );
-    }
-  }
+const LockIconLink = ({open, src}: {open: boolean, src: string}) => {
+  const { admin: { logout }, authModal: { toggleAuthModal } } = useHeaderContext();
+
+  return (
+    <a onClick={open ? logout : toggleAuthModal}>
+      <img 
+        src={src} 
+        className="size-8.5 flex items-stretch cursor-pointer p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full"
+        ></img>
+    </a>
+  )
+}
+
+const LockIcon = ({open}: {open: boolean}) => {
+  const { theme: { darkMode } } = useHeaderContext();
+  const themeMode: string = darkMode ? ( open ? darkOpenLock : darkClosedLock ) : open ? lightOpenLock : lightClosedLock;
+      return <LockIconLink open={open} src={themeMode}/>
 };
+
 export default LockIcon;
