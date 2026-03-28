@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+const GUEST_URL = "http://localhost:3000/guest";
 
 const getGuestId = async (): Promise<string> => {
-  const response = await axios.get(`${BASE_URL}/guest`, {
+  const response = await axios.get(`${GUEST_URL}`, {
     withCredentials: true,
   });
   return response.data.guestId;
