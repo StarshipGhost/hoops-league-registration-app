@@ -10,7 +10,12 @@ interface AuthModalProps {
   toggleAuthModal: () => void
 }
 
-export const HeaderContext = createContext<{scrollFunction: (index: number) => void; theme: ThemeProps; authModal: AuthModalProps} | undefined>(undefined)
+interface adminProp {
+  isAdmin: boolean,
+  logout: () => Promise<void>
+}
+
+export const HeaderContext = createContext<{scrollFunction: (index: number) => void; theme: ThemeProps; authModal: AuthModalProps, admin: adminProp} | undefined>(undefined)
 
 export const useHeaderContext = () => {
   const headerContext = useContext(HeaderContext)
