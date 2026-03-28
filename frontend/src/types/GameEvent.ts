@@ -9,4 +9,5 @@ export type GameEvent = {
   location: Location;
   registeredPlayers: Player[];
   capacity: number;
+  openRegistrations: boolean
 };
