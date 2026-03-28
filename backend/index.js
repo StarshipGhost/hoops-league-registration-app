@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -6,6 +7,9 @@ const { logger } = require("./middleware/logger");
 const { errorHandler } = require("./middleware/errorHandler");
 const { setCookie } = require("./middleware/setCookie");
 const cookieParser = require("cookie-parser");
+const { requireAdmin } = require('./middleware/requireAdmin')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const PORT = 3000;
 
 app.use(cors(corsOptions));
@@ -19,11 +23,11 @@ let schedule = [];
 app.use(setCookie);
 
 app.get("/guest", (req, res) => {
-  res.status(200).json({ guestId: req.guestId });
+  return res.status(200).json({ guestId: req.guestId });
 });
 
 app.get("/schedule", (req, res) => {
-  res.json(schedule);
+  return res.status(200).json(schedule);
 });
 
 app.get("/schedule/:id", (req, res) => {
@@ -37,13 +41,13 @@ app.get("/schedule/:id", (req, res) => {
 
 app.patch("/schedule/:id", (req, res) => {
   const isEmpty = (data) => !data.length;
-  const { date, start, end, location, capacity } = req.body;
+  const { date, start, end, location, capacity, openRegistrations } = req.body;
   const id = parseInt(req.params.id);
   const game = schedule.find((g) => g.id === id);
   if (isEmpty(date) || isEmpty(start) || isEmpty(end) || !location || capacity < game.registeredPlayers) {
     return res.status(400).json({ error: "All fields are required" });
   }
-  const updatedGame = { ...game, date: date, start: start, end: end, location: location, capacity: capacity };
+  const updatedGame = { ...game, date: date, start: start, end: end, location: location, capacity: capacity, openRegistrations: openRegistrations };
   schedule = schedule.map((game) => (game.id === id ? updatedGame : game));
   return res.status(201).json(updatedGame);
 });
@@ -105,6 +109,54 @@ app.delete("/schedule/:id/register/:playerId", (req, res) => {
   schedule = schedule.map((game) => game.id === id ? updatedGame : game);
   return res.status(201).end()
 })
+
+app.post("/admin/login", async (req, res) => {
+  const { username, password } = req.body;
+  console.log(req.body)
+
+  if (username !== process.env.ADMIN_EMAIL) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+  const isValid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
+  if (!isValid) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+  const token = jwt.sign(
+    { role: "admin" },
+    process.env.JWT_SECRET,
+    { expiresIn: "15m" }
+  );
+
+  res.cookie("admin_token", token, {
+      httpOnly: true,
+      secure: false, // true in production with HTTPS
+      sameSite: "lax",
+    }).status(200).json({ message: "Logged in successfully" });
+});
+
+app.post("/admin/logout", (req, res) => {
+  res.clearCookie("admin_token", {
+    httpOnly: true,
+    secure: false, // true in production with HTTPS
+    sameSite: "lax",
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
+});
+
+app.post("/admin/logout", (req, res) => {
+  res.clearCookie("admin_token", {
+    httpOnly: true,
+    secure: false, // true in production with HTTPS
+    sameSite: "lax",
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
+});
+
+app.get("/admin/me", requireAdmin, (req, res) => {
+  res.json({ isAdmin: true });
+});
 
 app.use(errorHandler);
 app.listen(PORT, () => console.log(`server listens to port ${PORT}`));
