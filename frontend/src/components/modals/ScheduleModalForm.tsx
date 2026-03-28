@@ -85,7 +85,7 @@ const LocationDropdown = ({ location, setLocation }: { location: Location | unde
   ];
   return (
     <div className="min-w-0 w-full flex flex-col justify-between gap-2">
-      <Select label={"Location:"} options={locations} option={location} setCurrentOption={setLocation} />
+      <Select label={"Location"} options={locations} option={location} setCurrentOption={setLocation} />
     </div>
   );
 };
@@ -147,7 +147,7 @@ const ScheduleFormCard = ({
 
   const submitGameEvent = (date: Date | undefined, start: string, end: string, location: Location | undefined, players: Player[], capacity: number) => {
     const isEmpty = (value: string): boolean => value.length === 0;
-    if (!date || isEmpty(start) || isEmpty(end) || !location || isNaN(capacity) || capacity < players.length) {
+    if (!date || isEmpty(start) || isEmpty(end) || !location || isNaN(capacity) || capacity > 30 || capacity < players.length) {
       setIsFormInvalid(true);
       setTimeout(() => {
         setIsFormInvalid(false);
@@ -163,7 +163,7 @@ const ScheduleFormCard = ({
   };
 
   return (
-    <Card className="w-135 min-w-80 border-box">
+    <Card className="w-120 min-w-80 border-box">
       <CardHeader className="relative">
         <CloseButton closeFunction={closeCard} />
         <CardTitle className="text-xl">{editingEvent ? "Update game event" : "New game event"}</CardTitle>
