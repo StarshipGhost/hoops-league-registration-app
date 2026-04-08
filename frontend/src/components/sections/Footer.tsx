@@ -61,12 +61,12 @@ const FooterSocials = () => {
 
 const Footer = () => {
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 px-[10vw] py-20 gap-12">
+    <footer className="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 px-[10vw] py-20 gap-12">
       <FooterSummary />
       <FooterLinks />
       <FooterContacts />
       <FooterSocials />
-    </div>
+    </footer>
   )
 }
 
