@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(express.static("dist"));
 app.use(cookieParser());
 connectDB();
+const PORT = process.env.PORT | 3000
 
 app.use(setCookie);
 
@@ -166,7 +167,7 @@ app.get("/admin/me", requireAdmin, (req, res) => {
 app.use(errorHandler);
 
 mongoose.connection.once("open", () => {
-  app.listen(process.env.PORT, () => console.log(`server listens to port ${process.env.PORT}`));
+  app.listen(PORT, () => console.log(`server listens to port ${PORT}`));
   console.log("Connected to MongoDB");
 });
 
