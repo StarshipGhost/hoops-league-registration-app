@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.static("dist"));
 app.use(cookieParser());
 connectDB();
-const PORT = process.env.PORT | 3000
+const PORT = process.env.PORT || 3000
 
 app.use(setCookie);
 
@@ -50,7 +50,7 @@ app.patch("/schedule/:id", async (req, res) => {
   if (!game) {
     return res.status(404).json({ error: "game not found" });
   }
-  if (isEmpty(date) || isEmpty(start) || isEmpty(end) || !location || capacity < game.registeredPlayers) {
+  if (isEmpty(date) || isEmpty(start) || isEmpty(end) || !location || capacity < game.registeredPlayers || isNaN(capacity)) {
     return res.status(400).json({ error: "All fields are required" });
   }
   game.date = date;
@@ -67,8 +67,7 @@ app.patch("/schedule/:id", async (req, res) => {
 app.post("/schedule", async (req, res) => {
   const isEmpty = (data) => !data.length;
   const game = req.body;
-  const newId = schedule.length + 1;
-  if (isEmpty(game.date) || isEmpty(game.start) || isEmpty(game.end) || !game.location || isNaN(capacity)) {
+  if (isEmpty(game.date) || isEmpty(game.start) || isEmpty(game.end) || !game.location || isNaN(game.capacity)) {
     return res.status(400).json({ error: "All fields are required" });
   }
   const gameObject = { ...game, id: newId, registeredPlayers: [] };
@@ -126,7 +125,7 @@ app.delete("/schedule/:id/register/:playerId", async (req, res) => {
   game.registeredPlayers.splice(playerIndex, 1);
 
   await game.save();
-  return res.status(201).json(updatedGame).end();
+  return res.status(201).json(game).end();
 });
 
 app.post("/admin/login", async (req, res) => {
