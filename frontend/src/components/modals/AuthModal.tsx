@@ -66,8 +66,8 @@ const AuthModalCard = ({handleLogin} : {handleLogin : () => void} ) => {
     <Card className="w-105">
       <CardHeader className="relative">
         <CloseButton closeFunction={toggleAuthModal} />
-        <CardTitle className="text-xl mr-5">Login to your admin account</CardTitle>
-        <CardDescription>Enter your credentials to manage registrations and game events</CardDescription>
+        <CardTitle className="text-xl mr-5">Admin Login</CardTitle>
+        <CardDescription>Only the admin of this website can login & manage the registrations and game events.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <AuthModalInput id="Email:" onChange={(e) => handleUsernameChange(e)} value={username} placeholder="admin@email.com" />
