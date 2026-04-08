@@ -50,7 +50,7 @@ function App() {
   const [darkMode, setDarkMode] = useState<boolean>(false)
   const [authModalActive, setAuthModalActive] = useState<boolean>(false)
   const [schedule, setSchedule] = useState<GameEvent[]>([])
-  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+  const [isAdmin, setIsAdmin] = useState<boolean>(true)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoggedOut, setIsLoggedOut] = useState<boolean>(false);
 
@@ -82,7 +82,6 @@ function App() {
           const admin = await adminService.checkAdmin();
           setIsAdmin(admin)
         } catch (err) {
-            setIsAdmin(false)
             console.log(err)
         }
     }
