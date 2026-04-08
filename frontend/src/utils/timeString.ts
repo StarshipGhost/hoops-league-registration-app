@@ -25,7 +25,7 @@ export function getDateParts(date: Date) {
 export function getStringDateParts(dateData: string) {
   const [year, month, dayOfMonth] = dateData.split('T')[0].split('-');
   const literalMonth = months[parseInt(month) - 1];
-  const dayIndex = new Date(`${year}-${parseInt(month) - 1}-${dayOfMonth}`).getDay()
+  const dayIndex = new Date(`${year}-${parseInt(month)}-${dayOfMonth}`).getDay()
   const dayOfWeek = weekDays[dayIndex];
   return {dayOfWeek, literalMonth, dayOfMonth, year};
 }
