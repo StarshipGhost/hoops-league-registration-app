@@ -8,7 +8,7 @@ function setCookie(req, res, next) {
     guestId = crypto.randomUUID();
     res.cookie("guestId", guestId, {
       httpOnly: true,
-      secure: true,
+      secure: isProduction,
       sameSite: isProduction ? "none" : "lax",
       maxAge: 900000,
     });
