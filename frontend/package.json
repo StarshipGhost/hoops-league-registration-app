@@ -8,7 +8,7 @@
     "start": "react-scripts start",
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "bulid:gh": "vite build --mode github-pages",
+    "build:gh": "vite build --mode github-pages",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "json-server -p 3000 db.json",
