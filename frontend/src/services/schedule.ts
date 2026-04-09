@@ -33,12 +33,12 @@ const deleteGameEvent = async (id: number) => {
 };
 
 const gameEventRegistration = async (id: number, player: Player) => {
-  const response = await axios.post(`${BASE_URL}/schedule/${id}/register`, player);
+  const response = await axios.post(`${BASE_URL}/schedule/${id}/register`, player, {withCredentials: true});
   return response.data;
 };
 
 const gameEventCancellation = async (id: number, playerId: string) => {
-  const response = await axios.delete(`${BASE_URL}/schedule/${id}/register/${playerId}`);
+  const response = await axios.delete(`${BASE_URL}/schedule/${id}/register/${playerId}`, {withCredentials: true});
   return response.data;
 };
 
