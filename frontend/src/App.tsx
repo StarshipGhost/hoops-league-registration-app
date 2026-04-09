@@ -82,11 +82,12 @@ function App() {
           const admin = await adminService.checkAdmin();
           setIsAdmin(admin)
         } catch (err) {
-            console.log(err)
+          setIsAdmin(false)
+          console.log(err)
         }
     }
     fetchAdminState();
-  })
+  }, [])
 
   const sectionRef = useRef<HTMLDivElement | null>(null)
   function scrollToSection(index: number): void {
