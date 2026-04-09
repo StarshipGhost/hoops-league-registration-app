@@ -24,6 +24,10 @@ const PORT = process.env.PORT || 3000
 
 app.use(setCookie);
 
+app.get("/", (req, res) => {
+  res.send("OK");
+});
+
 app.get("/guest", (req, res) => {
   return res.status(200).json({ guestId: req.guestId });
 });
