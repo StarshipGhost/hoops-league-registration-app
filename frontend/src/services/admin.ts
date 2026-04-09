@@ -1,9 +1,13 @@
 import axios from "axios";
-const ADMIN_URL = "http://localhost:3000/admin";
+
+const BASE_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:3000"
+    : "https://hoops-league-registration-app.onrender.com";
 
 const login = async (username: string, password: string) => {
   const response = await axios.post(
-    `${ADMIN_URL}/login`,
+    `${BASE_URL}/admin/login`,
     { username, password },
     {
       withCredentials: true,
@@ -13,12 +17,12 @@ const login = async (username: string, password: string) => {
 };
 
 const logout = async () => {
-  const response = await axios.post(`${ADMIN_URL}/logout`, { withCredientials: true });
+  const response = await axios.post(`${BASE_URL}/admin/logout`, { withCredientials: true });
   return response.data;
 };
 
 const checkAdmin = async () => {
-  const response = await axios.get(`${ADMIN_URL}/me`);
+  const response = await axios.get(`${BASE_URL}/admin/me`);
   return response.data.isAdmin;
 };
 
