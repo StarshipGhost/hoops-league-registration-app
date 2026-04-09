@@ -22,7 +22,7 @@ const logout = async () => {
 };
 
 const checkAdmin = async () => {
-  const response = await axios.get(`${BASE_URL}/admin/me`);
+  const response = await axios.get(`${BASE_URL}/admin/me`, {withCredentials: true});
   return response.data.isAdmin;
 };
 
