@@ -8,7 +8,7 @@ const BASE_URL =
     : "https://hoops-league-registration-app.onrender.com";
 
 const getSchedule = async () => {
-  const response = await axios.get(BASE_URL);
+  const response = await axios.get(`${BASE_URL}/schedule`);
   return response.data;
 };
 
