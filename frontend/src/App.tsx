@@ -82,12 +82,11 @@ function App() {
           const admin = await adminService.checkAdmin();
           setIsAdmin(admin)
         } catch (err) {
-          setIsAdmin(false)
           console.log(err)
         }
     }
     fetchAdminState();
-  }, [])
+  }, [isLoggedIn])
 
   const sectionRef = useRef<HTMLDivElement | null>(null)
   function scrollToSection(index: number): void {
@@ -112,6 +111,7 @@ function App() {
       console.log(err)
     }
   }
+
   const providerProps = {
     scrollFunction: scrollToSection,
     theme: {darkMode: darkMode, toggleThemeMode: toggleThemeMode},
