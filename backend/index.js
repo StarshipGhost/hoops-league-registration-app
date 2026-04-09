@@ -74,7 +74,7 @@ app.post("/schedule", async (req, res) => {
   if (isEmpty(game.date) || isEmpty(game.start) || isEmpty(game.end) || !game.location || isNaN(game.capacity)) {
     return res.status(400).json({ error: "All fields are required" });
   }
-  const gameObject = { ...game, id: newId, registeredPlayers: [] };
+  const gameObject = { ...game, registeredPlayers: [] };
   const newGame = await GameEvent.create(gameObject);
   if (newGame) {
     return res.status(201).json(newGame).end();
@@ -144,20 +144,22 @@ app.post("/admin/login", async (req, res) => {
   }
   const token = jwt.sign({ role: "admin" }, process.env.JWT_SECRET, { expiresIn: "15m" });
 
+  const isProduction = process.env.NODE_ENV === 'production'
   res.cookie("admin_token", token, {
       httpOnly: true,
-      secure: true, // true in production with HTTPS
-      sameSite: "none",
+      secure: isProduction, // true in production with HTTPS
+      sameSite: isProduction ? "none" : "lax",
     })
     .status(200)
     .json({ message: "Logged in successfully" });
 });
 
 app.post("/admin/logout", (req, res) => {
+  const isProduction = process.env.NODE_ENV === 'production'
   res.clearCookie("admin_token", {
     httpOnly: true,
-    secure: true, // true in production with HTTPS
-    sameSite: "none",
+    secure: isProduction, // true in production with HTTPS
+    sameSite: isProduction ? "none" : "lax",
   });
 
   res.status(200).json({ message: "Logged out successfully" });
