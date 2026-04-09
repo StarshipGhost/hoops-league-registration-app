@@ -146,8 +146,8 @@ app.post("/admin/login", async (req, res) => {
 
   res.cookie("admin_token", token, {
       httpOnly: true,
-      secure: false, // true in production with HTTPS
-      sameSite: "lax",
+      secure: true, // true in production with HTTPS
+      sameSite: "none",
     })
     .status(200)
     .json({ message: "Logged in successfully" });
@@ -156,8 +156,8 @@ app.post("/admin/login", async (req, res) => {
 app.post("/admin/logout", (req, res) => {
   res.clearCookie("admin_token", {
     httpOnly: true,
-    secure: false, // true in production with HTTPS
-    sameSite: "lax",
+    secure: true, // true in production with HTTPS
+    sameSite: "none",
   });
 
   res.status(200).json({ message: "Logged out successfully" });
