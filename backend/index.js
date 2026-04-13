@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
+const path = require('path');
 const { logger, logEvents } = require("./middleware/logger");
 const { errorHandler } = require("./middleware/errorHandler");
 const { setCookie } = require("./middleware/setCookie");
@@ -14,10 +15,12 @@ const connectDB = require("./config/dbConnect");
 const mongoose = require("mongoose");
 const GameEvent = require("./models/GameEvent");
 
+const distPath = path.join(__dirname, 'dist')
+
 app.use(cors(corsOptions));
 app.use(logger);
 app.use(express.json());
-app.use(express.static("dist"));
+app.use(express.static(distPath));
 app.use(cookieParser());
 connectDB();
 const PORT = process.env.PORT || 3000
@@ -25,7 +28,7 @@ const PORT = process.env.PORT || 3000
 app.use(setCookie);
 
 app.get("/", (req, res) => {
-  res.send("OK");
+  return res.sendFile(path.join(distPath, 'index.html'));
 });
 
 app.get("/guest", (req, res) => {
