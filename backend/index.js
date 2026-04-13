@@ -15,7 +15,7 @@ const connectDB = require("./config/dbConnect");
 const mongoose = require("mongoose");
 const GameEvent = require("./models/GameEvent");
 
-const distPath = path.join(__dirname, 'dist')
+const distPath = path.join(__dirname, '..', 'frontend', 'dist')
 
 app.use(cors(corsOptions));
 app.use(logger);
