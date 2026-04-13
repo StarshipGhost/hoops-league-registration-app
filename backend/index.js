@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 3000
 
 app.use(setCookie);
 
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   return res.sendFile(path.join(distPath, 'index.html'));
 });
 
