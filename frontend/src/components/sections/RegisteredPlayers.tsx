@@ -151,7 +151,7 @@ const RegisteredPlayersTable = ({gameEvent, deletePlayer}: {gameEvent: GameEvent
   ]
   const [statusTabs, setStatusTabs] = useState<StatusTabsProps[]>(playerStatusTabs)
   const handleActiveToggle = (status: string) => {
-    setStatusTabs(statusTabs.map((tab) => (tab.status === status ? {...tab, isActive: !tab.isActive} : {...tab, isActive: false})))
+    setStatusTabs(statusTabs.map((tab) => (tab.status === status ? {...tab, isActive: true} : {...tab, isActive: false})))
   }
   return  (
     <div className="w-[50vw] min-w-68.75 bg-white dark:bg-black grid [grid-template-areas:var(--mobile-layout-areas)] lg:[grid-template-areas:var(--desktop-layout-areas)] grid-cols-2 gap-px border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-2xl shadow-md">
