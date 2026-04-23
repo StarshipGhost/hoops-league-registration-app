@@ -47,7 +47,10 @@ const LogoutMessage = ({isLogout} : {isLogout : boolean}) => {
 }
 
 function App() {
-  const [darkMode, setDarkMode] = useState<boolean>(false)
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const current = localStorage.getItem('dark')
+    return current === "true" ? true : false;
+  })
   const [authModalActive, setAuthModalActive] = useState<boolean>(false)
   const [schedule, setSchedule] = useState<GameEvent[]>([])
   const [isAdmin, setIsAdmin] = useState<boolean>(true)
@@ -88,6 +91,17 @@ function App() {
     fetchAdminState();
   }, [isLoggedIn])
 
+  useEffect(() => {
+    const root = document.documentElement;
+    if (darkMode) {
+      localStorage.setItem('dark', "true");
+      root.classList.add('dark')
+    } else {
+      localStorage.setItem('dark', "false");
+      root.classList.remove('dark')
+    }
+  }, [darkMode])
+
   const sectionRef = useRef<HTMLDivElement | null>(null)
   function scrollToSection(index: number): void {
     const section = sectionRef.current
@@ -99,7 +113,6 @@ function App() {
 
   const toggleThemeMode = (): void => {
     setDarkMode((v) => !v) 
-    document.documentElement.classList.toggle('dark');
   }
   const toggleAuthModal = (): void => setAuthModalActive((v) => !v)
   const logout = async (): Promise<void> => {
