@@ -29,10 +29,10 @@ const convert12to24 = (time12) => {
   hours = parseInt(hours);
   if (modifier === "AM" && hours === 12) hours = 0;
   if (modifier === "PM" && hours !== 12) hours += 12;
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+  return `${String(hours).padStart(2, "0")}:${minutes.padStart(2, "0")}`;
 };
 
-cron.schedule("* * * * *", async () => {
+cron.schedule("*/15 * * * *", async () => {
   try {
     const now = new Date();
     const options = { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' };
