@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
-const path = require('path');
 const { logger, logEvents } = require("./middleware/logger");
 const { errorHandler } = require("./middleware/errorHandler");
 const { setCookie } = require("./middleware/setCookie");
@@ -14,21 +13,54 @@ const jwt = require("jsonwebtoken");
 const connectDB = require("./config/dbConnect");
 const mongoose = require("mongoose");
 const GameEvent = require("./models/GameEvent");
-
-const distPath = path.join(__dirname, '..', 'frontend', 'dist')
+const cron = require("node-cron");
 
 app.use(cors(corsOptions));
 app.use(logger);
 app.use(express.json());
-app.use(express.static(distPath));
+app.use(express.static("dist"));
 app.use(cookieParser());
 connectDB();
 const PORT = process.env.PORT || 3000
 
+const convert12to24 = (time12) => {
+  const [time, modifier] = time12.split(" ");
+  let [hours, minutes] = time.split(":");
+  hours = parseInt(hours);
+  if (modifier === "AM" && hours === 12) hours = 0;
+  if (modifier === "PM" && hours !== 12) hours += 12;
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+};
+
+cron.schedule("* * * * *", async () => {
+  try {
+    const now = new Date();
+    const options = { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' };
+    const todayDate = now.toISOString().split("T")[0]; // "YYYY-MM-DD"
+    const currentTime = now.toTimeString(options).slice(0, 5);  // "HH:MM"
+
+    // Fetch today's games and filter in JS after converting end to 24h
+    const todayGames = await GameEvent.find({ date: todayDate });
+    const expiredToday = todayGames.filter((g) => { console.log(convert12to24(g.end)); return convert12to24(g.end) <= currentTime});
+
+    const pastGames = await GameEvent.find({ date: { $lt: todayDate } });
+    const allExpired = [...expiredToday, ...pastGames];
+
+    if (allExpired.length > 0) {
+      const ids = allExpired.map((g) => g._id);
+      await GameEvent.deleteMany({ _id: { $in: ids } });
+      console.log(`[CRON] Deleted ${allExpired.length} expired game(s):`, ids);
+    }
+  } catch (err) {
+    console.error("[CRON] Error during cleanup:", err);
+    logEvents(`CRON error: ${err.message}`, "cronErrLog.log");
+  }
+});
+
 app.use(setCookie);
 
-app.get("*", (req, res) => {
-  return res.sendFile(path.join(distPath, 'index.html'));
+app.get("/", (req, res) => {
+  res.send("OK");
 });
 
 app.get("/guest", (req, res) => {
@@ -46,7 +78,7 @@ app.get("/schedule/:id", async (req, res, next) => {
   if (game) {
     return res.status(200).json(game);
   }
-  return res.status(404).json({ error: "game not found" }).end();
+  return res.status(404).json({ error: "Game not found" }).end();
 });
 
 app.patch("/schedule/:id", async (req, res) => {
@@ -77,7 +109,7 @@ app.post("/schedule", async (req, res) => {
   if (isEmpty(game.date) || isEmpty(game.start) || isEmpty(game.end) || !game.location || isNaN(game.capacity)) {
     return res.status(400).json({ error: "All fields are required" });
   }
-  const gameObject = { ...game, registeredPlayers: [] };
+  const gameObject = { ...game, date: game.date.split('T')[0], registeredPlayers: [] };
   const newGame = await GameEvent.create(gameObject);
   if (newGame) {
     return res.status(201).json(newGame).end();
@@ -95,18 +127,18 @@ app.post("/schedule/:id/register", async (req, res) => {
   const id = req.params.id;
   const game = await GameEvent.findById({ _id: id });
   if (!game) {
-    return res.status(404).json({ error: "game not found" });
+    return res.status(404).json({ error: "Game not found" });
   }
   const { firstName, status, registrationTime } = req.body;
   if (!firstName || !status) {
-    return res.status(400).json({ error: "firstName and status are required" });
+    return res.status(400).json({ error: "FirstName and status are required" });
   }
   const alreadyRegistered = game.registeredPlayers.some((player) => player.guestId === req.guestId);
   if (alreadyRegistered) {
-    return res.status(409).json({ error: "this client is already registered for this game" });
+    return res.status(409).json({ error: "This client is already registered for this game" });
   }
   if (game.registeredPlayers.length >= game.capacity) {
-    return res.status(400).json({ error: "this game is already full" });
+    return res.status(400).json({ error: "This game is already full" });
   }
   const newRegisteredPlayer = {
     guestId: req.guestId,
