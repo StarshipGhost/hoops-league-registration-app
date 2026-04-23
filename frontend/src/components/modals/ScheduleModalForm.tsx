@@ -203,8 +203,15 @@ const ScheduleModalForm = ({
   addGameEvent: (date: Date, start: string, end: string, location: Location, capacity: number) => void;
   updateGameEvent: (date: Date, start: string, end: string, location: Location, capacity: number) => void;
 }) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (editingEvent) {
+      return updateGameEvent
+    } 
+    return addGameEvent;
+  }
   return (
-    <Modal isModalActive={isActive}>
+    <Modal isModalActive={isActive} onSubmit={handleSubmit}>
       <ScheduleFormCard editingEvent={editingEvent} closeModal={closeModal} addGameEvent={addGameEvent} updateGameEvent={updateGameEvent} />
     </Modal>
   );

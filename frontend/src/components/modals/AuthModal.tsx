@@ -85,8 +85,12 @@ const AuthModal = ({handleLogin} : {handleLogin: () => void}) => {
   const {
     authModal: { authModalActive },
   } = useHeaderContext();
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    handleLogin();
+  }
   return (
-    <Modal isModalActive={authModalActive}>
+    <Modal isModalActive={authModalActive} onSubmit={handleSubmit}>
       <AuthModalCard handleLogin={handleLogin}/>
     </Modal>
   );
