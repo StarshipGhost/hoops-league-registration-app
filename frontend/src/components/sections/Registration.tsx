@@ -142,14 +142,14 @@ const NoticeBox = ({ gameEvent, isRegistered }: { gameEvent: GameEvent | undefin
         description="Registrations are now open. Secure your place to take part in competitive and friendly basketball games."
         boxStyle="bg-orange-100 dark:bg-orange-900/50 border-orange-500"
         textStyle="text-orange-700 dark:text-orange-300"
-        isActive={isGameAvailable(gameEvent) && (!!gameEvent && gameEvent.openRegistrations) && !isRegistered}
+        isActive={!!gameEvent && (isGameAvailable(gameEvent) && gameEvent.openRegistrations) && !isRegistered}
       />
       <RegistrationCategory
         title={"Registration Closed"}
         description="The capacity for the upcoming basketball session has been reached or the time allowed to register has passed. The registrations for the next game will open soon after the end of this session."
         boxStyle="bg-red-100 dark:bg-red-900/50 border-red-500"
         textStyle="text-red-700 dark:text-red-300"
-        isActive={(!isGameAvailable(gameEvent) || (!!gameEvent && !gameEvent.openRegistrations)) && !isRegistered}
+        isActive={!!gameEvent && ((!isGameAvailable(gameEvent) || !gameEvent.openRegistrations) && !isRegistered)}
       />
       <RegistrationCategory
         title={"Registration Unavailable"}
