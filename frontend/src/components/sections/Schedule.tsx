@@ -6,7 +6,7 @@ import CalendarIcon from '../icons/CalendarIcon'
 import LocationIcon from '../icons/LocationIcon'
 import ClockIcon from '../icons/ClockIcon'
 import UsersIcon from '../icons/UsersIcon'
-import {getStringDateParts} from '../../utils/timeString'
+import {convert12to24, getStringDateParts} from '../../utils/timeString'
 import React, {Activity, useState} from 'react'
 import { OrangeButton } from '../customs/Button'
 import SectionHeader from '../customs/SectionHeader'
@@ -271,15 +271,17 @@ const Schedule = ({
       <DeleteScheduleModal isActive={deleteGameModal} closeModal={closeModal} deleteGameEvent={deleteGameFromSchedule}/>
       {isAdmin && <OrangeButton extra="px-4 py-2 sm:px-6 sm:py-2" text="Create New Game Event" onClick={openCreateModal} /> }
       <div className="w-full grid grid-cols-1 justify-center gap-8 lg:grid-cols-2">
-        {schedule.map((schedule, index) => (
-          <ScheduleCard 
-              key={index} 
-              gameEvent={schedule} 
-              isNextGame={index === 0} 
-              updateGame={openEditModal} 
-              deleteGame={openDeleteModal} 
-              updateRegistrationsStatus={updateRegistrationStatus} />
-        ))}
+        {schedule
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime() || convert12to24(a.start) - convert12to24(b.start))
+            .map((schedule, index) => (
+              <ScheduleCard 
+                  key={index} 
+                  gameEvent={schedule} 
+                  isNextGame={index === 0} 
+                  updateGame={openEditModal} 
+                  deleteGame={openDeleteModal} 
+                  updateRegistrationsStatus={updateRegistrationStatus} />
+            ))}
       </div>
     </section>
   );

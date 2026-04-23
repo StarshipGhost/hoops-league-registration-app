@@ -36,3 +36,12 @@ export const registrationTimeFormat = (date : Date) : string => {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day} at ${timeString(date)}`
 }
+
+export const convert12to24 = (clockTime : string) => {
+  const [time, modifier] : string[] = clockTime.split(" ");
+  const hours : string = time.split(":")[0];
+  let nHours : number = parseInt(hours);
+  if (modifier === "AM" && nHours === 12) nHours = 0;
+  if (modifier === "PM" && nHours !== 12) nHours  += 12;
+  return nHours
+};
