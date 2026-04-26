@@ -154,7 +154,7 @@ const RegisteredPlayersTable = ({gameEvent, deletePlayer}: {gameEvent: GameEvent
     setStatusTabs(statusTabs.map((tab) => (tab.status === status ? {...tab, isActive: true} : {...tab, isActive: false})))
   }
   return  (
-    <div className="w-[50vw] min-w-68.75 bg-white dark:bg-black grid [grid-template-areas:var(--mobile-layout-areas)] lg:[grid-template-areas:var(--desktop-layout-areas)] grid-cols-2 gap-px border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-2xl shadow-md">
+    <div className="max-w-6xl sm:w-[55vw] bg-white dark:bg-black grid [grid-template-areas:var(--mobile-layout-areas)] lg:[grid-template-areas:var(--desktop-layout-areas)] grid-cols-2 gap-px border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-2xl shadow-md">
       <UpcomingGameDetail gameEvent={gameEvent} />
       <PlayersStatusTabs statusTabs={statusTabs} toggleActive={handleActiveToggle} players={players} />
       <Players players={confirmedPlayers} status="confirmed" active={statusTabs[0].isActive} deletePlayer={deletePlayer}/>
