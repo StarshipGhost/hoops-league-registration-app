@@ -6,8 +6,7 @@ export function useOutsideClick (ref: RefObject<HTMLElement | null>, open : bool
         function handleOutsideClick (event: Event)  {
             if (open && nodeRef && !nodeRef.contains(event.target as Node)) {
                 handler();
-                console.log("hello")
-            }
+            } 
         }
         window.addEventListener('click', handleOutsideClick);
         return () => {
