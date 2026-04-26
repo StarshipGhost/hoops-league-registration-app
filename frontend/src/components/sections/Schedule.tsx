@@ -6,7 +6,7 @@ import CalendarIcon from '../icons/CalendarIcon'
 import LocationIcon from '../icons/LocationIcon'
 import ClockIcon from '../icons/ClockIcon'
 import UsersIcon from '../icons/UsersIcon'
-import {convert12to24, getStringDateParts} from '../../utils/timeString'
+import { getStringDateParts } from '../../utils/timeString'
 import React, {Activity, useState} from 'react'
 import { OrangeButton } from '../customs/Button'
 import SectionHeader from '../customs/SectionHeader'
@@ -79,9 +79,7 @@ const CardHeader = ({
         <div className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1 whitespace-nowrap">{`${literalMonth} ${dayOfMonth}, ${year}`}</div>
       </div>
       <div className="flex flex-row-reverse flex-wrap gap-4">
-        <div
-          className={`text-sm sm:text-base text-center h-fit rounded-md font-bold px-3 py-1 border border-solid border-neutral-200 dark:border-neutral-800 ${color}`}
-        >
+        <div className={`text-sm sm:text-base text-center h-fit rounded-md font-bold px-3 py-1 border border-solid border-neutral-200 dark:border-neutral-800 ${color}`} >
           <span>{isGameAvailable(gameEvent) ? (isNextGame && openRegistrations ? "OPEN" : "CLOSED") : "FULL"}</span>
         </div>
         <Activity mode={isAdmin ? "visible" : 'hidden'}>
@@ -191,7 +189,7 @@ const ScheduleCard = ({
   updateRegistrationsStatus: (gameEvent: GameEvent) => void
 }) => {
   return (
-    <div className="flex flex-col gap-4 p-5 border border-solid sm:border-neutral-300 dark:border-neutral-500 sm:dark:border-neutral-800 bg-white dark:bg-black  rounded-2xl shadow-md">
+    <div className="flex flex-col gap-4 p-5 border border-solid sm:border-neutral-300 dark:border-neutral-500 sm:dark:border-neutral-800 bg-white dark:bg-black  rounded-2xl shadow-md hover:shadow-xl">
       <CardHeader gameEvent={gameEvent} isNextGame={isNextGame} updateGame={updateGame} deleteGame={deleteGame} updateRegistrationsStatus={updateRegistrationsStatus} />
       <CardGameInfo gameEvent={gameEvent} />
       <CardFooter gameEvent={gameEvent} isNextGame={isNextGame} />
@@ -271,9 +269,7 @@ const Schedule = ({
       <DeleteScheduleModal isActive={deleteGameModal} closeModal={closeModal} deleteGameEvent={deleteGameFromSchedule}/>
       {isAdmin && <OrangeButton extra="px-4 py-2 sm:px-6 sm:py-2" text="Create New Game Event" onClick={openCreateModal} /> }
       <div className="w-full grid grid-cols-1 justify-center gap-8 lg:grid-cols-2">
-        {schedule
-            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime() || convert12to24(a.start) - convert12to24(b.start))
-            .map((schedule, index) => (
+        {schedule.map((schedule, index) => (
               <ScheduleCard 
                   key={index} 
                   gameEvent={schedule} 

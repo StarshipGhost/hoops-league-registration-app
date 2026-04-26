@@ -18,6 +18,7 @@ import adminService from './services/admin'
 
 import login from '../src/assets/login_24dp_00C951_FILL0_wght400_GRAD0_opsz24.svg'
 import logout from '../src/assets/logout_24dp_2B7FFF_FILL0_wght400_GRAD0_opsz24.svg'
+import { convert12to24 } from './utils/timeString'
 
 const SignMessage = ({isLogin, isLogout} : {isLogin : boolean, isLogout: boolean}) => {
   return (
@@ -197,20 +198,30 @@ function App() {
     setSchedule(schedule.map((game) => (game.id === gameEvent.id ? updatedGame : game)));
   }
 
+  const orderedSchedule = schedule.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime() || convert12to24(a.start) - convert12to24(b.start),
+  );
+  
   return (
     <div className={`min-w-80 bg-white dark:bg-black`}>
       <HeaderContext.Provider value={providerProps}>
-        <Modal handleLogin={handleLoginClick}/>
+        <Modal handleLogin={handleLoginClick} />
         <Header />
-        <SignMessage isLogin={isLoggedIn} isLogout={isLoggedOut}/>
+        <SignMessage isLogin={isLoggedIn} isLogout={isLoggedOut} />
         <main ref={sectionRef} className="bg-white dark:bg-black flex flex-col">
           <Hero />
-          <Schedule schedule={schedule} addGameEvent={addGameEvent} updateGameEvent={updateGameEvent} deleteGameEvent={deleteGameEvent} updateRegistrationStatus={updateGameEventRegistrationStatus } />
-          <RegisteredPlayers gameEvent={schedule[0]} deletePlayer={gameEventCancellation}/>
+          <Schedule
+            schedule={orderedSchedule}
+            addGameEvent={addGameEvent}
+            updateGameEvent={updateGameEvent}
+            deleteGameEvent={deleteGameEvent}
+            updateRegistrationStatus={updateGameEventRegistrationStatus}
+          />
+          <RegisteredPlayers gameEvent={orderedSchedule[0]} deletePlayer={gameEventCancellation} />
           <Rules />
           <Pricing />
           <Registration
-            gameEvent={schedule[0]}
+            gameEvent={orderedSchedule[0]}
             gameEventRegistration={gameEventRegistration}
             gameEventCancellation={gameEventCancellation}
           />
