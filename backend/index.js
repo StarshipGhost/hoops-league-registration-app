@@ -13,51 +13,17 @@ const jwt = require("jsonwebtoken");
 const connectDB = require("./config/dbConnect");
 const mongoose = require("mongoose");
 const GameEvent = require("./models/GameEvent");
-const cron = require("node-cron");
+const { startCleanupExpiredGamesJob } = require('./jobs/deleteExpiredGames')
 
 app.use(cors(corsOptions));
 app.use(logger);
 app.use(express.json());
 app.use(express.static("dist"));
 app.use(cookieParser());
-connectDB();
-const PORT = process.env.PORT || 3000
-
-const convert12to24 = (time12) => {
-  const [time, modifier] = time12.split(" ");
-  let [hours, minutes] = time.split(":");
-  hours = parseInt(hours);
-  if (modifier === "AM" && hours === 12) hours = 0;
-  if (modifier === "PM" && hours !== 12) hours += 12;
-  return `${String(hours).padStart(2, "0")}:${minutes.padStart(2, "0")}`;
-};
-
-cron.schedule("*/15 * * * *", async () => {
-  try {
-    const now = new Date();
-    const options = { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' };
-    const todayDate = now.toISOString().split("T")[0]; // "YYYY-MM-DD"
-    const currentTime = now.toTimeString(options).slice(0, 5);  // "HH:MM"
-
-    // Fetch today's games and filter in JS after converting end to 24h
-    const todayGames = await GameEvent.find({ date: todayDate });
-    const expiredToday = todayGames.filter((g) => { console.log(convert12to24(g.end)); return convert12to24(g.end) <= currentTime});
-
-    const pastGames = await GameEvent.find({ date: { $lt: todayDate } });
-    const allExpired = [...expiredToday, ...pastGames];
-
-    if (allExpired.length > 0) {
-      const ids = allExpired.map((g) => g._id);
-      await GameEvent.deleteMany({ _id: { $in: ids } });
-      console.log(`[CRON] Deleted ${allExpired.length} expired game(s):`, ids);
-    }
-  } catch (err) {
-    console.error("[CRON] Error during cleanup:", err);
-    logEvents(`CRON error: ${err.message}`, "cronErrLog.log");
-  }
-});
-
 app.use(setCookie);
+
+connectDB();
+startCleanupExpiredGamesJob();
 
 app.get("/", (req, res) => {
   res.send("OK");
@@ -129,6 +95,7 @@ app.post("/schedule/:id/register", async (req, res) => {
   if (!game) {
     return res.status(404).json({ error: "Game not found" });
   }
+  
   const { firstName, status, registrationTime } = req.body;
   if (!firstName || !status) {
     return res.status(400).json({ error: "FirstName and status are required" });
@@ -206,6 +173,7 @@ app.get("/admin/me", requireAdmin, (req, res) => {
 
 app.use(errorHandler);
 
+const PORT = process.env.PORT || 3000
 mongoose.connection.once("open", () => {
   app.listen(PORT, () => console.log(`server listens to port ${PORT}`));
   console.log("Connected to MongoDB");
