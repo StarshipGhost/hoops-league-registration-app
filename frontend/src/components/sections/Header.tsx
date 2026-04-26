@@ -44,7 +44,7 @@ const MobileNavigationBar = ({open, closeNavBarFunction}: {open: boolean; closeN
     closeNavBarFunction();
   }
   return (
-    <ul className={`w-full bg-white dark:bg-black flex flex-col gap-2 p-4 absolute z-1 transition duration-200 ease-linear delay-100 -translate-y-full border-box lg:hidden ${open && `translate-y-0`}`} >
+    <ul className={`w-full bg-white dark:bg-black flex flex-col gap-2 p-4 absolute z-1 transition duration-200 ease-linear delay-100 -translate-y-full opacity-0 border-box lg:hidden ${open && `translate-y-0 opacity-100`}`} >
       {links.map((link, index) => 
           <HeaderLink 
               key={link} 
@@ -64,7 +64,7 @@ const Header = () => {
   useOutsideClick(header, open, () => setOpen(false))
   return (
     <header ref={header} className="sticky top-0 z-3">
-      <div className="bg-white dark:bg-black flex items-center justify-between border-b border-solid border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 border-box  pr-5 pb-4 pl-4 lg:pl-8 pt-4 relative z-4">
+      <div className="bg-white/50 dark:bg-black/50 backdrop-blur-sm flex items-center justify-between border-b border-solid border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 border-box  pr-5 pb-4 pl-4 lg:pl-8 pt-4 relative z-4">
         <BasketballLogo />
         <DesktopNavigationBar />
         <div className="lg:hidden flex items-center gap-4">
