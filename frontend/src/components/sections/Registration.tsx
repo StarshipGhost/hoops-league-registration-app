@@ -88,7 +88,7 @@ const Buttons = ({
       <Button
         type="submit"
         extra={`text-xs sm:text-sm py-2 disabled:opacity-30 disabled:border-neutral-500 disabled:cursor-not-allowed ${selectedOption ? selectedOption.style : `bg-white text-black `}`}
-        text="Complete Reservation"
+        text="Complete Registration"
         disabled={!isUserRegistrationAllowed() || isRegistered}
       />
       {isRegistered && isRegistrationOpen && (
@@ -177,6 +177,7 @@ const RegistrationForm = ({
   gameEventCancellation: (guestId: string) => void;
 }) => {
 
+  const guestId : string = registeredPlayer?.guestId ?? '';
   const [name, setName] = useState<string>("");
   const [currentStatus, setCurrentStatus] = useState<"Confirmed Player" | "Potential Player" | undefined>();
   const currentOptions: PlayerOptionProps[] = [
@@ -226,8 +227,8 @@ const RegistrationForm = ({
 
   const submitRegistration = (event: React.SubmitEvent<HTMLFormElement>) : void => {
     event.preventDefault();
-    if (isUserRegistrationAllowed() && name.length > 0 && currentStatus) {
-      gameEventRegistration({guestId: registeredPlayer?.guestId ?? '', firstName: name, status: currentStatus, registrationTime: registrationTimeFormat(new Date())});
+    if (isUserRegistrationAllowed() && name.length && currentStatus) {
+      gameEventRegistration({guestId: guestId, firstName: name, status: currentStatus, registrationTime: registrationTimeFormat(new Date())});
     }
   };
 
@@ -247,7 +248,7 @@ const RegistrationForm = ({
         selectedOption={selectedOption}
         isRegistrationOpen={!!gameEvent?.openRegistrations}
         isRegistered={isRegistered}
-        player={{ guestId: registeredPlayer?.guestId ?? '', firstName: name, status: currentStatus ?? "Confirmed Player", registrationTime: registrationTimeFormat(new Date()) }}
+        player={{ guestId: guestId, firstName: name, status: currentStatus ?? "Confirmed Player", registrationTime: registrationTimeFormat(new Date()) }}
         isUserRegistrationAllowed={isUserRegistrationAllowed}
         submitCancellation={submitCancellation}
       />
@@ -265,6 +266,7 @@ const Registration = ({
   gameEventCancellation: (guestId: string) => void;
 }) => { 
   const [guestId, setGuestId] = useState<string>('');
+  const [registeredPlayer, setRegisteredPlayer] = useState<Player | undefined>();
   useEffect(() => {
     const fetchGuestId = async () => {
       try {
@@ -274,11 +276,17 @@ const Registration = ({
         console.error("Failed to fetch guestId", error);
       }
     };
-
     fetchGuestId();
   }, []);
 
-  const registeredPlayer : Player | undefined = gameEvent?.registeredPlayers.find((player) => player.guestId === guestId)
+  useEffect(() => {
+    if (gameEvent) {
+      setRegisteredPlayer(gameEvent.registeredPlayers.find((player) => player.guestId === guestId))
+      console.log(gameEvent)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameEvent?.registeredPlayers, guestId])
+
   const isRegistered = !!registeredPlayer
   return (
     <section className="flex flex-col items-center bg-zinc-50 dark:bg-zinc-900/60 px-[10vw] py-20 border-box gap-8">
