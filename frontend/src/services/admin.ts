@@ -6,13 +6,7 @@ const BASE_URL =
     : "https://hoops-league-registration-app.onrender.com";
 
 const login = async (username: string, password: string) => {
-  const response = await axios.post(
-    `${BASE_URL}/admin/login`,
-    { username, password },
-    {
-      withCredentials: true,
-    },
-  );
+  const response = await axios.post( `${BASE_URL}/admin/login`, { username, password }, { withCredentials: true, });
   return response.data;
 };
 
