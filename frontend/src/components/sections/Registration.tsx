@@ -9,7 +9,6 @@ import { isGameAvailable } from "../../utils/scheduleUtils";
 import { registrationTimeFormat } from "@/utils/timeString";
 import guestService from "@/services/guest";
 
-
 const RegistrationHeader = () => {
   return (
     <SectionHeader
@@ -43,6 +42,7 @@ const NameInput = ({
         pattern="^[A-Za-z]*"
         placeholder="Your name"
         disabled={!isGameAvailable(gameEvent) || isRegistered || !gameEvent?.openRegistrations}
+        required
       ></input>
     </div>
   );
@@ -70,6 +70,7 @@ const RadioButtons = ({ options }: { options: PlayerOptionProps[], }) => {
 
 const Buttons = ({
   selectedOption,
+  isInputValid,
   isRegistrationOpen,
   isRegistered,
   player,
@@ -77,17 +78,18 @@ const Buttons = ({
   submitCancellation,
 }: {
   selectedOption: PlayerOptionProps | undefined;
+  isInputValid: boolean;
   isRegistrationOpen: boolean
   isRegistered: boolean;
   player: Player | undefined;
   isUserRegistrationAllowed: () => boolean;
-  submitCancellation: (guestId: string) => void;
+  submitCancellation: (guestId: string | undefined) => void;
 }) => {
   return (
     <div className="flex flex-col gap-3">
       <Button
         type="submit"
-        extra={`text-xs sm:text-sm py-2 disabled:opacity-30 disabled:border-neutral-500 disabled:cursor-not-allowed ${selectedOption ? selectedOption.style : `bg-white text-black `}`}
+        extra={`text-xs sm:text-sm py-2 disabled:opacity-30 disabled:border-neutral-500 disabled:cursor-not-allowed ${isInputValid && selectedOption ? selectedOption.style : `bg-white text-black `}`}
         text="Complete Registration"
         disabled={!isUserRegistrationAllowed() || isRegistered}
       />
@@ -167,17 +169,18 @@ const RegistrationForm = ({
   gameEvent,
   isRegistered,
   registeredPlayer,
+  guestId,
   gameEventRegistration,
   gameEventCancellation,
 }: {
   gameEvent: GameEvent | undefined;
   isRegistered: boolean;
   registeredPlayer: Player | undefined
+  guestId: string;
   gameEventRegistration: (player: Player) => void;
-  gameEventCancellation: (guestId: string) => void;
+  gameEventCancellation: (guestId: string | undefined) => void;
 }) => {
 
-  const guestId : string = registeredPlayer?.guestId ?? '';
   const [name, setName] = useState<string>("");
   const [currentStatus, setCurrentStatus] = useState<"Confirmed Player" | "Potential Player" | undefined>();
   const currentOptions: PlayerOptionProps[] = [
@@ -232,7 +235,7 @@ const RegistrationForm = ({
     }
   };
 
-  const submitCancellation = (guestId: string) : void => {
+  const submitCancellation = (guestId: string | undefined) : void => {
       gameEventCancellation(guestId)
       setCurrentStatus(undefined);
   }
@@ -246,6 +249,7 @@ const RegistrationForm = ({
       <RadioButtons options={currentOptions} />
       <Buttons
         selectedOption={selectedOption}
+        isInputValid={!!name.length}
         isRegistrationOpen={!!gameEvent?.openRegistrations}
         isRegistered={isRegistered}
         player={{ guestId: guestId, firstName: name, status: currentStatus ?? "Confirmed Player", registrationTime: registrationTimeFormat(new Date()) }}
@@ -263,7 +267,7 @@ const Registration = ({
 }: {
   gameEvent: GameEvent | undefined,
   gameEventRegistration: (player: Player) => void;
-  gameEventCancellation: (guestId: string) => void;
+  gameEventCancellation: (guestId: string | undefined) => void;
 }) => { 
   const [guestId, setGuestId] = useState<string>('');
   const [registeredPlayer, setRegisteredPlayer] = useState<Player | undefined>();
@@ -282,10 +286,9 @@ const Registration = ({
   useEffect(() => {
     if (gameEvent) {
       setRegisteredPlayer(gameEvent.registeredPlayers.find((player) => player.guestId === guestId))
-      console.log(gameEvent)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameEvent?.registeredPlayers, guestId])
+  }, [gameEvent, guestId])
 
   const isRegistered = !!registeredPlayer
   return (
@@ -295,6 +298,7 @@ const Registration = ({
       <RegistrationForm
         gameEvent={gameEvent}
         isRegistered={isRegistered}
+        guestId={guestId}
         registeredPlayer={registeredPlayer}
         gameEventRegistration={gameEventRegistration}
         gameEventCancellation={gameEventCancellation}
