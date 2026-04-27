@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const { requireAdmin } = require("./middleware/requireAdmin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const connectDB = require("./config/dbConnect");
 const mongoose = require("mongoose");
 const GameEvent = require("./models/GameEvent");
@@ -96,7 +97,7 @@ app.post("/schedule/:id/register", async (req, res) => {
     return res.status(404).json({ error: "Game not found" });
   }
   
-  const { firstName, status, registrationTime } = req.body;
+  const { guestId, firstName, status, registrationTime } = req.body;
   if (!firstName || !status) {
     return res.status(400).json({ error: "FirstName and status are required" });
   }
@@ -108,7 +109,7 @@ app.post("/schedule/:id/register", async (req, res) => {
     return res.status(400).json({ error: "This game is already full" });
   }
   const newRegisteredPlayer = {
-    guestId: req.guestId,
+    guestId: guestId ?? crypto.randomUUID(),
     firstName,
     status,
     registrationTime,

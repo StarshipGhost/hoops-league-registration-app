@@ -1,1 +1,1 @@
-export type Player = { guestId: string, firstName: string; status: "Confirmed Player" | "Potential Player"; registrationTime: string };
+export type Player = { guestId?: string | undefined, firstName: string; status: "Confirmed Player" | "Potential Player"; registrationTime: string };

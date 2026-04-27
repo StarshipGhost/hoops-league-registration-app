@@ -11,6 +11,7 @@ import adminService from '../../services/admin'
 const ErrorMessage = ({message} : {message: string}) => {
   return !!message.length && <div className="text-red-500 text-center mt-2">{ message }</div>
 }
+
 const AuthModalInput = ({ id, onChange, value, placeholder }: { id: string, onChange: (e: ChangeEvent<HTMLInputElement>) => void, value: string, placeholder?: string }) => {
   return (
     <div className="grid gap-2">

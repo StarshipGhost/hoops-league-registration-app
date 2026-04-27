@@ -10,6 +10,8 @@ import SectionHeader from '../customs/SectionHeader'
 import { GameInfoLine } from './Schedule'
 import { isGameAvailable } from '../../utils/scheduleUtils'
 import { useHeaderContext } from '../customs/HeaderContext'
+import { OrangeButton } from '../customs/Button'
+import AddPlayerModal from '../modals/AddPlayerModal'
 
 interface StatusTabsProps {
   isActive: boolean
@@ -89,7 +91,7 @@ const PlayersStatusTabs = ({statusTabs, toggleActive, players}: {statusTabs: Sta
   )
 }
 
-const Players = ({players, status, active, deletePlayer }: {players: Player[]; status: string; active: boolean, deletePlayer: (guestId: string) => void}) => {
+const Players = ({players, status, active, deletePlayer }: {players: Player[]; status: string; active: boolean, deletePlayer: (guestId: string | undefined) => void}) => {
   const playerColor = status === 'confirmed' ? 'bg-orange-500/10 dark:bg-orange-500/20' : 'bg-blue-500/10 dark:bg-blue-500/20'
   const playerArea = status === 'confirmed' ? 'lg:[grid-area:confirmed-col]' : 'lg:[grid-area:potential-col]'
   const confirmedBg = 'bg-orange-500/90 dark:bg-orange-400'
@@ -124,7 +126,7 @@ const Players = ({players, status, active, deletePlayer }: {players: Player[]; s
   )
 }
 
-const RegisteredPlayersTable = ({gameEvent, deletePlayer}: {gameEvent: GameEvent | undefined, deletePlayer: (guestId: string) => void}) => {
+const RegisteredPlayersTable = ({gameEvent, deletePlayer}: {gameEvent: GameEvent | undefined, deletePlayer: (guestId: string | undefined) => void}) => {
   let players : Player[], capacity: number, isAvailable: boolean, open: boolean;
   if (gameEvent) {
     players = gameEvent.registeredPlayers;
@@ -167,10 +169,14 @@ const RegisteredPlayersTable = ({gameEvent, deletePlayer}: {gameEvent: GameEvent
   )
 }
 
-const RegisteredPlayers = ({gameEvent, deletePlayer} : { gameEvent: GameEvent | undefined, deletePlayer: (guestId: string) => void}) => {
+const RegisteredPlayers = ({gameEvent, addPlayer, deletePlayer} : { gameEvent: GameEvent | undefined, addPlayer: (player: Player) => void, deletePlayer: (guestId: string | undefined) => void}) => {
+  const [isModalActive, setIsModalActive] = useState<boolean>(false);
+  const {admin: {isAdmin}} = useHeaderContext();
   return (
     <section className="flex flex-col items-center bg-white dark:bg-black px-[10vw] py-20 border-box gap-8">
-      <RegisteredPlayersHeader />
+      <AddPlayerModal isActive={isModalActive} closeCard={() => setIsModalActive((v) => !v)} addPlayer={addPlayer}/>
+      <RegisteredPlayersHeader/>
+      {isGameAvailable(gameEvent) && isAdmin && <OrangeButton extra="px-4 py-2 sm:px-6 sm:py-2" text="Add Player To Game Event" onClick={() => setIsModalActive((v) => !v)}/>}
       <RegisteredPlayersTable gameEvent={gameEvent} deletePlayer={deletePlayer} />
     </section>
   )

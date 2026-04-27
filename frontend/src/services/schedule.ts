@@ -37,7 +37,7 @@ const gameEventRegistration = async (id: number, player: Player) => {
   return response.data;
 };
 
-const gameEventCancellation = async (id: number, playerId: string) => {
+const gameEventCancellation = async (id: number, playerId: string | undefined) => {
   const response = await axios.delete(`${BASE_URL}/schedule/${id}/register/${playerId}`, {withCredentials: true});
   return response.data;
 };

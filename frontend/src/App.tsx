@@ -1,5 +1,5 @@
 import './App.css'
-import { useEffect, useRef, useState} from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Header from './components/sections/Header'
 import Hero from './components/sections/Hero'
 import Schedule from './components/sections/Schedule'
@@ -9,16 +9,16 @@ import Registration from './components/sections/Registration'
 import Footer from './components/sections/Footer'
 import RegisteredPlayers from './components/sections/RegisteredPlayers'
 import Modal from './components/modals/AuthModal'
-import {HeaderContext} from './components/customs/HeaderContext'
+import { HeaderContext } from "./components/customs/HeaderContext";
 import type { GameEvent } from './types/GameEvent'
 import type { Location } from './types/Location'
 import type { Player } from './types/Player'
 import scheduleService from './services/schedule'
 import adminService from './services/admin'
+import { convert12to24 } from './utils/timeString'
 
 import login from '../src/assets/login_24dp_00C951_FILL0_wght400_GRAD0_opsz24.svg'
 import logout from '../src/assets/logout_24dp_2B7FFF_FILL0_wght400_GRAD0_opsz24.svg'
-import { convert12to24 } from './utils/timeString'
 
 const SignMessage = ({isLogin, isLogout} : {isLogin : boolean, isLogout: boolean}) => {
   return (
@@ -181,7 +181,7 @@ function App() {
     }
   }
 
-  const gameEventCancellation = async (guestId: string) => {
+  const gameEventCancellation = async (guestId: string | undefined) => {
     try {
       const nextGame : GameEvent = schedule[0];
       const findPlayer : Player | undefined = nextGame.registeredPlayers.find((p) => p.guestId === guestId);
@@ -217,7 +217,7 @@ function App() {
             deleteGameEvent={deleteGameEvent}
             updateRegistrationStatus={updateGameEventRegistrationStatus}
           />
-          <RegisteredPlayers gameEvent={orderedSchedule[0]} deletePlayer={gameEventCancellation} />
+          <RegisteredPlayers gameEvent={orderedSchedule[0]} addPlayer={gameEventRegistration} deletePlayer={gameEventCancellation} />
           <Rules />
           <Pricing />
           <Registration
