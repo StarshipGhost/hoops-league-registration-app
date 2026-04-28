@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type RefObject } from "react";
 import CloseButton from "../customs/CloseButton";
 import Modal from "./Modal";
 import CustomRadioGroup from "../ui/custom/RadioGroup";
@@ -9,7 +9,7 @@ import { Input } from "../ui/input";
 import type { Player } from "@/types/Player";
 import { registrationTimeFormat } from "@/utils/timeString";
 
-const AddPlayerModalCard = ({ closeCard, addPlayer }: { closeCard: () => void; addPlayer: (player: Player) => void }) => {
+const AddPlayerModalCard = ({ inputRef,  closeCard, addPlayer }: { inputRef: RefObject<HTMLInputElement | null>, closeCard: () => void; addPlayer: (player: Player) => void }) => {
   const [name, setName] = useState<string>("");
   const [currentOption, setCurrentOption] = useState<"Confirmed Player" | "Potential Player">("Confirmed Player");
 
@@ -46,7 +46,7 @@ const AddPlayerModalCard = ({ closeCard, addPlayer }: { closeCard: () => void; a
       <CardContent className="flex flex-col gap-6">
         <div className="grid gap-2">
           <Label className="text-sm lg:text-md" htmlFor="name"> First Name: </Label>
-          <Input id="name" type="text" onChange={(e) => handleNameChange(e)} value={name} placeholder="Name" required />
+          <Input ref={inputRef} id="name" type="text" onChange={(e) => handleNameChange(e)} value={name} placeholder="Name" required />
         </div>
         <CustomRadioGroup handleChange={(e) => handleOptionChange(e)} />
       </CardContent>
@@ -76,9 +76,15 @@ const AddPlayerModal = ({
     return addPlayer;
   };
 
+  const inputRef : RefObject<HTMLInputElement | null> = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    const input = inputRef.current
+      input?.focus();
+  }, [isActive])
+
   return (
     <Modal isModalActive={isActive} onSubmit={handleSubmit}>
-      <AddPlayerModalCard closeCard={closeCard} addPlayer={addPlayer} />
+      <AddPlayerModalCard inputRef={inputRef} closeCard={closeCard} addPlayer={addPlayer} />
     </Modal>
   );
 };
