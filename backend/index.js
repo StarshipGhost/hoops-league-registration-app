@@ -102,7 +102,7 @@ app.post("/schedule/:id/register", async (req, res) => {
     return res.status(400).json({ error: "FirstName and status are required" });
   }
   const alreadyRegistered = game.registeredPlayers.some((player) => player.guestId === req.guestId);
-  if (alreadyRegistered) {
+  if (alreadyRegistered && guestId === req.guestId) {
     return res.status(409).json({ error: "This client is already registered for this game" });
   }
   if (game.registeredPlayers.length >= game.capacity) {
