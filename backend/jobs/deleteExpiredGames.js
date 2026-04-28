@@ -7,15 +7,12 @@ const startCleanupExpiredGamesJob = () => {
   cron.schedule("*/60 * * * *", async () => {
     try {
       const now = new Date();
-      const options = { timeZone: "America/Toronto", hour: "2-digit", minute: "2-digit" };
-      const todayDate = now.toISOString().split("T")[0]; // "YYYY-MM-DD"
-      const currentTime = now.toLocaleTimeString("en-CA", {...options, hour12: false}); // "HH:MM"
+      const options = { timeZone: "America/Toronto", hour: "2-digit", minute: "2-digit", hour12: false };
+      const todayDate = now.toLocaleDateString("en-CA", {timeZone: "America/Toronto"}).split("T")[0]; // "YYYY-MM-DD"
+      const currentTime = now.toLocaleTimeString("en-CA", options); // "HH:MM"
 
       const todayGames = await GameEvent.find({ date: todayDate });
-      const expiredToday = todayGames.filter((g) => {
-        console.log(convert12to24(g.end));
-        return convert12to24(g.end) <= currentTime;
-      });
+      const expiredToday = todayGames.filter((g) => convert12to24(g.end) <= currentTime);
 
       const pastGames = await GameEvent.find({ date: { $lt: todayDate } });
       const allExpired = [...expiredToday, ...pastGames];
