@@ -18,17 +18,17 @@ const getGameEvent = async (id: number) => {
 };
 
 const createGameEvent = async (schedule: GameEvent) => {
-  const response = await axios.post(`${BASE_URL}/schedule`, schedule);
+  const response = await axios.post(`${BASE_URL}/schedule`, schedule, {withCredentials: true});
   return response.data;
 };
 
 const updateGameEvent = async (schedule: GameEvent, id: number) => {
-  const response = await axios.patch(`${BASE_URL}/schedule/${id}`, schedule);
+  const response = await axios.patch(`${BASE_URL}/schedule/${id}`, schedule, {withCredentials: true});
   return response.data;
 };
 
 const deleteGameEvent = async (id: number) => {
-  const response = await axios.delete(`${BASE_URL}/schedule/${id}`);
+  const response = await axios.delete(`${BASE_URL}/schedule/${id}`, {withCredentials: true});
   return response.data;
 };
 
