@@ -3,7 +3,7 @@ import {useHeaderContext} from '../customs/HeaderContext'
 
 const FooterSummary = () => {
   return (
-    <div className='grid grid-rows-[1fr_1fr] sm:grid-rows-[0.5fr_1fr]'>
+    <div className='grid place-content-center gap-y-4'>
       <BasketballLogo />
       <p className="text-zinc-500 dark:text-zinc-400">Bringing basketball enthusiasts together for competitive and fun games every week.</p>
     </div>
@@ -42,7 +42,7 @@ const FooterContacts = () => {
       <div className="font-medium dark:text-white">Contact</div>
       <FooterContact contact="Email: saadk09@hotmail.com" />
       <FooterContact contact="Phone: (438)-229-6003" />
-      <FooterContact contact="Hours: Mon-sun, 6AM-10PM" />
+      <FooterContact contact="Hours: Mon-Sun, 6AM-10PM" />
     </div>
   )
 }
