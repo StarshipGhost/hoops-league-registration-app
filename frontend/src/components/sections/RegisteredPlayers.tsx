@@ -99,7 +99,7 @@ const Players = ({players, status, active, deletePlayer }: {players: Player[]; s
   const playerCircleColor = status === 'confirmed' ? confirmedBg : potentialBg
   const {admin : {isAdmin}} = useHeaderContext()
   return (
-    <div className={`grid  ${active ? `[grid-area:players-col]` : `hidden`}  lg:block ${playerArea} ${playerColor} [grid-template-areas:var(--players-col-layout)] border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 `} >
+    <div className={`grid ${active ? `[grid-area:players-col]` : `hidden`}  lg:block ${playerArea} ${playerColor} [grid-template-areas:var(--players-col-layout)] border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 `} >
       <div className={`[grid-area:category] dark:text-white text-center justify-self-center self-center py-4 font-medium`}>{`${status === 'confirmed' ? `Confirmed` : `Potential`} Players (${players.length})`}</div>
       <div className="[grid-area:players] justify-self-stretch whitespace-nowrap border border-solid border-neutral-200 dark:border-neutral-800 max-h-62.5 overflow-auto">
         {players.map(({guestId, firstName, registrationTime}, index) => (
@@ -156,7 +156,7 @@ const RegisteredPlayersTable = ({gameEvent, deletePlayer}: {gameEvent: GameEvent
     setStatusTabs(statusTabs.map((tab) => (tab.status === status ? {...tab, isActive: true} : {...tab, isActive: false})))
   }
   return  (
-    <div className="max-w-6xl sm:w-[55vw] bg-white dark:bg-black grid [grid-template-areas:var(--mobile-layout-areas)] lg:[grid-template-areas:var(--desktop-layout-areas)] grid-cols-2 gap-px border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-2xl shadow-md">
+    <div className="max-w-6xl sm:w-[55vw] bg-white dark:bg-black grid [grid-template-areas:var(--mobile-layout-areas)] lg:[grid-template-areas:var(--desktop-layout-areas)] grid-cols-2 gap-px border border-solid border-neutral-300 sm:border-neutral-200 dark:border-neutral-500 sm:dark:border-neutral-800 rounded-2xl shadow-md overflow-hidden">
       <UpcomingGameDetail gameEvent={gameEvent} />
       <PlayersStatusTabs statusTabs={statusTabs} toggleActive={handleActiveToggle} players={players} />
       <Players players={confirmedPlayers} status="confirmed" active={statusTabs[0].isActive} deletePlayer={deletePlayer}/>
