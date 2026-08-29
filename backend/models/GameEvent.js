@@ -7,7 +7,7 @@ const gameEventSchema = new mongoose.Schema({
   location: { name: { type: String, required: true }, link: { type: String, required: true } },
   registeredPlayers: [
     {
-      guestId: { type: String, requred: true },
+      guestId: { type: String, required: true },
       firstName: { type: String, required: true },
       status: { type: String, required: true },
       registrationTime: { type: String, required: true },
