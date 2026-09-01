@@ -8,7 +8,7 @@ import Pricing from './components/sections/Pricing'
 import Registration from './components/sections/Registration'
 import Footer from './components/sections/Footer'
 import RegisteredPlayers from './components/sections/RegisteredPlayers'
-import Modal from './components/modals/AuthModal'
+import AuthModal from './components/modals/AuthModal'
 import { HeaderContext } from "./components/customs/HeaderContext";
 import type { GameEvent } from './types/GameEvent'
 import type { Location } from './types/Location'
@@ -16,36 +16,7 @@ import type { Player } from './types/Player'
 import scheduleService from './services/schedule'
 import adminService from './services/admin'
 import { convert12to24 } from './utils/timeString'
-
-import login from '../src/assets/login_24dp_00C951_FILL0_wght400_GRAD0_opsz24.svg'
-import logout from '../src/assets/logout_24dp_2B7FFF_FILL0_wght400_GRAD0_opsz24.svg'
-
-const SignMessage = ({isLogin, isLogout} : {isLogin : boolean, isLogout: boolean}) => {
-  return (
-    <div className='flex justify-center'>
-        <LoginMessage isLogin={isLogin}/>
-        <LogoutMessage isLogout={isLogout}/>
-    </div>
-  ) 
-}
-
-const LoginMessage = ({isLogin} : {isLogin: boolean}) => {
-  return (
-    <div className={`sign-popover text-sm sm:text-base bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 border-green-500 -translate-y-full opacity-0 ${isLogin && `translate-y-0 opacity-100`} `}>
-        <img src={login}></img>
-        {`Logged in successfully!`}
-    </div>
-  ) 
-}
-
-const LogoutMessage = ({isLogout} : {isLogout : boolean}) => {
-  return (
-    <div className={ `sign-popover text-sm sm:text-base bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 border-blue-500 -translate-y-full opacity-0 ${isLogout && `translate-y-0 opacity-100`}` }>
-        <img src={logout}></img>
-        {`Logged out successfully!`}
-    </div>
-  ) 
-}
+import SignMessage from './components/customs/ToasterSign'
 
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -54,21 +25,28 @@ function App() {
   })
   const [authModalActive, setAuthModalActive] = useState<boolean>(false)
   const [schedule, setSchedule] = useState<GameEvent[]>([])
-  const [isAdmin, setIsAdmin] = useState<boolean>(true)
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [isLoggedOut, setIsLoggedOut] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+  const [isToasterIn, setIsToasterIn] = useState<boolean>(false);
 
-  const handleLoginClick = (): void => {
-      setIsLoggedIn(true);
-      setTimeout(() => {
-          setIsLoggedIn(false);
-      }, 3000);
+  const signNotification = () => {
+    setIsToasterIn(true);
+    setTimeout(() => {
+      setIsToasterIn(false);
+    }, 3000);
   }
+
+  const handleLoginClick = async (): Promise<void> => {
+    signNotification()
+    try {
+      const admin = await adminService.checkAdmin();
+      setIsAdmin(admin);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleLogoutClick = (): void => {
-      setIsLoggedOut(true);
-      setTimeout(() => {
-          setIsLoggedOut(false);
-      }, 3000);
+    signNotification()
   }
 
   useEffect(() => {
@@ -79,18 +57,6 @@ function App() {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    const fetchAdminState = async () => {
-        try {
-          const admin = await adminService.checkAdmin();
-          setIsAdmin(admin)
-        } catch (err) {
-          console.log(err)
-        }
-    }
-    fetchAdminState();
-  }, [isLoggedIn])
 
   useEffect(() => {
     const root = document.documentElement;
@@ -205,9 +171,9 @@ function App() {
   return (
     <div className={`min-w-80 bg-white dark:bg-black`}>
       <HeaderContext.Provider value={providerProps}>
-        <Modal handleLogin={handleLoginClick} />
+        <AuthModal handleLogin={handleLoginClick}/>
         <Header />
-        <SignMessage isLogin={isLoggedIn} isLogout={isLoggedOut} />
+        <SignMessage isLogin={isToasterIn} />
         <main ref={sectionRef} className="bg-white dark:bg-black flex flex-col">
           <Hero />
           <Schedule
