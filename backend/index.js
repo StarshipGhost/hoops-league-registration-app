@@ -14,7 +14,9 @@ const crypto = require("crypto");
 const connectDB = require("./config/dbConnect");
 const mongoose = require("mongoose");
 const GameEvent = require("./models/GameEvent");
-const { startCleanupExpiredGamesJob } = require('./jobs/deleteExpiredGames')
+const { startCleanupExpiredGamesJob } = require('./jobs/deleteExpiredGames');
+const { registrationDeadline } = require("./utils/registrationDeadline");
+const { getUpcomingGameEvent } = require("./utils/getUpcomingEvent");
 
 app.use(cors(corsOptions));
 app.use(logger);
@@ -34,6 +36,15 @@ app.get("/guest", (req, res) => {
   return res.status(200).json({ guestId: req.guestId });
 });
 
+app.get("/timer", async (req, res) => {
+  const game = await getUpcomingGameEvent();
+  if (!game) {
+    return res.status(404).json({ error: "Game not found" }).end();
+  }
+
+  return res.status(200).json(registrationDeadline(game.date, game.start))
+});
+
 app.get("/schedule", async (req, res, next) => {
   const schedule = await GameEvent.find({});
   return res.status(200).json(schedule);
@@ -48,18 +59,18 @@ app.get("/schedule/:id", async (req, res, next) => {
   return res.status(404).json({ error: "Game not found" }).end();
 });
 
-app.patch("/schedule/:id", async (req, res) => {
+app.patch("/schedule/:id", requireAdmin, async (req, res) => {
   const isEmpty = (data) => !data.length;
   const { date, start, end, location, capacity, openRegistrations } = req.body;
   const id = req.params.id;
   const game = await GameEvent.findById({ _id: id });
   if (!game) {
-    return res.status(404).json({ error: "game not found" });
+    return res.status(404).json({ error: "Game not found" });
   }
   if (isEmpty(date) || isEmpty(start) || isEmpty(end) || !location || capacity < game.registeredPlayers || isNaN(capacity)) {
     return res.status(400).json({ error: "All fields are required" });
   }
-  game.date = date;
+  game.date = date.split('T')[0];
   game.start = start;
   game.end = end;
   game.location = location;
@@ -70,7 +81,7 @@ app.patch("/schedule/:id", async (req, res) => {
   return res.status(201).json(updatedGame);
 });
 
-app.post("/schedule", async (req, res) => {
+app.post("/schedule", requireAdmin, async (req, res) => {
   const isEmpty = (data) => !data.length;
   const game = req.body;
   if (isEmpty(game.date) || isEmpty(game.start) || isEmpty(game.end) || !game.location || isNaN(game.capacity)) {
@@ -84,7 +95,7 @@ app.post("/schedule", async (req, res) => {
   return res.status(400).json({ message: "Invalid game data received" });
 });
 
-app.delete("/schedule/:id", async (req, res) => {
+app.delete("/schedule/:id", requireAdmin, async (req, res) => {
   const id = req.params.id;
   const game = await GameEvent.findByIdAndDelete({ _id: id });
   return res.status(200).json({ message: `${game} with ID ${game.id} deleted` });
@@ -129,6 +140,9 @@ app.delete("/schedule/:id/register/:playerId", async (req, res) => {
   }
 
   const playerIndex = game.registeredPlayers.findIndex((player) => player.guestId === playerId);
+  if (playerIndex === -1) {
+    return res.status(404).json({ error: 'Player not found' });
+  }
   game.registeredPlayers.splice(playerIndex, 1);
 
   await game.save();
