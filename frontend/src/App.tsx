@@ -50,6 +50,18 @@ function App() {
   }
 
   useEffect(() => {
+    const fetchAdminState = async () => {
+      try {
+        const admin = await adminService.checkAdmin();
+        setIsAdmin(admin);
+      } catch(error) {
+        console.log(error)
+      }
+    }
+    fetchAdminState()
+  }, [])
+
+  useEffect(() => {
     const fetchData = async () => {
       const fetchedSchedule = await scheduleService.getSchedule()
       setSchedule(schedule.concat(fetchedSchedule));
@@ -163,6 +175,16 @@ function App() {
     const updatedGame = await scheduleService.updateGameEvent({...gameEvent, openRegistrations: !gameEvent.openRegistrations}, gameEvent.id)
     setSchedule(schedule.map((game) => (game.id === gameEvent.id ? updatedGame : game)));
   }
+  
+  const closeGameEventRegistrations = async (gameEvent : GameEvent) => {
+    const updatedGame = await scheduleService.updateGameEvent({...gameEvent, openRegistrations: false}, gameEvent.id)
+    setSchedule(schedule.map((game) => (game.id === gameEvent.id ? updatedGame : game)));
+  }
+
+  const openGameEventRegistrations = async (gameEvent : GameEvent) => {
+    const updatedGame = await scheduleService.updateGameEvent({...gameEvent, openRegistrations: true}, gameEvent.id)
+    setSchedule(schedule.map((game) => (game.id === gameEvent.id ? updatedGame : game)));
+  }
 
   const orderedSchedule = schedule.sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime() || convert12to24(a.start) - convert12to24(b.start),
@@ -190,6 +212,8 @@ function App() {
             gameEvent={orderedSchedule[0]}
             gameEventRegistration={gameEventRegistration}
             gameEventCancellation={gameEventCancellation}
+            openGameEventRegistrations={openGameEventRegistrations}
+            closeGameEventRegistrations={closeGameEventRegistrations}
           />
         </main>
         <Footer />
