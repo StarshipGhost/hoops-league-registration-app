@@ -11,7 +11,7 @@ const PricingHeader = () => {
       sectionIcon={{ icon: <DollarSignIcon /> }}
       iconBg={"bg-green-500/10 dark:bg-green-500/20"}
       title={"Pricing & Payment"}
-      description={"The price include court rental and equipement"}
+      description={"The price includes court rental and equipment."}
     />
   );
 };
@@ -30,7 +30,7 @@ const PricingCard = () => {
   const benefits = [
     "Access to one game session",
     "More than 2 hours of play time",
-    "All equipement provided",
+    "All equipment provided",
     "Sports drink included",
     "Beginner friendly",
   ];

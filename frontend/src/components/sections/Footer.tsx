@@ -75,7 +75,7 @@ const Footer = () => {
         <FooterSocials />
       </div>
       <div className='px-12 sm:px-16 md:px-20'>
-        <p className='text-sm text-zinc-500 dark:text-zinc-400 text-center pt-8 pb-12 border-t border-solid border-zinc-200 dark:border-zinc-800'>© 2026 Hoops League. All rights reserved by Saâd Kalyati</p>
+        <p className='text-sm text-zinc-500 dark:text-zinc-400 text-center pt-8 pb-12 border-t border-solid border-zinc-200 dark:border-zinc-800'>© 2026 Hoops League. All rights reserved by Saâd Kalyati.</p>
       </div> 
     </footer>
   )

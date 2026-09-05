@@ -31,14 +31,14 @@ const rules: {icon: JSX.Element; name: string; description: string}[] = [
   },
   {
     icon: <WarningIcon />,
-    name: 'Equipement Care',
-    description: 'Respect the facility and equipement. clean up after yourself and report any damage immediately.',
+    name: 'Equipment Care',
+    description: 'Respect the facility and equipment. Clean up after yourself and report any damage immediately.',
   },
   {
     icon: <CancelIcon />,
     name: 'Cancellation Policy',
     description:
-      'Cancel at least 2 hours in advance to give the opportunity to other players in the waitlist to participate, No-shows will be charged for the session.',
+      'Please cancel at least 2 hours in advance to give players on the waitlist an opportunity to participate. No-shows will be charged for the session.',
   },
 ]
 
