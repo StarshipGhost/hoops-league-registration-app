@@ -8,6 +8,7 @@ import type { Player } from "@/types/Player";
 import { isGameAvailable } from "../../utils/scheduleUtils";
 import { registrationTimeFormat } from "@/utils/timeString";
 import guestService from "@/services/guest";
+import CountdownTimer from "../customs/CountdownTimer";
 
 const RegistrationHeader = () => {
   return (
@@ -82,7 +83,7 @@ const Buttons = ({
   isRegistrationOpen: boolean
   isRegistered: boolean;
   player: Player | undefined;
-  isUserRegistrationAllowed: () => boolean;
+  isUserRegistrationAllowed:  boolean;
   submitCancellation: (guestId: string | undefined) => void;
 }) => {
   return (
@@ -91,7 +92,7 @@ const Buttons = ({
         type="submit"
         extra={`text-xs sm:text-sm py-2 disabled:opacity-30 disabled:border-neutral-500 disabled:cursor-not-allowed ${isInputValid && selectedOption ? selectedOption.style : `bg-white text-black `}`}
         text="Complete Registration"
-        disabled={!isUserRegistrationAllowed() || isRegistered}
+        disabled={!isUserRegistrationAllowed || isRegistered}
       />
       {isRegistered && isRegistrationOpen && (
         <Button
@@ -187,14 +188,14 @@ const RegistrationForm = ({
     {
       playerStatus: "Confirmed Player",
       text: "I will definitely attend this game",
-      isSelected: currentStatus === "Confirmed Player" && isUserRegistrationAllowed(),
+      isSelected: currentStatus === "Confirmed Player", 
       style: "text-white bg-orange-500/90 dark:bg-orange-500",
       onChangeHandler: () => handleRadioChange("Confirmed Player"),
     },
     {
       playerStatus: "Potential Player",
       text: "I'm not sure yet, but count me in for now",
-      isSelected: currentStatus === "Potential Player" && isUserRegistrationAllowed(),
+      isSelected: currentStatus === "Potential Player",
       style: "text-white bg-blue-500 dark:bg-blue-600",
       onChangeHandler: () => handleRadioChange("Potential Player"),
     },
@@ -213,24 +214,19 @@ const RegistrationForm = ({
     }
   }, [registeredPlayer])
 
-  function isUserRegistrationAllowed(): boolean {
-    if (!isGameAvailable(gameEvent) || !gameEvent?.openRegistrations) return false;
-    return true;
-  }
-
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) : void => {
     const updatedName = e.currentTarget.value;
     setName(updatedName);
   };
 
   const handleRadioChange = (playerStatus: "Confirmed Player" | "Potential Player") : void => {
-    if (!isRegistered)
+    if ((gameEvent && gameEvent.openRegistrations) && !isRegistered)
      setCurrentStatus(playerStatus);
   };
 
   const submitRegistration = (event: React.SubmitEvent<HTMLFormElement>) : void => {
     event.preventDefault();
-    if (isUserRegistrationAllowed() && name.length && currentStatus) {
+    if (isGameAvailable(gameEvent) && gameEvent?.openRegistrations && name.length && currentStatus) {
       gameEventRegistration({guestId: guestId, firstName: name, status: currentStatus, registrationTime: registrationTimeFormat(new Date())});
     }
   };
@@ -253,7 +249,7 @@ const RegistrationForm = ({
         isRegistrationOpen={!!gameEvent?.openRegistrations}
         isRegistered={isRegistered}
         player={{ guestId: guestId, firstName: name, status: currentStatus ?? "Confirmed Player", registrationTime: registrationTimeFormat(new Date()) }}
-        isUserRegistrationAllowed={isUserRegistrationAllowed}
+        isUserRegistrationAllowed={isGameAvailable(gameEvent) && (!!gameEvent && gameEvent.openRegistrations)}
         submitCancellation={submitCancellation}
       />
     </form>
@@ -264,13 +260,18 @@ const Registration = ({
   gameEvent,
   gameEventRegistration,
   gameEventCancellation,
+  openGameEventRegistrations,
+  closeGameEventRegistrations,
 }: {
   gameEvent: GameEvent | undefined,
   gameEventRegistration: (player: Player) => void;
   gameEventCancellation: (guestId: string | undefined) => void;
+  openGameEventRegistrations: (gameEvent : GameEvent) => void
+  closeGameEventRegistrations: (gameEvent : GameEvent) => void
 }) => { 
   const [guestId, setGuestId] = useState<string>('');
   const [registeredPlayer, setRegisteredPlayer] = useState<Player | undefined>();
+
   useEffect(() => {
     const fetchGuestId = async () => {
       try {
@@ -285,9 +286,9 @@ const Registration = ({
 
   useEffect(() => {
     if (gameEvent) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setRegisteredPlayer(gameEvent.registeredPlayers.find((player) => player.guestId === guestId))
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameEvent, guestId])
 
   const isRegistered = !!registeredPlayer
@@ -303,6 +304,13 @@ const Registration = ({
         gameEventRegistration={gameEventRegistration}
         gameEventCancellation={gameEventCancellation}
       />
+      {gameEvent && (
+        <CountdownTimer
+          gameEvent={gameEvent}
+          openGameEventRegistrations={() => openGameEventRegistrations(gameEvent)}
+          closeGameEventRegistrations={() => closeGameEventRegistrations(gameEvent)}
+        />
+      )}
     </section>
   );
 };
